@@ -21,12 +21,12 @@ import DashboardLayout from '../layouts/DashboardLayout';
 import ProtectedRoute from '../components/common/ProtectedRoute';
 import FullScreenLoader from '../components/ui/FullScreenLoader';
 
-// Lazy loaded heavy modules
 const DiscoverPage = lazy(() => import('../pages/discover/DiscoverPage'));
 const RecommendationsPage = lazy(() => import('../pages/recommendations/RecommendationsPage'));
 const RatingsPage = lazy(() => import('../pages/ratings/RatingsPage'));
 const AnalyticsPage = lazy(() => import('../pages/analytics/AnalyticsPage'));
 const AchievementsPage = lazy(() => import('../pages/analytics/AchievementsPage'));
+const HistoryPage = lazy(() => import('../pages/analytics/HistoryPage'));
 const TimelinePage = lazy(() => import('../pages/analytics/TimelinePage'));
 const LeaderboardPage = lazy(() => import('../pages/leaderboard/LeaderboardPage'));
 
@@ -80,6 +80,11 @@ export default function AppRoutes() {
           <Route path="/achievements" element={
             <Suspense fallback={<FullScreenLoader />}>
               <AchievementsPage />
+            </Suspense>
+          } />
+          <Route path="/history" element={
+            <Suspense fallback={<FullScreenLoader />}>
+              <HistoryPage />
             </Suspense>
           } />
           <Route path="/timeline" element={
