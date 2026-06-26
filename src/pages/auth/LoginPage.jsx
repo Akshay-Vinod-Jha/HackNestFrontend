@@ -21,7 +21,7 @@ export default function LoginPage() {
       toast.success('Login successful! Welcome back.');
       navigate('/dashboard');
     } catch (error) {
-      toast.error(error?.message || 'Login failed. Please check your credentials.');
+      // Error handled globally via App.jsx listener on store error state
     }
   };
 

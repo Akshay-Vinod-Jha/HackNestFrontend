@@ -21,7 +21,7 @@ export default function RegisterPage() {
       toast.success('Registration successful! Please log in.');
       navigate('/login');
     } catch (error) {
-      toast.error(error?.message || 'Registration failed. Please try again.');
+      // Error handled globally via App.jsx listener on store error state
     }
   };
 
