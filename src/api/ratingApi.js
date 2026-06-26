@@ -1,4 +1,4 @@
-import api from './index';
+import api from './axios';
 
 export const createRating = async (ratingData) => {
   const response = await api.post('/ratings', ratingData);
