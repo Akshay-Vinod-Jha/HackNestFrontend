@@ -3,7 +3,7 @@ import Home from '../pages/Home';
 import LoginPage from '../pages/auth/LoginPage';
 import RegisterPage from '../pages/auth/RegisterPage';
 import Dashboard from '../pages/dashboard/Dashboard';
-import Profile from '../pages/profile/Profile';
+import ProfilePage from '../pages/profile/ProfilePage';
 import Hackathons from '../pages/hackathons/Hackathons';
 import Teams from '../pages/teams/Teams';
 import Invitations from '../pages/invitations/Invitations';
@@ -29,7 +29,7 @@ export default function AppRoutes() {
       <Route element={<ProtectedRoute />}>
         <Route element={<DashboardLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<ProfilePage />} />
           <Route path="/hackathons" element={<Hackathons />} />
           <Route path="/teams" element={<Teams />} />
           <Route path="/invitations" element={<Invitations />} />
