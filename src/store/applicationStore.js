@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import {
   applyToTeam,
   getTeamApplications,
+  getMyApplications,
   acceptApplication,
   rejectApplication,
   withdrawApplication
@@ -20,6 +21,18 @@ const useApplicationStore = create((set) => ({
     try {
       const data = await applyToTeam(teamId, applicationData);
       set({ isLoading: false });
+      return data;
+    } catch (error) {
+      set({ error, isLoading: false });
+      throw error;
+    }
+  },
+
+  getMyApplications: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const data = await getMyApplications();
+      set({ applications: data, isLoading: false });
       return data;
     } catch (error) {
       set({ error, isLoading: false });

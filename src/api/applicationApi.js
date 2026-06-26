@@ -10,6 +10,16 @@ export const applyToTeam = async (teamId, applicationData) => {
   }
 };
 
+// GET /api/applications/me
+export const getMyApplications = async () => {
+  try {
+    const response = await api.get('/applications/me');
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message || 'Failed to fetch your applications';
+  }
+};
+
 // GET /api/teams/{teamId}/applications
 export const getTeamApplications = async (teamId) => {
   try {
