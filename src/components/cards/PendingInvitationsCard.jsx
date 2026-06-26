@@ -1,6 +1,15 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import useInvitations from '../../hooks/useInvitations';
+import useDashboard from '../../hooks/useDashboard';
+import { toast } from 'react-hot-toast';
+import { FiLoader } from 'react-icons/fi';
 
 export default function PendingInvitationsCard({ invitations, isLoading }) {
+  const { acceptInvitation, rejectInvitation } = useInvitations();
+  const { fetchInvitations, fetchDashboard } = useDashboard();
+  const [loadingId, setLoadingId] = useState(null);
+
   if (isLoading && !invitations) {
     return (
       <div className="bg-white rounded-3xl border border-gray-100 p-6 md:p-8 shadow-sm h-full flex flex-col animate-pulse">
@@ -15,6 +24,34 @@ export default function PendingInvitationsCard({ invitations, isLoading }) {
 
   const items = Array.isArray(invitations) ? invitations : [];
   const count = items.length;
+
+  const handleAccept = async (id) => {
+    setLoadingId(id);
+    try {
+      await acceptInvitation(id);
+      toast.success('Invitation accepted!');
+      fetchInvitations().catch(() => {});
+      fetchDashboard().catch(() => {});
+    } catch (error) {
+      toast.error('Failed to accept invitation');
+    } finally {
+      setLoadingId(null);
+    }
+  };
+
+  const handleReject = async (id) => {
+    if (!window.confirm('Decline this invitation?')) return;
+    setLoadingId(id);
+    try {
+      await rejectInvitation(id);
+      toast.success('Invitation declined');
+      fetchInvitations().catch(() => {});
+    } catch (error) {
+      toast.error('Failed to decline invitation');
+    } finally {
+      setLoadingId(null);
+    }
+  };
 
   return (
     <div className="bg-white rounded-3xl border border-gray-100 p-6 md:p-8 shadow-sm h-full flex flex-col">
@@ -33,18 +70,38 @@ export default function PendingInvitationsCard({ invitations, isLoading }) {
       <div className="flex-1 flex flex-col">
         {count > 0 ? (
           <div className="space-y-3 flex-1">
-            {items.slice(0, 3).map((invite, index) => (
-              <div key={index} className="flex flex-col xl:flex-row xl:justify-between xl:items-center p-4 border border-gray-100 rounded-2xl bg-gray-50 hover:bg-white hover:border-orange-100 hover:shadow-sm transition-all gap-3">
-                <div>
-                  <h3 className="font-bold text-gray-900 text-sm">{invite?.teamName || 'Unknown Team'}</h3>
-                  <p className="text-xs text-gray-500 font-semibold mt-1">Role: <span className="text-gray-700">{invite?.role || 'Member'}</span></p>
+            {items.slice(0, 3).map((invite) => {
+               // Normalizing because mock data might use invite.teamName while backend might use invite.team.name depending on payload structure
+               const teamName = invite.teamName || invite.team?.name || 'Unknown Team';
+               const role = invite.roleOffered || invite.role || 'Member';
+               const id = invite.id;
+               const isItemLoading = loadingId === id;
+
+               return (
+                <div key={id} className="flex flex-col xl:flex-row xl:justify-between xl:items-center p-4 border border-gray-100 rounded-2xl bg-gray-50 hover:bg-white hover:border-orange-100 hover:shadow-sm transition-all gap-3">
+                  <div>
+                    <h3 className="font-bold text-gray-900 text-sm">{teamName}</h3>
+                    <p className="text-xs text-gray-500 font-semibold mt-1">Role: <span className="text-gray-700">{role}</span></p>
+                  </div>
+                  <div className="flex gap-2">
+                    <button 
+                      onClick={() => handleAccept(id)}
+                      disabled={isItemLoading}
+                      className="flex-1 xl:flex-none flex justify-center items-center px-4 py-1.5 text-xs font-bold text-white bg-orange-500 hover:bg-orange-600 rounded-xl transition-colors shadow-sm active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
+                    >
+                      {isItemLoading ? <FiLoader className="w-3.5 h-3.5 animate-spin" /> : 'Accept'}
+                    </button>
+                    <button 
+                      onClick={() => handleReject(id)}
+                      disabled={isItemLoading}
+                      className="flex-1 xl:flex-none flex justify-center items-center px-4 py-1.5 text-xs font-bold text-gray-600 bg-white border border-gray-200 hover:bg-gray-100 hover:text-gray-900 rounded-xl transition-colors active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
+                    >
+                      {isItemLoading ? <FiLoader className="w-3.5 h-3.5 animate-spin" /> : 'Decline'}
+                    </button>
+                  </div>
                 </div>
-                <div className="flex gap-2">
-                  <button className="flex-1 xl:flex-none px-4 py-1.5 text-xs font-bold text-white bg-orange-500 hover:bg-orange-600 rounded-xl transition-colors shadow-sm active:scale-95">Accept</button>
-                  <button className="flex-1 xl:flex-none px-4 py-1.5 text-xs font-bold text-gray-600 bg-white border border-gray-200 hover:bg-gray-100 hover:text-gray-900 rounded-xl transition-colors active:scale-95">Decline</button>
-                </div>
-              </div>
-            ))}
+               );
+            })}
           </div>
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center text-center py-8 bg-gray-50 border border-dashed border-gray-200 rounded-2xl">
@@ -53,7 +110,7 @@ export default function PendingInvitationsCard({ invitations, isLoading }) {
         )}
       </div>
       
-      {count > 3 && (
+      {count > 0 && (
         <Link to="/invitations" className="mt-6 text-center text-sm font-bold text-orange-600 hover:text-orange-800 transition-colors bg-orange-50 hover:bg-orange-100 py-2 rounded-xl">
           View all {count} invitations
         </Link>
