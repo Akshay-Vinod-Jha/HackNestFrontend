@@ -10,6 +10,8 @@ import TrustScoreCard from '../../components/cards/TrustScoreCard';
 import RecommendedTeamCard from '../../components/cards/RecommendedTeamCard';
 import RecommendedHackathonCard from '../../components/cards/RecommendedHackathonCard';
 import RecommendedTeammateCard from '../../components/cards/RecommendedTeammateCard';
+import PendingInvitationsCard from '../../components/cards/PendingInvitationsCard';
+import PendingApplicationsCard from '../../components/cards/PendingApplicationsCard';
 import { Link } from 'react-router-dom';
 
 function RecommendationSection({ title, data, isLoading, CardComponent, viewMoreLink, emptyMessage }) {
@@ -60,10 +62,10 @@ export default function DashboardPage() {
   const { user } = useAuthStore();
   const { 
     dashboard, analytics, 
-    recommendedTeams, recommendedHackathons, recommendedTeammates,
+    recommendedTeams, recommendedHackathons, recommendedTeammates, pendingInvitations,
     isLoading, error, 
     fetchDashboard, fetchAnalytics, 
-    fetchRecommendedTeams, fetchRecommendedHackathons, fetchRecommendedTeammates,
+    fetchRecommendedTeams, fetchRecommendedHackathons, fetchRecommendedTeammates, fetchInvitations,
     clearError 
   } = useDashboard();
   
@@ -78,10 +80,11 @@ export default function DashboardPage() {
       fetchRecommendedTeams().catch(() => {});
       fetchRecommendedHackathons().catch(() => {});
       fetchRecommendedTeammates().catch(() => {});
+      fetchInvitations().catch(() => {});
     }
   }, [
     fetchDashboard, fetchAnalytics, 
-    fetchRecommendedTeams, fetchRecommendedHackathons, fetchRecommendedTeammates, 
+    fetchRecommendedTeams, fetchRecommendedHackathons, fetchRecommendedTeammates, fetchInvitations,
     hasFetched
   ]);
 
@@ -130,6 +133,12 @@ export default function DashboardPage() {
         </div>
       </div>
 
+      {/* Pending Actions Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+        <PendingInvitationsCard invitations={pendingInvitations} isLoading={isLoading} />
+        <PendingApplicationsCard dashboard={dashboard} isLoading={isLoading} />
+      </div>
+
       {/* Recommendations Sections */}
       <div className="space-y-6 md:space-y-8">
         <RecommendationSection 
@@ -174,8 +183,12 @@ function DashboardSkeleton() {
         <div className="md:col-span-1 lg:col-span-3 bg-white rounded-3xl border border-gray-100 h-80"></div>
       </div>
 
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-white rounded-3xl border border-gray-100 h-64 w-full"></div>
+        <div className="bg-white rounded-3xl border border-gray-100 h-64 w-full"></div>
+      </div>
+
       <div className="space-y-8">
-         <div className="bg-white rounded-3xl border border-gray-100 p-8 h-80"></div>
          <div className="bg-white rounded-3xl border border-gray-100 p-8 h-80"></div>
       </div>
     </div>
