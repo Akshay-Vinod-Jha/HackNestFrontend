@@ -77,6 +77,8 @@ const useAuthStore = create((set) => ({
       isAuthenticated: false, 
       error: null 
     });
+    // Redirect to login to force UI reset and clear session completely
+    window.location.href = '/login';
   },
 
   clearError: () => {
