@@ -14,7 +14,8 @@ import TeamAnalysisPage from '../pages/teams/TeamAnalysisPage';
 import MyApplicationsPage from '../pages/applications/MyApplicationsPage';
 import TeamApplicationsPage from '../pages/applications/TeamApplicationsPage';
 import MyInvitationsPage from '../pages/invitations/MyInvitationsPage';
-import Recommendations from '../pages/recommendations/Recommendations';
+import DiscoverPage from '../pages/discover/DiscoverPage';
+import RecommendationsPage from '../pages/recommendations/RecommendationsPage';
 import Leaderboard from '../pages/leaderboard/Leaderboard';
 
 import PublicLayout from '../layouts/PublicLayout';
@@ -47,7 +48,8 @@ export default function AppRoutes() {
           <Route path="/applications" element={<MyApplicationsPage />} />
           <Route path="/applications/team/:id" element={<TeamApplicationsPage />} />
           <Route path="/invitations" element={<MyInvitationsPage />} />
-          <Route path="/recommendations" element={<Recommendations />} />
+          <Route path="/discover" element={<DiscoverPage />} />
+          <Route path="/recommendations" element={<RecommendationsPage />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
         </Route>
       </Route>
