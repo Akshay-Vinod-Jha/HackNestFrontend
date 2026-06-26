@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import useProfile from '../../hooks/useProfile';
 
 import ProfileHeaderCard from '../../components/cards/ProfileHeaderCard';
@@ -6,9 +6,11 @@ import ProfileInfoCard from '../../components/cards/ProfileInfoCard';
 import SkillsCard from '../../components/cards/SkillsCard';
 import ExperienceCard from '../../components/cards/ExperienceCard';
 import PortfolioCard from '../../components/cards/PortfolioCard';
+import ProfileForm from '../../components/forms/ProfileForm';
 
 export default function ProfilePage() {
   const { profile, isLoading, error, fetchProfile, clearError } = useProfile();
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     if (!profile) {
@@ -49,10 +51,27 @@ export default function ProfilePage() {
     );
   }
 
+  if (isEditing) {
+    return (
+      <div className="max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <ProfileForm onCancel={() => setIsEditing(false)} />
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-6">
       {/* 1. Profile Header */}
-      <ProfileHeaderCard profile={profile} />
+      <div className="relative group">
+        <ProfileHeaderCard profile={profile} />
+        <button 
+          onClick={() => setIsEditing(true)}
+          className="absolute top-6 right-6 p-2.5 bg-white/80 hover:bg-white rounded-full shadow-sm border border-gray-100 text-blue-600 hover:text-blue-800 transition-all z-10 md:opacity-0 group-hover:opacity-100"
+          title="Edit Profile"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+        </button>
+      </div>
 
       {/* Grid Layout for Middle Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
