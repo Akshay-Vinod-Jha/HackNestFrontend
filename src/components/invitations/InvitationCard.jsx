@@ -5,7 +5,7 @@ import InvitationStatusBadge from './InvitationStatusBadge';
 import useInvitations from '../../hooks/useInvitations';
 import useTeams from '../../hooks/useTeams';
 import useDashboard from '../../hooks/useDashboard';
-import { toast } from 'react-hot-toast';
+import NotificationService from '../../services/NotificationService';
 
 export default function InvitationCard({ invitation }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -17,7 +17,7 @@ export default function InvitationCard({ invitation }) {
     setIsSubmitting(true);
     try {
       await acceptInvitation(invitation.id);
-      toast.success('Invitation accepted successfully!');
+      NotificationService.notifyInvitationAccepted(invitation.teamName);
       
       // Refresh flows
       getMyInvitations().catch(() => {});
@@ -26,7 +26,7 @@ export default function InvitationCard({ invitation }) {
       }
       fetchDashboard().catch(() => {});
     } catch (error) {
-      toast.error('Failed to accept invitation');
+      NotificationService.notifyError('Failed to accept invitation');
     } finally {
       setIsSubmitting(false);
     }
@@ -37,12 +37,12 @@ export default function InvitationCard({ invitation }) {
     setIsSubmitting(true);
     try {
       await rejectInvitation(invitation.id);
-      toast.success('Invitation declined');
+      NotificationService.notifyInvitationRejected();
       
       // Refresh flow
       getMyInvitations().catch(() => {});
     } catch (error) {
-      toast.error('Failed to decline invitation');
+      NotificationService.notifyError('Failed to decline invitation');
     } finally {
       setIsSubmitting(false);
     }
