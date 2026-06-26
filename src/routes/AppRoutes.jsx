@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from '../pages/Home';
 import LoginPage from '../pages/auth/LoginPage';
 import RegisterPage from '../pages/auth/RegisterPage';
-import Dashboard from '../pages/dashboard/Dashboard';
+import DashboardPage from '../pages/dashboard/DashboardPage';
 import ProfilePage from '../pages/profile/ProfilePage';
 import Hackathons from '../pages/hackathons/Hackathons';
 import Teams from '../pages/teams/Teams';
@@ -28,7 +28,7 @@ export default function AppRoutes() {
       {/* Protected Routes */}
       <Route element={<ProtectedRoute />}>
         <Route element={<DashboardLayout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/hackathons" element={<Hackathons />} />
           <Route path="/teams" element={<Teams />} />
