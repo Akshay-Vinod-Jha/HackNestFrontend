@@ -11,8 +11,9 @@ import TrustScoreCard from '../../components/cards/TrustScoreCard';
 import PendingInvitationsCard from '../../components/cards/PendingInvitationsCard';
 import PendingApplicationsCard from '../../components/cards/PendingApplicationsCard';
 import RecentActivityCard from '../../components/cards/RecentActivityCard';
+import DashboardHackathons from '../../components/dashboard/DashboardHackathons';
 
-// Lazy load the Recommendations section since it maps heavily and handles 3 separate entity types
+// Lazy load the Recommendations section since it maps heavily and handles separate entity types
 const RecommendationsContainer = lazy(() => import('../../components/dashboard/RecommendationsContainer'));
 
 export default function DashboardPage() {
@@ -94,12 +95,15 @@ export default function DashboardPage() {
         <PendingApplicationsCard dashboard={dashboard} isLoading={isLoading} />
       </div>
 
-      {/* 6. Recommendations Sections (Lazy Loaded) */}
+      {/* 6. Hackathons Hub */}
+      <DashboardHackathons />
+
+      {/* 7. Recommendations Sections (Lazy Loaded) */}
       <Suspense fallback={<RecommendationsSkeleton />}>
         <RecommendationsContainer />
       </Suspense>
 
-      {/* 7. Recent Activity */}
+      {/* 8. Recent Activity */}
       <div className="w-full">
          <RecentActivityCard timeline={timeline} isLoading={isProfileLoading} />
       </div>

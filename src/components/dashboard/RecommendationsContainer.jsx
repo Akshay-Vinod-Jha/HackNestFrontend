@@ -3,7 +3,6 @@ import useDashboard from '../../hooks/useDashboard';
 import { Link } from 'react-router-dom';
 
 import RecommendedTeamCard from '../cards/RecommendedTeamCard';
-import RecommendedHackathonCard from '../cards/RecommendedHackathonCard';
 import RecommendedTeammateCard from '../cards/RecommendedTeammateCard';
 
 function RecommendationSection({ title, data, isLoading, CardComponent, viewMoreLink, emptyMessage }) {
@@ -52,8 +51,8 @@ function RecommendationSection({ title, data, isLoading, CardComponent, viewMore
 
 export default function RecommendationsContainer() {
   const { 
-    recommendedTeams, recommendedHackathons, recommendedTeammates, isLoading,
-    fetchRecommendedTeams, fetchRecommendedHackathons, fetchRecommendedTeammates
+    recommendedTeams, recommendedTeammates, isLoading,
+    fetchRecommendedTeams, fetchRecommendedTeammates
   } = useDashboard();
   
   const [hasFetched, setHasFetched] = useState(false);
@@ -62,10 +61,9 @@ export default function RecommendationsContainer() {
     if (!hasFetched) {
       setHasFetched(true);
       fetchRecommendedTeams().catch(() => {});
-      fetchRecommendedHackathons().catch(() => {});
       fetchRecommendedTeammates().catch(() => {});
     }
-  }, [fetchRecommendedTeams, fetchRecommendedHackathons, fetchRecommendedTeammates, hasFetched]);
+  }, [fetchRecommendedTeams, fetchRecommendedTeammates, hasFetched]);
 
   return (
     <div className="space-y-6 md:space-y-8">
@@ -76,15 +74,6 @@ export default function RecommendationsContainer() {
         CardComponent={RecommendedTeamCard}
         viewMoreLink="/recommendations"
         emptyMessage="No team recommendations right now. Try updating your profile skills."
-      />
-      
-      <RecommendationSection 
-        title="Recommended Hackathons"
-        data={recommendedHackathons}
-        isLoading={isLoading}
-        CardComponent={RecommendedHackathonCard}
-        viewMoreLink="/recommendations"
-        emptyMessage="No hackathons match your profile currently."
       />
       
       <RecommendationSection 

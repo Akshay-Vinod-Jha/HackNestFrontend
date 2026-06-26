@@ -2,6 +2,8 @@ import useHackathonStore from '../store/hackathonStore';
 
 export default function useHackathons() {
   const hackathons = useHackathonStore(state => state.hackathons);
+  const upcomingHackathons = useHackathonStore(state => state.upcomingHackathons);
+  const recentHackathons = useHackathonStore(state => state.recentHackathons);
   const selectedHackathon = useHackathonStore(state => state.selectedHackathon);
   const hackathonTeams = useHackathonStore(state => state.hackathonTeams);
   const searchResults = useHackathonStore(state => state.searchResults);
@@ -11,6 +13,7 @@ export default function useHackathons() {
   const error = useHackathonStore(state => state.error);
 
   const fetchHackathons = useHackathonStore(state => state.fetchHackathons);
+  const fetchDashboardHackathons = useHackathonStore(state => state.fetchDashboardHackathons);
   const fetchHackathonById = useHackathonStore(state => state.fetchHackathonById);
   const searchHackathons = useHackathonStore(state => state.searchHackathons);
   const fetchHackathonTeams = useHackathonStore(state => state.fetchHackathonTeams);
@@ -21,6 +24,8 @@ export default function useHackathons() {
 
   return {
     hackathons,
+    upcomingHackathons,
+    recentHackathons,
     selectedHackathon,
     hackathonTeams,
     searchResults,
@@ -30,6 +35,7 @@ export default function useHackathons() {
     error,
     
     fetchHackathons,
+    fetchDashboardHackathons,
     fetchHackathonById,
     searchHackathons,
     fetchHackathonTeams,

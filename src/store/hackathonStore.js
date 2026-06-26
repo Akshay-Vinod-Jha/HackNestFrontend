@@ -13,6 +13,8 @@ const useHackathonStore = create((set, get) => ({
   selectedHackathon: null,
   hackathonTeams: [],
   searchResults: [],
+  upcomingHackathons: [],
+  recentHackathons: [],
   pagination: null,
   filters: {},
   isLoading: false,
@@ -27,7 +29,6 @@ const useHackathonStore = create((set, get) => ({
       const combinedParams = { ...currentFilters, ...params };
       
       const data = await getHackathons(combinedParams);
-      // Assuming backend returns paginated structure: { content: [], totalPages, etc. }
       if (data && data.content) {
         set({ 
           hackathons: data.content, 
@@ -48,6 +49,21 @@ const useHackathonStore = create((set, get) => ({
     }
   },
 
+  fetchDashboardHackathons: async () => {
+    try {
+      const [upcoming, recent] = await Promise.all([
+        getHackathons({ status: 'UPCOMING', size: 3, sortBy: 'registrationDeadline', sortDirection: 'asc' }),
+        getHackathons({ size: 3, sortBy: 'createdAt', sortDirection: 'desc' })
+      ]);
+      set({ 
+        upcomingHackathons: upcoming.content || upcoming,
+        recentHackathons: recent.content || recent 
+      });
+    } catch (error) {
+      console.error("Failed to fetch dashboard hackathons:", error);
+    }
+  },
+
   fetchHackathonById: async (id) => {
     set({ isLoading: true, error: null });
     try {
@@ -65,9 +81,18 @@ const useHackathonStore = create((set, get) => ({
     try {
       const data = await searchHackathons(query);
       if (data && data.content) {
-        set({ searchResults: data.content, isLoading: false });
+        set({ 
+          searchResults: data.content,
+          pagination: { 
+            page: data.number, 
+            totalPages: data.totalPages,
+            totalElements: data.totalElements,
+            size: data.size
+          },
+          isLoading: false 
+        });
       } else {
-        set({ searchResults: data, isLoading: false });
+        set({ searchResults: data, pagination: null, isLoading: false });
       }
       return data;
     } catch (error) {
