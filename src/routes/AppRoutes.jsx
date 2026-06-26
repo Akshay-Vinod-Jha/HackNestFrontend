@@ -15,7 +15,6 @@ import TeamAnalysisPage from '../pages/teams/TeamAnalysisPage';
 import MyApplicationsPage from '../pages/applications/MyApplicationsPage';
 import TeamApplicationsPage from '../pages/applications/TeamApplicationsPage';
 import MyInvitationsPage from '../pages/invitations/MyInvitationsPage';
-import Leaderboard from '../pages/leaderboard/Leaderboard';
 
 import PublicLayout from '../layouts/PublicLayout';
 import DashboardLayout from '../layouts/DashboardLayout';
@@ -26,6 +25,10 @@ import FullScreenLoader from '../components/ui/FullScreenLoader';
 const DiscoverPage = lazy(() => import('../pages/discover/DiscoverPage'));
 const RecommendationsPage = lazy(() => import('../pages/recommendations/RecommendationsPage'));
 const RatingsPage = lazy(() => import('../pages/ratings/RatingsPage'));
+const AnalyticsPage = lazy(() => import('../pages/analytics/AnalyticsPage'));
+const AchievementsPage = lazy(() => import('../pages/analytics/AchievementsPage'));
+const TimelinePage = lazy(() => import('../pages/analytics/TimelinePage'));
+const LeaderboardPage = lazy(() => import('../pages/leaderboard/LeaderboardPage'));
 
 export default function AppRoutes() {
   return (
@@ -53,6 +56,7 @@ export default function AppRoutes() {
           <Route path="/applications" element={<MyApplicationsPage />} />
           <Route path="/applications/team/:id" element={<TeamApplicationsPage />} />
           <Route path="/invitations" element={<MyInvitationsPage />} />
+          
           <Route path="/discover" element={
             <Suspense fallback={<FullScreenLoader />}>
               <DiscoverPage />
@@ -68,7 +72,26 @@ export default function AppRoutes() {
               <RatingsPage />
             </Suspense>
           } />
-          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/analytics" element={
+            <Suspense fallback={<FullScreenLoader />}>
+              <AnalyticsPage />
+            </Suspense>
+          } />
+          <Route path="/achievements" element={
+            <Suspense fallback={<FullScreenLoader />}>
+              <AchievementsPage />
+            </Suspense>
+          } />
+          <Route path="/timeline" element={
+            <Suspense fallback={<FullScreenLoader />}>
+              <TimelinePage />
+            </Suspense>
+          } />
+          <Route path="/leaderboard" element={
+            <Suspense fallback={<FullScreenLoader />}>
+              <LeaderboardPage />
+            </Suspense>
+          } />
         </Route>
       </Route>
     </Routes>
