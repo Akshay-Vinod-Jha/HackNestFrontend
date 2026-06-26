@@ -1,18 +1,24 @@
 import { Link } from 'react-router-dom';
+import CreateHackathonForm from '../../components/forms/CreateHackathonForm';
+import { FiArrowLeft } from 'react-icons/fi';
 
 export default function CreateHackathonPage() {
   return (
-    <div className="max-w-4xl mx-auto py-8 px-4">
-      <Link to="/hackathons" className="text-blue-600 font-bold mb-8 inline-flex items-center gap-2 hover:text-blue-800">
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-        Back to Hackathons
+    <div className="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-6">
+      <Link 
+        to="/hackathons" 
+        className="inline-flex items-center gap-2 text-gray-500 font-bold hover:text-blue-600 transition-colors mb-2"
+      >
+        <FiArrowLeft className="w-5 h-5" />
+        Back to Catalog
       </Link>
       
-      <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-16 text-center">
-        <svg className="w-12 h-12 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
-        <p className="text-gray-500 font-bold text-lg mb-2">Create Hackathon Placeholder</p>
-        <p className="text-gray-400">Form implementation pending next task.</p>
+      <div>
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-2">Create Hackathon</h1>
+        <p className="text-gray-500 font-medium text-lg mb-8">Publish a new event to the platform and start recruiting teams.</p>
       </div>
+
+      <CreateHackathonForm />
     </div>
   );
 }
