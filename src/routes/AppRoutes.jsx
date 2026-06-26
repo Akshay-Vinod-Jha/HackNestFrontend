@@ -6,6 +6,7 @@ import DashboardPage from '../pages/dashboard/DashboardPage';
 import ProfilePage from '../pages/profile/ProfilePage';
 import Hackathons from '../pages/hackathons/Hackathons';
 import Teams from '../pages/teams/Teams';
+import Applications from '../pages/applications/Applications';
 import Invitations from '../pages/invitations/Invitations';
 import Recommendations from '../pages/recommendations/Recommendations';
 import Leaderboard from '../pages/leaderboard/Leaderboard';
@@ -32,6 +33,7 @@ export default function AppRoutes() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/hackathons" element={<Hackathons />} />
           <Route path="/teams" element={<Teams />} />
+          <Route path="/applications" element={<Applications />} />
           <Route path="/invitations" element={<Invitations />} />
           <Route path="/recommendations" element={<Recommendations />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
