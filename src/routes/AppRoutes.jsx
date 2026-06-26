@@ -4,7 +4,9 @@ import LoginPage from '../pages/auth/LoginPage';
 import RegisterPage from '../pages/auth/RegisterPage';
 import DashboardPage from '../pages/dashboard/DashboardPage';
 import ProfilePage from '../pages/profile/ProfilePage';
-import Hackathons from '../pages/hackathons/Hackathons';
+import HackathonsPage from '../pages/hackathons/HackathonsPage';
+import HackathonDetailsPage from '../pages/hackathons/HackathonDetailsPage';
+import CreateHackathonPage from '../pages/hackathons/CreateHackathonPage';
 import Teams from '../pages/teams/Teams';
 import Applications from '../pages/applications/Applications';
 import Invitations from '../pages/invitations/Invitations';
@@ -31,7 +33,9 @@ export default function AppRoutes() {
         <Route element={<DashboardLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/hackathons" element={<Hackathons />} />
+          <Route path="/hackathons" element={<HackathonsPage />} />
+          <Route path="/hackathons/create" element={<CreateHackathonPage />} />
+          <Route path="/hackathons/:id" element={<HackathonDetailsPage />} />
           <Route path="/teams" element={<Teams />} />
           <Route path="/applications" element={<Applications />} />
           <Route path="/invitations" element={<Invitations />} />
