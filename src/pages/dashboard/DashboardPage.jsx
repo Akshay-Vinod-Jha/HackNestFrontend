@@ -1,7 +1,7 @@
 import { useEffect, useState, lazy, Suspense } from 'react';
 import useDashboard from '../../hooks/useDashboard';
 import useAuthStore from '../../store/authStore';
-import useProfile from '../../hooks/useProfile';
+import useAnalytics from '../../hooks/useAnalytics';
 
 import WelcomeCard from '../../components/cards/WelcomeCard';
 import AnalyticsCard from '../../components/cards/AnalyticsCard';
@@ -13,20 +13,32 @@ import PendingApplicationsCard from '../../components/cards/PendingApplicationsC
 import RecentActivityCard from '../../components/cards/RecentActivityCard';
 import DashboardHackathons from '../../components/dashboard/DashboardHackathons';
 
-// Lazy load the Recommendations section since it maps heavily and handles separate entity types
+import AchievementsSummaryCard from '../../components/dashboard/AchievementsSummaryCard';
+import LeaderboardRankCard from '../../components/dashboard/LeaderboardRankCard';
+
 const RecommendationsContainer = lazy(() => import('../../components/dashboard/RecommendationsContainer'));
 
 export default function DashboardPage() {
   const { user } = useAuthStore();
-  const { timeline, isLoading: isProfileLoading, fetchTimeline } = useProfile();
   
+  // Use specialized analytics store for core data to avoid duplicate logic
   const { 
-    dashboard, analytics, 
+    dashboard, 
+    analytics, 
+    timeline,
+    isLoading: isAnalyticsLoading,
+    error: analyticsError,
+    fetchDashboard,
+    fetchProfileAnalytics,
+    fetchProfileTimeline,
+    clearError: clearAnalyticsError
+  } = useAnalytics();
+
+  // Use dashboard store just for pending invitations (legacy/unmigrated logic)
+  const { 
     pendingInvitations,
-    isLoading, error, 
-    fetchDashboard, fetchAnalytics, 
-    fetchInvitations,
-    clearError 
+    isLoading: isDashboardLoading, 
+    fetchInvitations 
   } = useDashboard();
   
   const [hasFetched, setHasFetched] = useState(false);
@@ -35,34 +47,34 @@ export default function DashboardPage() {
     if (!hasFetched) {
       setHasFetched(true);
       fetchDashboard().catch(() => {});
-      fetchAnalytics().catch(() => {});
+      fetchProfileAnalytics().catch(() => {});
+      fetchProfileTimeline().catch(() => {});
       fetchInvitations().catch(() => {});
-      fetchTimeline().catch(() => {});
     }
   }, [
-    fetchDashboard, fetchAnalytics, fetchInvitations,
-    fetchTimeline, hasFetched
+    fetchDashboard, fetchProfileAnalytics, fetchProfileTimeline, fetchInvitations, hasFetched
   ]);
 
+  const isLoading = isAnalyticsLoading || isDashboardLoading;
   const isDataLoading = isLoading && !dashboard && !analytics && !hasFetched;
 
   if (isDataLoading) {
     return <DashboardSkeleton />;
   }
 
-  if (error && !dashboard && !analytics) {
+  if (analyticsError && !dashboard && !analytics) {
     return (
       <div className="max-w-7xl mx-auto py-16 px-4 text-center">
         <div className="bg-white rounded-3xl shadow-sm border border-red-100 p-10 inline-flex flex-col items-center max-w-lg">
           <svg className="w-12 h-12 text-red-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
           <h2 className="text-2xl font-extrabold text-gray-900 mb-2">Failed to load dashboard</h2>
-          <p className="text-gray-500 mb-8">{typeof error === 'string' ? error : 'Something went wrong.'}</p>
+          <p className="text-gray-500 mb-8">{typeof analyticsError === 'string' ? analyticsError : 'Something went wrong.'}</p>
           <button 
             onClick={() => { 
-              clearError(); 
+              clearAnalyticsError(); 
               setHasFetched(false); 
             }}
-            className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-all shadow-sm active:scale-95"
+            className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-all shadow-sm active:scale-95"
           >
             Retry Loading
           </button>
@@ -76,36 +88,42 @@ export default function DashboardPage() {
       {/* 1. Welcome Section */}
       <WelcomeCard userName={user?.fullName || dashboard?.user?.fullName || 'Developer'} />
       
-      {/* 2-4. Analytics Grid (Analytics, Profile, Trust) */}
+      {/* 2. Top Analytics Row */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 items-stretch">
         <div className="md:col-span-2 lg:col-span-6">
           <AnalyticsCard analytics={analytics} />
         </div>
         <div className="md:col-span-1 lg:col-span-3">
-          <ProfileCompletionCard dashboard={dashboard} />
+          <LeaderboardRankCard analytics={analytics} />
         </div>
         <div className="md:col-span-1 lg:col-span-3">
-          <TrustScoreCard analytics={analytics} />
+          <AchievementsSummaryCard analytics={analytics} />
         </div>
       </div>
 
-      {/* 5. Pending Actions Grid */}
+      {/* 3. Secondary Analytics Row (Trust & Profile) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+        <TrustScoreCard analytics={analytics} />
+        <ProfileCompletionCard dashboard={dashboard} />
+      </div>
+
+      {/* 4. Pending Actions Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
         <PendingInvitationsCard invitations={pendingInvitations} isLoading={isLoading} />
         <PendingApplicationsCard dashboard={dashboard} isLoading={isLoading} />
       </div>
 
-      {/* 6. Hackathons Hub */}
+      {/* 5. Hackathons Hub */}
       <DashboardHackathons />
 
-      {/* 7. Recommendations Sections (Lazy Loaded) */}
+      {/* 6. Recommendations Sections (Lazy Loaded) */}
       <Suspense fallback={<RecommendationsSkeleton />}>
         <RecommendationsContainer />
       </Suspense>
 
-      {/* 8. Recent Activity */}
+      {/* 7. Recent Activity */}
       <div className="w-full">
-         <RecentActivityCard timeline={timeline} isLoading={isProfileLoading} />
+         <RecentActivityCard timeline={timeline} isLoading={isLoading} />
       </div>
     </div>
   );
