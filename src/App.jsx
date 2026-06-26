@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
 import AppRoutes from './routes/AppRoutes';
 import useAuthStore from './store/authStore';
+import FullScreenLoader from './components/ui/FullScreenLoader';
 
 function App() {
   const fetchCurrentUser = useAuthStore((state) => state.fetchCurrentUser);
+  const isLoading = useAuthStore((state) => state.isLoading);
 
   useEffect(() => {
     const token = localStorage.getItem('hacknest_token');
@@ -15,7 +17,12 @@ function App() {
     }
   }, [fetchCurrentUser]);
 
-  return <AppRoutes />;
+  return (
+    <>
+      {isLoading && <FullScreenLoader />}
+      <AppRoutes />
+    </>
+  );
 }
 
 export default App;
