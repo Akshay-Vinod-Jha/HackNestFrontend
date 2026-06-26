@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { FiUsers, FiAward, FiArrowRight, FiCheckCircle, FiActivity, FiUserPlus } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import ApplyToTeamModal from './ApplyToTeamModal';
+import InviteToTeamModal from './InviteToTeamModal';
 
 export default function TeamHeaderCard({ team }) {
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
+  const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
   const isFull = team.currentMembers >= team.maxMembers;
   const isOpen = team.openForApplications && !isFull;
   const completionPercentage = Math.round((team.currentMembers / team.maxMembers) * 100) || 0;
@@ -72,7 +74,10 @@ export default function TeamHeaderCard({ team }) {
             )}
             
             <div className="grid grid-cols-2 gap-3">
-              <button className="w-full py-2.5 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 font-bold rounded-xl transition-all text-sm flex items-center justify-center gap-2">
+              <button 
+                onClick={() => setIsInviteModalOpen(true)}
+                className="w-full py-2.5 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 font-bold rounded-xl transition-all text-sm flex items-center justify-center gap-2"
+              >
                 <FiUserPlus className="w-4 h-4" /> Invite
               </button>
               <Link 
@@ -89,6 +94,12 @@ export default function TeamHeaderCard({ team }) {
       <ApplyToTeamModal 
         isOpen={isApplyModalOpen} 
         onClose={() => setIsApplyModalOpen(false)} 
+        team={team} 
+      />
+      
+      <InviteToTeamModal 
+        isOpen={isInviteModalOpen} 
+        onClose={() => setIsInviteModalOpen(false)} 
         team={team} 
       />
     </div>
