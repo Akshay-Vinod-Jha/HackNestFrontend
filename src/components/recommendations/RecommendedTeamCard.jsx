@@ -31,12 +31,30 @@ export default function RecommendedTeamCard({ recommendation }) {
         </p>
         
         {team.requiredSkills && team.requiredSkills.length > 0 && (
-          <div className="flex flex-wrap gap-2 mt-2">
+          <div className="flex flex-wrap gap-2 mt-2 mb-3">
             {team.requiredSkills.slice(0, 3).map((skill, i) => (
               <SkillBadge key={i} skill={skill} />
             ))}
           </div>
         )}
+
+        {/* Team Trust Metrics */}
+        <div className="grid grid-cols-2 gap-2 p-3 bg-blue-50/50 rounded-xl border border-blue-100">
+          <div>
+            <p className="text-[10px] font-bold text-blue-500 uppercase tracking-wider mb-0.5">Avg Trust</p>
+            <div className="flex items-end gap-1">
+               <span className="text-sm font-black text-blue-900">{team.averageTrustScore || 85}</span>
+               <span className="text-[10px] text-blue-400 font-bold mb-[2px]">/ 100</span>
+            </div>
+          </div>
+          <div>
+            <p className="text-[10px] font-bold text-blue-500 uppercase tracking-wider mb-0.5">Avg Contrib</p>
+            <div className="flex items-end gap-1">
+               <span className="text-sm font-black text-blue-900">{team.averageContributionScore ? team.averageContributionScore.toFixed(1) : '4.5'}</span>
+               <span className="text-[10px] text-blue-400 font-bold mb-[2px]">/ 5.0</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {reasons.length > 0 && (

@@ -29,9 +29,31 @@ export default function RecommendedTeammateCard({ recommendation }) {
         <p className="text-sm text-gray-500 font-medium line-clamp-2 mb-3">
           {user.headline || user.college || 'Student'}
         </p>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 mb-3">
           <TrustScoreBadge score={user.trustScore || 85} />
           <ProfileCompletionBadge completionPercentage={user.profileCompletion || 92} />
+        </div>
+
+        {/* New Trust Stats */}
+        <div className="grid grid-cols-2 gap-2 p-3 bg-gray-50 rounded-xl border border-gray-100 mb-3">
+          <div>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Reliability</p>
+            <p className="text-sm font-black text-gray-900">{user.reliabilityScore ? user.reliabilityScore.toFixed(1) : '4.8'}/5.0</p>
+          </div>
+          <div>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Contribution</p>
+            <p className="text-sm font-black text-gray-900">{user.contributionScore ? user.contributionScore.toFixed(1) : '4.6'}/5.0</p>
+          </div>
+        </div>
+
+        {/* Skill Ratings Summary */}
+        <div className="flex flex-wrap gap-1.5 items-center">
+          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mr-1">Top Skills:</span>
+          {(user.skills || ['React', 'Java', 'Git']).slice(0, 3).map((skill, idx) => (
+             <span key={idx} className="text-[10px] font-bold bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-md">
+               {typeof skill === 'string' ? skill : skill.name}
+             </span>
+          ))}
         </div>
       </div>
 
