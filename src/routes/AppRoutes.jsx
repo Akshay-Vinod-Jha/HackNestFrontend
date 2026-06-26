@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from '../pages/Home';
 import LoginPage from '../pages/auth/LoginPage';
@@ -14,13 +15,16 @@ import TeamAnalysisPage from '../pages/teams/TeamAnalysisPage';
 import MyApplicationsPage from '../pages/applications/MyApplicationsPage';
 import TeamApplicationsPage from '../pages/applications/TeamApplicationsPage';
 import MyInvitationsPage from '../pages/invitations/MyInvitationsPage';
-import DiscoverPage from '../pages/discover/DiscoverPage';
-import RecommendationsPage from '../pages/recommendations/RecommendationsPage';
 import Leaderboard from '../pages/leaderboard/Leaderboard';
 
 import PublicLayout from '../layouts/PublicLayout';
 import DashboardLayout from '../layouts/DashboardLayout';
 import ProtectedRoute from '../components/common/ProtectedRoute';
+import FullScreenLoader from '../components/ui/FullScreenLoader';
+
+// Lazy loaded heavy modules
+const DiscoverPage = lazy(() => import('../pages/discover/DiscoverPage'));
+const RecommendationsPage = lazy(() => import('../pages/recommendations/RecommendationsPage'));
 
 export default function AppRoutes() {
   return (
@@ -48,8 +52,16 @@ export default function AppRoutes() {
           <Route path="/applications" element={<MyApplicationsPage />} />
           <Route path="/applications/team/:id" element={<TeamApplicationsPage />} />
           <Route path="/invitations" element={<MyInvitationsPage />} />
-          <Route path="/discover" element={<DiscoverPage />} />
-          <Route path="/recommendations" element={<RecommendationsPage />} />
+          <Route path="/discover" element={
+            <Suspense fallback={<FullScreenLoader />}>
+              <DiscoverPage />
+            </Suspense>
+          } />
+          <Route path="/recommendations" element={
+            <Suspense fallback={<FullScreenLoader />}>
+              <RecommendationsPage />
+            </Suspense>
+          } />
           <Route path="/leaderboard" element={<Leaderboard />} />
         </Route>
       </Route>
