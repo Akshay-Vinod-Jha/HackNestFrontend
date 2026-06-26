@@ -5,6 +5,10 @@ import useAuthStore from '../../store/authStore';
 import RatingsOverviewCard from '../../components/ratings/RatingsOverviewCard';
 import SkillRatingCard from '../../components/ratings/SkillRatingCard';
 import FeedbackCard from '../../components/ratings/FeedbackCard';
+import TrustScoreCard from '../../components/trust/TrustScoreCard';
+import ReliabilityCard from '../../components/trust/ReliabilityCard';
+import ContributionCard from '../../components/trust/ContributionCard';
+import SkillRadarCard from '../../components/trust/SkillRadarCard';
 import { FiAlertCircle, FiStar } from 'react-icons/fi';
 
 export default function RatingsPage() {
@@ -29,14 +33,21 @@ export default function RatingsPage() {
     );
   }
 
-  // Calculate skill averages manually if backend returns raw rating arrays
-  // For example: skillRatings: { react: 4, java: 5 }
   const skillAverages = {};
   let totalSkillRatingsCount = {};
+  let overallAvg = 0;
+  let reliabilityAvg = 0;
+  let contributionAvg = 0;
+  let trustScore = 0;
   
   if (selectedUserRatings && selectedUserRatings.length > 0) {
+    let sumOverall = 0;
+    
     selectedUserRatings.forEach(rating => {
       const skills = rating.skillRatings || {};
+      let skillSum = 0;
+      let skillCount = 0;
+      
       Object.entries(skills).forEach(([skill, score]) => {
         if (!skillAverages[skill]) {
           skillAverages[skill] = 0;
@@ -44,12 +55,24 @@ export default function RatingsPage() {
         }
         skillAverages[skill] += score;
         totalSkillRatingsCount[skill] += 1;
+        skillSum += score;
+        skillCount += 1;
       });
+      
+      sumOverall += skillCount > 0 ? (skillSum / skillCount) : 0;
     });
 
     Object.keys(skillAverages).forEach(skill => {
       skillAverages[skill] = skillAverages[skill] / totalSkillRatingsCount[skill];
     });
+    
+    const total = selectedUserRatings.length;
+    overallAvg = sumOverall / total;
+    reliabilityAvg = selectedUserRatings.reduce((acc, r) => acc + (r.reliability || 0), 0) / total;
+    contributionAvg = selectedUserRatings.reduce((acc, r) => acc + (r.contribution || 0), 0) / total;
+    
+    // Simulate a complex trust score out of 100 based on the 1-5 scale variables
+    trustScore = Math.min(100, Math.round(((overallAvg + reliabilityAvg + contributionAvg) / 15) * 100));
   }
 
   const hasRatings = selectedUserRatings && selectedUserRatings.length > 0;
@@ -84,9 +107,28 @@ export default function RatingsPage() {
 
       {hasRatings && (
         <div className="space-y-12">
-          {/* Overview */}
+          {/* Trust Analytics Level */}
           <section>
-            <h2 className="text-xl font-extrabold text-gray-900 mb-6">Overview</h2>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-extrabold text-gray-900">Trust Analytics</h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+              <div className="md:col-span-4 lg:col-span-3">
+                <TrustScoreCard score={trustScore} />
+              </div>
+              <div className="md:col-span-4 lg:col-span-5 grid grid-rows-2 gap-6">
+                <ReliabilityCard score={reliabilityAvg} />
+                <ContributionCard score={contributionAvg} />
+              </div>
+              <div className="md:col-span-4 lg:col-span-4">
+                <SkillRadarCard skills={skillAverages} />
+              </div>
+            </div>
+          </section>
+
+          {/* Standard Overview */}
+          <section>
+            <h2 className="text-xl font-extrabold text-gray-900 mb-6">Summary Metrics</h2>
             <RatingsOverviewCard ratingsData={selectedUserRatings} />
           </section>
 
