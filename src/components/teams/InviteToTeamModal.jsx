@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { FiX, FiSend, FiLoader, FiSearch, FiUser } from 'react-icons/fi';
-import useTeams from '../../hooks/useTeams';
+import useInvitations from '../../hooks/useInvitations';
 
 export default function InviteToTeamModal({ isOpen, onClose, team }) {
   const { register, handleSubmit, reset, setValue, watch, formState: { errors, isSubmitting } } = useForm();
-  const { inviteToTeam } = useTeams();
+  const { sendInvitation } = useInvitations();
   
   // Basic mock state for student search since we lack a dedicated users API in this context
   const [searchQuery, setSearchQuery] = useState('');
@@ -16,7 +16,7 @@ export default function InviteToTeamModal({ isOpen, onClose, team }) {
 
   const onSubmit = async (data) => {
     try {
-      await inviteToTeam(team.id, data);
+      await sendInvitation(team.id, data);
       toast.success('Invitation sent successfully!');
       reset();
       setSearchQuery('');
