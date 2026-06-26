@@ -1,5 +1,9 @@
 import { Link } from 'react-router-dom';
 import { FiUser, FiZap, FiCheckCircle } from 'react-icons/fi';
+import MatchScoreCircle from '../ui/MatchScoreCircle';
+import RecommendationReasonChip from '../ui/RecommendationReasonChip';
+import TrustScoreBadge from '../ui/TrustScoreBadge';
+import ProfileCompletionBadge from '../ui/ProfileCompletionBadge';
 
 export default function RecommendedTeammateCard({ recommendation }) {
   // Gracefully handle either wrapped { item, matchScore } or flat { ...data, matchScore }
@@ -10,43 +14,44 @@ export default function RecommendedTeammateCard({ recommendation }) {
   return (
     <div className="bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all h-full flex flex-col p-6">
       <div className="flex justify-between items-start mb-4">
-        <div className="w-12 h-12 rounded-2xl bg-indigo-100 flex items-center justify-center text-indigo-600 font-black text-xl">
+        <div className="w-16 h-16 rounded-2xl bg-indigo-100 flex items-center justify-center text-indigo-600 font-black text-2xl shadow-inner shrink-0">
           {user.fullName?.charAt(0) || 'U'}
         </div>
-        <div className="flex flex-col items-end">
-          <span className={`text-xs font-black px-2 py-1 rounded-lg ${matchScore >= 90 ? 'bg-emerald-100 text-emerald-700' : matchScore >= 70 ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-700'}`}>
-            {matchScore}% Match
-          </span>
+        <div className="shrink-0 -mt-2 -mr-2">
+          <MatchScoreCircle score={matchScore} size={64} strokeWidth={6} />
         </div>
       </div>
       
       <div className="mb-4 flex-1">
-        <h3 className="text-lg font-extrabold text-gray-900 truncate mb-1" title={user.fullName}>
+        <h3 className="text-xl font-extrabold text-gray-900 truncate mb-1 hover:text-indigo-600 transition-colors cursor-pointer" title={user.fullName}>
           {user.fullName || 'Unknown User'}
         </h3>
-        <p className="text-sm text-gray-500 font-medium line-clamp-2">
+        <p className="text-sm text-gray-500 font-medium line-clamp-2 mb-3">
           {user.headline || user.college || 'Student'}
         </p>
+        <div className="flex flex-wrap gap-2">
+          <TrustScoreBadge score={user.trustScore || 85} />
+          <ProfileCompletionBadge completionPercentage={user.profileCompletion || 92} />
+        </div>
       </div>
 
       {reasons.length > 0 && (
-        <div className="mb-6 space-y-1.5">
-          <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-1">
-            <FiZap className="w-3 h-3 text-amber-500" /> Why this match?
+        <div className="mb-6 border-t border-gray-50 pt-4">
+          <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+            <FiZap className="w-3.5 h-3.5 text-amber-500" /> Key Insights
           </p>
-          {reasons.slice(0, 3).map((reason, i) => (
-            <div key={i} className="flex items-start gap-1.5 text-xs text-gray-600 font-medium">
-              <FiCheckCircle className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
-              <span className="line-clamp-1">{reason}</span>
-            </div>
-          ))}
+          <div className="flex flex-wrap gap-2">
+            {reasons.slice(0, 3).map((reason, i) => (
+              <RecommendationReasonChip key={i} reason={reason} />
+            ))}
+          </div>
         </div>
       )}
 
       <div className="mt-auto pt-4 border-t border-gray-50">
         <Link 
           to={`/profile/${user.id}`}
-          className="block w-full py-2.5 bg-gray-50 hover:bg-indigo-50 text-indigo-600 hover:text-indigo-700 text-center font-bold text-sm rounded-xl transition-colors"
+          className="block w-full py-3 bg-gray-50 hover:bg-indigo-50 text-indigo-600 hover:text-indigo-700 text-center font-bold text-sm rounded-xl transition-colors active:scale-95"
         >
           View Profile
         </Link>
