@@ -1,5 +1,7 @@
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import useAuthStore from '../../store/authStore';
+import toast from 'react-hot-toast';
 
 export default function RegisterPage() {
   const {
@@ -10,11 +12,17 @@ export default function RegisterPage() {
     mode: 'onTouched',
   });
 
+  const navigate = useNavigate();
+  const registerAction = useAuthStore((state) => state.register);
+
   const onSubmit = async (data) => {
-    // Placeholder for API submission logic
-    console.log('Registering with:', data);
-    // Simulate network delay for loading state
-    return new Promise((resolve) => setTimeout(resolve, 2000));
+    try {
+      await registerAction(data);
+      toast.success('Registration successful! Please log in.');
+      navigate('/login');
+    } catch (error) {
+      toast.error(error?.message || 'Registration failed. Please try again.');
+    }
   };
 
   return (
