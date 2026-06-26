@@ -7,17 +7,28 @@ import EmptyHackathonState from '../../components/hackathons/EmptyHackathonState
 import HackathonSearchBar from '../../components/hackathons/HackathonSearchBar';
 import HackathonFilters from '../../components/hackathons/HackathonFilters';
 import FilterDrawer from '../../components/hackathons/FilterDrawer';
+import HackathonSorting from '../../components/hackathons/HackathonSorting';
+import HackathonPagination from '../../components/hackathons/HackathonPagination';
 import { FiPlus, FiFilter } from 'react-icons/fi';
 
 export default function HackathonsPage() {
   const [searchParams] = useSearchParams();
-  const { hackathons, searchResults, isLoading, error, fetchHackathons, searchHackathons, clearError } = useHackathons();
+  const { 
+    hackathons, 
+    searchResults, 
+    pagination, 
+    isLoading, 
+    error, 
+    fetchHackathons, 
+    searchHackathons, 
+    clearError 
+  } = useHackathons();
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
 
   useEffect(() => {
     const currentParams = Object.fromEntries(searchParams.entries());
     
-    // If there are any parameters, use searchHackathons, otherwise use fetchHackathons
+    // Always use searchHackathons when we have query params (like page, size, sorting, or filters)
     if (Object.keys(currentParams).length > 0) {
       searchHackathons(currentParams).catch(() => {});
     } else {
@@ -25,8 +36,8 @@ export default function HackathonsPage() {
     }
   }, [searchParams, fetchHackathons, searchHackathons]);
 
-  const hasFilters = Object.keys(Object.fromEntries(searchParams.entries())).length > 0;
-  const displayedHackathons = hasFilters ? searchResults : hackathons;
+  const hasParams = Object.keys(Object.fromEntries(searchParams.entries())).length > 0;
+  const displayedHackathons = hasParams ? searchResults : hackathons;
 
   return (
     <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
@@ -60,17 +71,20 @@ export default function HackathonsPage() {
 
         {/* Content Area */}
         <div className="flex-1 w-full min-w-0">
-          <div className="flex gap-4 mb-8">
+          <div className="flex flex-col md:flex-row gap-4 mb-8">
             <div className="flex-1">
               <HackathonSearchBar />
             </div>
-            <button 
-              onClick={() => setIsFilterDrawerOpen(true)}
-              className="lg:hidden px-4 py-3 bg-white border border-gray-200 text-gray-700 rounded-2xl shadow-sm hover:bg-gray-50 transition-colors flex items-center gap-2 font-bold shrink-0"
-            >
-              <FiFilter className="w-5 h-5 text-blue-600" />
-              <span className="hidden sm:inline">Filters</span>
-            </button>
+            <div className="flex gap-4">
+              <HackathonSorting />
+              <button 
+                onClick={() => setIsFilterDrawerOpen(true)}
+                className="lg:hidden px-4 py-3 bg-white border border-gray-200 text-gray-700 rounded-2xl shadow-sm hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 font-bold shrink-0"
+              >
+                <FiFilter className="w-5 h-5 text-blue-600" />
+                <span className="hidden sm:inline">Filters</span>
+              </button>
+            </div>
           </div>
 
           {isLoading && !displayedHackathons?.length ? (
@@ -83,14 +97,17 @@ export default function HackathonsPage() {
               <h2 className="text-2xl font-extrabold text-gray-900 mb-3">Failed to load hackathons</h2>
               <p className="text-gray-500 font-medium mb-8 max-w-md mx-auto">{typeof error === 'string' ? error : 'An unexpected error occurred while fetching hackathons.'}</p>
               <button 
-                onClick={() => { clearError(); hasFilters ? searchHackathons(Object.fromEntries(searchParams.entries())) : fetchHackathons(); }}
+                onClick={() => { clearError(); hasParams ? searchHackathons(Object.fromEntries(searchParams.entries())) : fetchHackathons(); }}
                 className="px-8 py-3 bg-blue-600 text-white rounded-xl font-bold transition-all shadow-sm hover:bg-blue-700 active:scale-95"
               >
                 Try Again
               </button>
             </div>
           ) : displayedHackathons && displayedHackathons.length > 0 ? (
-            <HackathonGrid hackathons={displayedHackathons} />
+            <>
+              <HackathonGrid hackathons={displayedHackathons} />
+              <HackathonPagination pagination={pagination} isLoading={isLoading} />
+            </>
           ) : (
             <EmptyHackathonState />
           )}
