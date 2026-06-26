@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import useDashboard from '../../hooks/useDashboard';
 import useAuthStore from '../../store/authStore';
+import useProfile from '../../hooks/useProfile';
 
 import WelcomeCard from '../../components/cards/WelcomeCard';
 import AnalyticsCard from '../../components/cards/AnalyticsCard';
@@ -12,6 +13,7 @@ import RecommendedHackathonCard from '../../components/cards/RecommendedHackatho
 import RecommendedTeammateCard from '../../components/cards/RecommendedTeammateCard';
 import PendingInvitationsCard from '../../components/cards/PendingInvitationsCard';
 import PendingApplicationsCard from '../../components/cards/PendingApplicationsCard';
+import RecentActivityCard from '../../components/cards/RecentActivityCard';
 import { Link } from 'react-router-dom';
 
 function RecommendationSection({ title, data, isLoading, CardComponent, viewMoreLink, emptyMessage }) {
@@ -60,6 +62,8 @@ function RecommendationSection({ title, data, isLoading, CardComponent, viewMore
 
 export default function DashboardPage() {
   const { user } = useAuthStore();
+  const { timeline, isLoading: isProfileLoading, fetchTimeline } = useProfile();
+  
   const { 
     dashboard, analytics, 
     recommendedTeams, recommendedHackathons, recommendedTeammates, pendingInvitations,
@@ -81,11 +85,12 @@ export default function DashboardPage() {
       fetchRecommendedHackathons().catch(() => {});
       fetchRecommendedTeammates().catch(() => {});
       fetchInvitations().catch(() => {});
+      fetchTimeline().catch(() => {});
     }
   }, [
     fetchDashboard, fetchAnalytics, 
     fetchRecommendedTeams, fetchRecommendedHackathons, fetchRecommendedTeammates, fetchInvitations,
-    hasFetched
+    fetchTimeline, hasFetched
   ]);
 
   // Overall page loading skeleton logic (waits for core dashboard data)
@@ -133,10 +138,11 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Pending Actions Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+      {/* Dynamic Actions & Activity Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
         <PendingInvitationsCard invitations={pendingInvitations} isLoading={isLoading} />
         <PendingApplicationsCard dashboard={dashboard} isLoading={isLoading} />
+        <RecentActivityCard timeline={timeline} isLoading={isProfileLoading} />
       </div>
 
       {/* Recommendations Sections */}
@@ -183,9 +189,10 @@ function DashboardSkeleton() {
         <div className="md:col-span-1 lg:col-span-3 bg-white rounded-3xl border border-gray-100 h-80"></div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-3xl border border-gray-100 h-64 w-full"></div>
-        <div className="bg-white rounded-3xl border border-gray-100 h-64 w-full"></div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="bg-white rounded-3xl border border-gray-100 h-80 w-full"></div>
+        <div className="bg-white rounded-3xl border border-gray-100 h-80 w-full"></div>
+        <div className="bg-white rounded-3xl border border-gray-100 h-80 w-full"></div>
       </div>
 
       <div className="space-y-8">
