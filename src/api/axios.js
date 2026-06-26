@@ -10,7 +10,10 @@ const api = axios.create({
 // Request interceptor
 api.interceptors.request.use(
   (config) => {
-    // Future request configurations (e.g., JWT token) will go here
+    const token = localStorage.getItem('hacknest_token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => {
