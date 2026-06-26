@@ -1,5 +1,7 @@
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import useAuthStore from '../../store/authStore';
+import toast from 'react-hot-toast';
 
 export default function LoginPage() {
   const {
@@ -10,11 +12,17 @@ export default function LoginPage() {
     mode: 'onTouched',
   });
 
+  const navigate = useNavigate();
+  const loginAction = useAuthStore((state) => state.login);
+
   const onSubmit = async (data) => {
-    // Placeholder for API submission logic
-    console.log('Logging in with:', data);
-    // Simulate network delay for loading state
-    return new Promise((resolve) => setTimeout(resolve, 2000));
+    try {
+      await loginAction(data);
+      toast.success('Login successful! Welcome back.');
+      navigate('/dashboard');
+    } catch (error) {
+      toast.error(error?.message || 'Login failed. Please check your credentials.');
+    }
   };
 
   return (
