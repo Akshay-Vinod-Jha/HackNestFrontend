@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import useTeams from '../../hooks/useTeams';
+import useAuthStore from '../../store/authStore';
 import { FiArrowLeft } from 'react-icons/fi';
 
 import TeamHeaderCard from '../../components/teams/TeamHeaderCard';
@@ -8,9 +9,11 @@ import TeamInfoCard from '../../components/teams/TeamInfoCard';
 import MembersCard from '../../components/teams/MembersCard';
 import RolesCard from '../../components/teams/RolesCard';
 import SkillsCard from '../../components/teams/SkillsCard';
+import TeamApplicationsCard from '../../components/teams/TeamApplicationsCard';
 
 export default function TeamDetailsPage() {
   const { id } = useParams();
+  const { user } = useAuthStore();
   const { selectedTeam, isLoading, error, fetchTeamById, clearError } = useTeams();
   const [hasFetched, setHasFetched] = useState(false);
 
@@ -89,6 +92,12 @@ export default function TeamDetailsPage() {
           <MembersCard members={selectedTeam.members} leaderId={selectedTeam.leaderId} />
         </div>
       </div>
+      
+      {user?.id === selectedTeam.leaderId && (
+        <div className="mt-8">
+          <TeamApplicationsCard team={selectedTeam} />
+        </div>
+      )}
     </div>
   );
 }

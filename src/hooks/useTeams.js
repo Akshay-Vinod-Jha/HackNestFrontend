@@ -15,6 +15,7 @@ export default function useTeams() {
   const searchTeams = useTeamStore(state => state.searchTeams);
   const applyToTeam = useTeamStore(state => state.applyToTeam);
   const fetchTeamApplications = useTeamStore(state => state.fetchTeamApplications);
+  const updateApplicationStatus = useTeamStore(state => state.updateApplicationStatus);
   const inviteToTeam = useTeamStore(state => state.inviteToTeam);
   const fetchTeamAnalysis = useTeamStore(state => state.fetchTeamAnalysis);
   const setFilters = useTeamStore(state => state.setFilters);
@@ -38,6 +39,7 @@ export default function useTeams() {
     searchTeams,
     applyToTeam,
     fetchTeamApplications,
+    updateApplicationStatus,
     inviteToTeam,
     fetchTeamAnalysis,
     setFilters,

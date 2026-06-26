@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import { FiUsers, FiAward, FiArrowRight, FiCheckCircle, FiActivity, FiUserPlus } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
+import ApplyToTeamModal from './ApplyToTeamModal';
 
 export default function TeamHeaderCard({ team }) {
+  const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
   const isFull = team.currentMembers >= team.maxMembers;
   const isOpen = team.openForApplications && !isFull;
   const completionPercentage = Math.round((team.currentMembers / team.maxMembers) * 100) || 0;
@@ -56,7 +59,10 @@ export default function TeamHeaderCard({ team }) {
 
           <div className="space-y-3">
             {isOpen ? (
-              <button className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-sm transition-all active:scale-95 flex items-center justify-center gap-2">
+              <button 
+                onClick={() => setIsApplyModalOpen(true)}
+                className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-sm transition-all active:scale-95 flex items-center justify-center gap-2"
+              >
                 Apply to Team <FiArrowRight className="w-5 h-5" />
               </button>
             ) : (
@@ -79,6 +85,12 @@ export default function TeamHeaderCard({ team }) {
           </div>
         </div>
       </div>
+      
+      <ApplyToTeamModal 
+        isOpen={isApplyModalOpen} 
+        onClose={() => setIsApplyModalOpen(false)} 
+        team={team} 
+      />
     </div>
   );
 }

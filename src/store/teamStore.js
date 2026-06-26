@@ -5,6 +5,7 @@ import {
   searchTeams,
   applyToTeam,
   getTeamApplications,
+  updateApplicationStatus,
   inviteToTeam,
   getTeamAnalysis
 } from '../api/teamApi';
@@ -90,6 +91,24 @@ const useTeamStore = create((set, get) => ({
     try {
       const data = await getTeamApplications(teamId);
       set({ applications: data, isLoading: false });
+      return data;
+    } catch (error) {
+      set({ error, isLoading: false });
+      throw error;
+    }
+  },
+
+  updateApplicationStatus: async (teamId, applicationId, status) => {
+    set({ isLoading: true, error: null });
+    try {
+      const data = await updateApplicationStatus(teamId, applicationId, status);
+      // Optimistically update the applications list if it exists
+      set((state) => ({
+        applications: state.applications.map(app => 
+          app.id === applicationId ? { ...app, status } : app
+        ),
+        isLoading: false
+      }));
       return data;
     } catch (error) {
       set({ error, isLoading: false });
