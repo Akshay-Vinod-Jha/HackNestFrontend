@@ -1,28 +1,50 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FiUsers, FiCalendar, FiMessageSquare, FiCheck, FiX, FiBriefcase } from 'react-icons/fi';
+import { FiUsers, FiCalendar, FiMessageSquare, FiCheck, FiX, FiBriefcase, FiLoader } from 'react-icons/fi';
 import InvitationStatusBadge from './InvitationStatusBadge';
 import useInvitations from '../../hooks/useInvitations';
+import useTeams from '../../hooks/useTeams';
+import useDashboard from '../../hooks/useDashboard';
 import { toast } from 'react-hot-toast';
 
 export default function InvitationCard({ invitation }) {
-  const { acceptInvitation, rejectInvitation } = useInvitations();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { acceptInvitation, rejectInvitation, getMyInvitations } = useInvitations();
+  const { fetchTeamById } = useTeams();
+  const { fetchDashboard } = useDashboard();
 
   const handleAccept = async () => {
+    setIsSubmitting(true);
     try {
       await acceptInvitation(invitation.id);
       toast.success('Invitation accepted successfully!');
+      
+      // Refresh flows
+      getMyInvitations().catch(() => {});
+      if (invitation.teamId) {
+        fetchTeamById(invitation.teamId).catch(() => {});
+      }
+      fetchDashboard().catch(() => {});
     } catch (error) {
       toast.error('Failed to accept invitation');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const handleReject = async () => {
     if (!window.confirm('Are you sure you want to decline this invitation?')) return;
+    setIsSubmitting(true);
     try {
       await rejectInvitation(invitation.id);
       toast.success('Invitation declined');
+      
+      // Refresh flow
+      getMyInvitations().catch(() => {});
     } catch (error) {
       toast.error('Failed to decline invitation');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -74,16 +96,19 @@ export default function InvitationCard({ invitation }) {
           <>
             <button 
               onClick={handleAccept}
-              className="flex-1 inline-flex items-center justify-center px-4 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl transition-colors active:scale-95 gap-2 text-sm"
+              disabled={isSubmitting}
+              className="flex-1 inline-flex items-center justify-center px-4 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl transition-colors active:scale-95 gap-2 text-sm disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              <FiCheck className="w-4 h-4" /> Accept
+              {isSubmitting ? <FiLoader className="w-4 h-4 animate-spin" /> : <FiCheck className="w-4 h-4" />} 
+              Accept
             </button>
             <button 
               onClick={handleReject}
-              className="flex-none inline-flex items-center justify-center px-4 py-2.5 bg-white border border-rose-200 text-rose-600 hover:bg-rose-50 font-bold rounded-xl transition-colors active:scale-95 gap-2 text-sm"
+              disabled={isSubmitting}
+              className="flex-none inline-flex items-center justify-center px-4 py-2.5 bg-white border border-rose-200 text-rose-600 hover:bg-rose-50 font-bold rounded-xl transition-colors active:scale-95 gap-2 text-sm disabled:opacity-70 disabled:cursor-not-allowed"
               title="Decline"
             >
-              <FiX className="w-4 h-4" />
+              {isSubmitting ? <FiLoader className="w-4 h-4 animate-spin" /> : <FiX className="w-4 h-4" />}
             </button>
           </>
         )}
