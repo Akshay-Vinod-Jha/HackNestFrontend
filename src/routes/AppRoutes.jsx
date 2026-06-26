@@ -1,20 +1,27 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from '../pages/Home';
 import Login from '../pages/auth/Login';
-import Register from '../pages/auth/Register';
+import RegisterPage from '../pages/auth/RegisterPage';
 import Dashboard from '../pages/dashboard/Dashboard';
 import Profile from '../pages/profile/Profile';
 import Hackathons from '../pages/hackathons/Hackathons';
 import Teams from '../pages/teams/Teams';
 import Invitations from '../pages/invitations/Invitations';
 import Leaderboard from '../pages/leaderboard/Leaderboard';
+import PublicLayout from '../layouts/PublicLayout';
 
 export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      
+      {/* Public Routes */}
+      <Route element={<PublicLayout />}>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<RegisterPage />} />
+      </Route>
+      
+      {/* Protected Routes placeholder */}
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/hackathons" element={<Hackathons />} />
