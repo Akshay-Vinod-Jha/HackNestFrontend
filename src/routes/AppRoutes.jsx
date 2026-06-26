@@ -25,6 +25,7 @@ import FullScreenLoader from '../components/ui/FullScreenLoader';
 // Lazy loaded heavy modules
 const DiscoverPage = lazy(() => import('../pages/discover/DiscoverPage'));
 const RecommendationsPage = lazy(() => import('../pages/recommendations/RecommendationsPage'));
+const RatingsPage = lazy(() => import('../pages/ratings/RatingsPage'));
 
 export default function AppRoutes() {
   return (
@@ -60,6 +61,11 @@ export default function AppRoutes() {
           <Route path="/recommendations" element={
             <Suspense fallback={<FullScreenLoader />}>
               <RecommendationsPage />
+            </Suspense>
+          } />
+          <Route path="/ratings" element={
+            <Suspense fallback={<FullScreenLoader />}>
+              <RatingsPage />
             </Suspense>
           } />
           <Route path="/leaderboard" element={<Leaderboard />} />
