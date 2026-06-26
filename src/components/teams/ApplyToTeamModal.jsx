@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { FiX, FiSend, FiLoader } from 'react-icons/fi';
+import useApplications from '../../hooks/useApplications';
 import useTeams from '../../hooks/useTeams';
 
 export default function ApplyToTeamModal({ isOpen, onClose, team }) {
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
-  const { applyToTeam } = useTeams();
+  const { applyToTeam } = useApplications();
+  const { fetchTeamById } = useTeams();
 
   if (!isOpen) return null;
 
@@ -16,6 +18,9 @@ export default function ApplyToTeamModal({ isOpen, onClose, team }) {
       toast.success('Application sent successfully!');
       reset();
       onClose();
+      if (team?.id) {
+        fetchTeamById(team.id).catch(() => {});
+      }
     } catch (error) {
       toast.error(typeof error === 'string' ? error : error.message || 'Failed to apply');
     }
