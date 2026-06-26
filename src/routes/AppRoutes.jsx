@@ -7,12 +7,13 @@ import ProfilePage from '../pages/profile/ProfilePage';
 import HackathonsPage from '../pages/hackathons/HackathonsPage';
 import HackathonDetailsPage from '../pages/hackathons/HackathonDetailsPage';
 import CreateHackathonPage from '../pages/hackathons/CreateHackathonPage';
-import Teams from '../pages/teams/Teams';
+import Teams from '../pages/teams/TeamsPage';
 import TeamDetailsPage from '../pages/teams/TeamDetailsPage';
 import CreateTeamPage from '../pages/teams/CreateTeamPage';
 import TeamAnalysisPage from '../pages/teams/TeamAnalysisPage';
-import Applications from '../pages/applications/Applications';
-import Invitations from '../pages/invitations/Invitations';
+import MyApplicationsPage from '../pages/applications/MyApplicationsPage';
+import TeamApplicationsPage from '../pages/applications/TeamApplicationsPage';
+import MyInvitationsPage from '../pages/invitations/MyInvitationsPage';
 import Recommendations from '../pages/recommendations/Recommendations';
 import Leaderboard from '../pages/leaderboard/Leaderboard';
 
@@ -43,8 +44,9 @@ export default function AppRoutes() {
           <Route path="/teams/create" element={<CreateTeamPage />} />
           <Route path="/teams/:id" element={<TeamDetailsPage />} />
           <Route path="/teams/:id/analysis" element={<TeamAnalysisPage />} />
-          <Route path="/applications" element={<Applications />} />
-          <Route path="/invitations" element={<Invitations />} />
+          <Route path="/applications" element={<MyApplicationsPage />} />
+          <Route path="/applications/team/:id" element={<TeamApplicationsPage />} />
+          <Route path="/invitations" element={<MyInvitationsPage />} />
           <Route path="/recommendations" element={<Recommendations />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
         </Route>
