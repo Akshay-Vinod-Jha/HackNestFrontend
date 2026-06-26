@@ -7,8 +7,12 @@ import Profile from '../pages/profile/Profile';
 import Hackathons from '../pages/hackathons/Hackathons';
 import Teams from '../pages/teams/Teams';
 import Invitations from '../pages/invitations/Invitations';
+import Recommendations from '../pages/recommendations/Recommendations';
 import Leaderboard from '../pages/leaderboard/Leaderboard';
+
 import PublicLayout from '../layouts/PublicLayout';
+import DashboardLayout from '../layouts/DashboardLayout';
+import ProtectedRoute from '../components/common/ProtectedRoute';
 
 export default function AppRoutes() {
   return (
@@ -21,13 +25,18 @@ export default function AppRoutes() {
         <Route path="/register" element={<RegisterPage />} />
       </Route>
       
-      {/* Protected Routes placeholder */}
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/hackathons" element={<Hackathons />} />
-      <Route path="/teams" element={<Teams />} />
-      <Route path="/invitations" element={<Invitations />} />
-      <Route path="/leaderboard" element={<Leaderboard />} />
+      {/* Protected Routes */}
+      <Route element={<ProtectedRoute />}>
+        <Route element={<DashboardLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/hackathons" element={<Hackathons />} />
+          <Route path="/teams" element={<Teams />} />
+          <Route path="/invitations" element={<Invitations />} />
+          <Route path="/recommendations" element={<Recommendations />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+        </Route>
+      </Route>
     </Routes>
   );
 }
