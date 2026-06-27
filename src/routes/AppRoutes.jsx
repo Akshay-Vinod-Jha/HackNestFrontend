@@ -36,6 +36,7 @@ const AchievementsPage = lazy(() => import('../pages/analytics/AchievementsPage'
 const HistoryPage = lazy(() => import('../pages/analytics/HistoryPage'));
 const TimelinePage = lazy(() => import('../pages/analytics/TimelinePage'));
 const LeaderboardPage = lazy(() => import('../pages/leaderboard/LeaderboardPage'));
+const NotificationsPage = lazy(() => import('../pages/notifications/NotificationsPage'));
 
 export default function AppRoutes() {
   const location = useLocation();
@@ -108,6 +109,11 @@ export default function AppRoutes() {
               <Route path="/leaderboard" element={
                 <Suspense fallback={<FullScreenLoader />}>
                   <PageTransition><LeaderboardPage /></PageTransition>
+                </Suspense>
+              } />
+              <Route path="/notifications" element={
+                <Suspense fallback={<FullScreenLoader />}>
+                  <PageTransition><NotificationsPage /></PageTransition>
                 </Suspense>
               } />
               
