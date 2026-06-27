@@ -7,7 +7,8 @@ import {
   getTeamApplications,
   updateApplicationStatus,
   inviteToTeam,
-  getTeamAnalysis
+  getTeamAnalysis,
+  getUserTeams
 } from '../api/teamApi';
 
 const useTeamStore = create((set, get) => ({
@@ -15,6 +16,7 @@ const useTeamStore = create((set, get) => ({
   teams: [],
   selectedTeam: null,
   applications: [],
+  myTeams: [],
   analysis: null,
   pagination: null,
   filters: {},
@@ -39,6 +41,18 @@ const useTeamStore = create((set, get) => ({
     try {
       const data = await getTeamById(id);
       set({ selectedTeam: data, isLoading: false });
+      return data;
+    } catch (error) {
+      set({ error, isLoading: false });
+      throw error;
+    }
+  },
+
+  fetchUserTeams: async (userId) => {
+    set({ isLoading: true, error: null });
+    try {
+      const data = await getUserTeams(userId);
+      set({ myTeams: data || [], isLoading: false });
       return data;
     } catch (error) {
       set({ error, isLoading: false });

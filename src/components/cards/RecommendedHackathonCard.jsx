@@ -3,7 +3,7 @@ export default function RecommendedHackathonCard({ data }) {
     <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between h-full">
       <div>
         <div className="flex justify-between items-start mb-3 gap-2">
-          <h3 className="font-extrabold text-gray-900 text-lg leading-tight">{data?.name || 'Unknown Hackathon'}</h3>
+          <h3 className="font-extrabold text-gray-900 text-lg leading-tight">{data?.title || 'Unknown Hackathon'}</h3>
           <span className="bg-emerald-50 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap border border-emerald-100 shrink-0">
             {data?.matchScore ? `${data.matchScore}% Match` : 'Recommended'}
           </span>

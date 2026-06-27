@@ -5,11 +5,11 @@ export default function AchievementGrid({ analytics }) {
   if (!analytics) return null;
 
   // Derive counts from analytics payload or default to 0
-  const participationCount = analytics.totalHackathons || 0;
+  const participationCount = analytics.participationCount || analytics.totalHackathons || 0;
   const winnerCount = analytics.winnerCount || 0;
   const runnerUpCount = analytics.runnerUpCount || 0;
   const top10Count = analytics.top10Count || 0;
-  const teamLeaderCount = analytics.teamsLed || 0;
+  const teamLeaderCount = analytics.teamLeaderCount || analytics.teamsLed || 0;
   const specialMentionCount = analytics.specialMentionCount || 0;
 
   return (

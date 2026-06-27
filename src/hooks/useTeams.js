@@ -4,6 +4,7 @@ export default function useTeams() {
   const teams = useTeamStore(state => state.teams);
   const selectedTeam = useTeamStore(state => state.selectedTeam);
   const applications = useTeamStore(state => state.applications);
+  const myTeams = useTeamStore(state => state.myTeams);
   const analysis = useTeamStore(state => state.analysis);
   const pagination = useTeamStore(state => state.pagination);
   const filters = useTeamStore(state => state.filters);
@@ -13,6 +14,7 @@ export default function useTeams() {
   const createTeam = useTeamStore(state => state.createTeam);
   const fetchTeamById = useTeamStore(state => state.fetchTeamById);
   const searchTeams = useTeamStore(state => state.searchTeams);
+  const fetchUserTeams = useTeamStore(state => state.fetchUserTeams);
   const applyToTeam = useTeamStore(state => state.applyToTeam);
   const fetchTeamApplications = useTeamStore(state => state.fetchTeamApplications);
   const updateApplicationStatus = useTeamStore(state => state.updateApplicationStatus);
@@ -27,6 +29,7 @@ export default function useTeams() {
     teams,
     selectedTeam,
     applications,
+    myTeams,
     analysis,
     pagination,
     filters,
@@ -37,6 +40,7 @@ export default function useTeams() {
     createTeam,
     fetchTeamById,
     searchTeams,
+    fetchUserTeams,
     applyToTeam,
     fetchTeamApplications,
     updateApplicationStatus,

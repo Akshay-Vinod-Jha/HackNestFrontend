@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { 
   FiHome, FiUser, FiCode, FiUsers, FiFileText, 
-  FiMail, FiStar, FiAward, FiLogOut, FiX
+  FiMail, FiStar, FiAward, FiLogOut, FiX, FiBriefcase
 } from 'react-icons/fi';
 import useAuthStore from '../../store/authStore';
 
@@ -14,6 +14,7 @@ export default function Sidebar({ isMobileOpen, closeMobileSidebar }) {
     { name: 'Profile', path: '/profile', icon: FiUser },
     { name: 'Hackathons', path: '/hackathons', icon: FiCode },
     { name: 'Teams', path: '/teams', icon: FiUsers },
+    { name: 'My Teams', path: '/my-teams', icon: FiBriefcase },
     { name: 'Applications', path: '/applications', icon: FiFileText },
     { name: 'Invitations', path: '/invitations', icon: FiMail },
     { name: 'Recommendations', path: '/recommendations', icon: FiStar },

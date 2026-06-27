@@ -16,6 +16,7 @@ import Teams from '../pages/teams/TeamsPage';
 import TeamDetailsPage from '../pages/teams/TeamDetailsPage';
 import CreateTeamPage from '../pages/teams/CreateTeamPage';
 import TeamAnalysisPage from '../pages/teams/TeamAnalysisPage';
+import MyTeamsPage from '../pages/teams/MyTeamsPage';
 import MyApplicationsPage from '../pages/applications/MyApplicationsPage';
 import TeamApplicationsPage from '../pages/applications/TeamApplicationsPage';
 import MyInvitationsPage from '../pages/invitations/MyInvitationsPage';
@@ -71,6 +72,7 @@ export default function AppRoutes() {
               <Route path="/teams/create" element={<PageTransition><CreateTeamPage /></PageTransition>} />
               <Route path="/teams/:id" element={<PageTransition><TeamDetailsPage /></PageTransition>} />
               <Route path="/teams/:id/analysis" element={<PageTransition><TeamAnalysisPage /></PageTransition>} />
+              <Route path="/my-teams" element={<PageTransition><MyTeamsPage /></PageTransition>} />
               <Route path="/applications" element={<PageTransition><MyApplicationsPage /></PageTransition>} />
               <Route path="/applications/team/:id" element={<PageTransition><TeamApplicationsPage /></PageTransition>} />
               <Route path="/invitations" element={<PageTransition><MyInvitationsPage /></PageTransition>} />

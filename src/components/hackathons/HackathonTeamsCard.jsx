@@ -23,30 +23,30 @@ export default function HackathonTeamsCard({ teams, isLoading }) {
       ) : teams && teams.length > 0 ? (
         <div className="space-y-4 flex-1">
           {teams.map(team => (
-            <div key={team.id} className="p-5 rounded-2xl border border-gray-100 bg-white hover:bg-gray-50 hover:border-gray-200 transition-colors group flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div>
+            <div key={team.id} className="p-5 rounded-2xl border border-gray-100 bg-white hover:bg-gray-50 hover:border-gray-200 transition-colors group flex flex-col gap-4">
+              <div className="min-w-0">
                 <h3 className="font-extrabold text-gray-900 mb-2 truncate">{team.name}</h3>
-                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm font-medium text-gray-500">
-                  <span className="flex items-center gap-1.5 shrink-0">
-                    <FiStar className="w-4 h-4 text-amber-500" /> {team.leaderName || 'Unknown Leader'}
+                <div className="flex flex-col gap-2 text-sm font-medium text-gray-500">
+                  <span className="flex items-center gap-1.5 truncate">
+                    <FiStar className="w-4 h-4 text-amber-500 shrink-0" /> <span className="truncate">{team.leaderName || 'Unknown Leader'}</span>
                   </span>
                   <span className="flex items-center gap-1.5 shrink-0">
-                    <FiUsers className="w-4 h-4 text-blue-500" /> {team.currentMembers || 1}/{team.maxMembers || 4} Members
+                    <FiUsers className="w-4 h-4 text-blue-500 shrink-0" /> {team.currentMemberCount || 1}/{team.maxMembers || 4} Members
                   </span>
                 </div>
               </div>
               
-              <div className="flex items-center justify-between sm:justify-end gap-6 shrink-0 mt-2 sm:mt-0 pt-3 sm:pt-0 border-t sm:border-0 border-gray-100">
-                <div className="text-left sm:text-right">
-                  <p className="text-[10px] font-black text-gray-400 uppercase tracking-wider mb-1">Match</p>
+              <div className="flex items-center justify-between pt-3 border-t border-gray-100 mt-auto">
+                <div>
+                  <p className="text-[10px] font-black text-gray-400 uppercase tracking-wider mb-0.5">Match</p>
                   <p className="text-sm font-black text-emerald-600 flex items-center gap-1">
-                    <FiTrendingUp className="w-3.5 h-3.5" /> 
+                    <FiTrendingUp className="w-3.5 h-3.5 shrink-0" /> 
                     {team.matchPercentage || Math.floor(Math.random() * 40 + 60)}%
                   </p>
                 </div>
                 <Link 
                   to={`/teams/${team.id}`}
-                  className="px-4 py-2 bg-white border border-gray-200 text-blue-600 font-bold rounded-xl hover:bg-blue-50 hover:border-blue-200 transition-colors text-sm whitespace-nowrap active:scale-95"
+                  className="px-4 py-2 bg-white border border-gray-200 text-blue-600 font-bold rounded-xl hover:bg-blue-50 hover:border-blue-200 transition-colors text-sm whitespace-nowrap active:scale-95 shrink-0"
                 >
                   View Team
                 </Link>

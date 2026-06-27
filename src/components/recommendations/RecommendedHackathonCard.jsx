@@ -5,7 +5,7 @@ import RecommendationReasonChip from '../ui/RecommendationReasonChip';
 import SkillBadge from '../ui/SkillBadge';
 
 export default function RecommendedHackathonCard({ recommendation }) {
-  const hackathon = recommendation.item || recommendation;
+  const hackathon = recommendation.hackathon || recommendation.item || recommendation;
   const matchScore = recommendation.matchScore || 0;
   const reasons = recommendation.reasons || [];
 
@@ -27,7 +27,7 @@ export default function RecommendedHackathonCard({ recommendation }) {
           {hackathon.title || 'Unknown Hackathon'}
         </h3>
         <p className="text-sm text-gray-500 font-medium line-clamp-2 mb-3">
-          {hackathon.organization || hackathon.theme || 'Open Innovation'}
+          {hackathon.organizer || hackathon.theme || 'Open Innovation'}
         </p>
         
         {hackathon.tags && hackathon.tags.length > 0 && (

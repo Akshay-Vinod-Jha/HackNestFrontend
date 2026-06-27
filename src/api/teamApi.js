@@ -27,6 +27,15 @@ export const searchTeams = async (params) => {
   }
 };
 
+export const getUserTeams = async (userId) => {
+  try {
+    const response = await api.get(`/teams/user/${userId}`);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message || 'Failed to fetch user teams';
+  }
+};
+
 export const applyToTeam = async (teamId, applicationData) => {
   try {
     const response = await api.post(`/teams/${teamId}/apply`, applicationData);
