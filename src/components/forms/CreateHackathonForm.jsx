@@ -20,9 +20,18 @@ export default function CreateHackathonForm() {
   const onSubmit = async (data) => {
     try {
       const payload = {
-        ...data,
-        minTeamSize: parseInt(data.minTeamSize, 10),
-        maxTeamSize: parseInt(data.maxTeamSize, 10),
+        title: data.title,
+        description: data.description,
+        organizer: data.organizer,
+        mode: data.mode,
+        prizePool: data.prizePool,
+        country: data.country,
+        city: data.city,
+        teamSizeMin: parseInt(data.minTeamSize, 10),
+        teamSizeMax: parseInt(data.maxTeamSize, 10),
+        registrationDeadline: data.registrationDeadline ? `${data.registrationDeadline}T23:59:59` : null,
+        hackathonStartDate: data.startDate ? `${data.startDate}T00:00:00` : null,
+        hackathonEndDate: data.endDate ? `${data.endDate}T23:59:59` : null,
         domains: data.domains ? data.domains.split(',').map(s => s.trim()).filter(Boolean) : [],
         techStacks: data.techStacks ? data.techStacks.split(',').map(s => s.trim()).filter(Boolean) : [],
         tags: data.tags ? data.tags.split(',').map(s => s.trim()).filter(Boolean) : []
