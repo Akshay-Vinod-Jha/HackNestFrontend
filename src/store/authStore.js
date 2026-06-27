@@ -13,9 +13,23 @@ const useAuthStore = create((set) => ({
   register: async (userData) => {
     set({ isLoading: true, error: null });
     try {
-      const data = await registerApi(userData);
-      set({ isLoading: false });
-      return data;
+      const responseData = await registerApi(userData);
+      
+      const token = responseData.data?.token || responseData.token || responseData.accessToken;
+      const user = responseData.data?.user || responseData.user;
+      
+      if (token) {
+        localStorage.setItem('hacknest_token', token);
+      }
+      
+      set({ 
+        user: user || null, 
+        token: token || null, 
+        isAuthenticated: !!token, 
+        isLoading: false 
+      });
+      
+      return responseData;
     } catch (error) {
       set({ isLoading: false, error: error?.message || error });
       throw error;
@@ -25,24 +39,25 @@ const useAuthStore = create((set) => ({
   login: async (credentials) => {
     set({ isLoading: true, error: null });
     try {
-      const data = await loginApi(credentials);
+      const responseData = await loginApi(credentials);
       
-      // Assuming API returns an object with a token (e.g. { token: 'jwt...' })
-      // Adjust according to exact Spring Boot backend payload if needed.
-      const token = data.token || data.accessToken;
+      // Extract token and user from the ApiResponse data wrapper
+      // The backend returns: { success, message, data: { token, user } }
+      const token = responseData.data?.token || responseData.token || responseData.accessToken;
+      const user = responseData.data?.user || responseData.user;
       
       if (token) {
         localStorage.setItem('hacknest_token', token);
       }
 
       set({ 
-        user: data.user || null, 
+        user: user || null, 
         token: token || null, 
         isAuthenticated: true, 
         isLoading: false 
       });
       
-      return data;
+      return responseData;
     } catch (error) {
       set({ isLoading: false, error: error?.message || error });
       throw error;
