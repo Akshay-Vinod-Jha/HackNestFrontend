@@ -90,7 +90,7 @@ const useTeamStore = create((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       const data = await getTeamApplications(teamId);
-      set({ applications: data, isLoading: false });
+      set({ applications: data.items || (Array.isArray(data) ? data : []), isLoading: false });
       return data;
     } catch (error) {
       set({ error, isLoading: false });

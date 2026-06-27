@@ -105,7 +105,7 @@ const useHackathonStore = create((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       const data = await getHackathonTeams(hackathonId);
-      set({ hackathonTeams: data, isLoading: false });
+      set({ hackathonTeams: data.items || (Array.isArray(data) ? data : []), isLoading: false });
       return data;
     } catch (error) {
       set({ error, isLoading: false });

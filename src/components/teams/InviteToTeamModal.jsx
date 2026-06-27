@@ -61,7 +61,7 @@ export default function InviteToTeamModal({ isOpen, onClose, team }) {
                     <button 
                       type="button"
                       onClick={() => {
-                        setValue('studentId', searchQuery);
+                        setValue('receiverId', searchQuery);
                         setValue('studentDisplay', searchQuery);
                         setSearchQuery('');
                       }}
@@ -91,7 +91,7 @@ export default function InviteToTeamModal({ isOpen, onClose, team }) {
                 </div>
                 <button 
                   type="button"
-                  onClick={() => setValue('studentId', null)}
+                  onClick={() => setValue('receiverId', null)}
                   className="p-2 text-blue-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                 >
                   <FiX className="w-4 h-4" />
@@ -99,8 +99,8 @@ export default function InviteToTeamModal({ isOpen, onClose, team }) {
               </div>
             )}
             {/* Hidden actual field */}
-            <input type="hidden" {...register('studentId', { required: 'Please select a student' })} />
-            {errors.studentId && <p className="text-red-500 text-xs font-bold mt-1">{errors.studentId.message}</p>}
+            <input type="hidden" {...register('receiverId', { required: 'Please select a student' })} />
+            {errors.receiverId && <p className="text-red-500 text-xs font-bold mt-1">{errors.receiverId.message}</p>}
           </div>
 
           {/* Role Offered */}
@@ -112,7 +112,7 @@ export default function InviteToTeamModal({ isOpen, onClose, team }) {
             >
               <option value="">Select a role...</option>
               {team?.requiredRoles?.map((role, idx) => {
-                const roleName = typeof role === 'string' ? role : role.name;
+                const roleName = role.roleName || role.name;
                 return (
                   <option key={idx} value={roleName}>{roleName}</option>
                 );

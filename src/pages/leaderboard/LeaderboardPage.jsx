@@ -1,9 +1,11 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import useLeaderboard from '../../hooks/useLeaderboard';
+import useAuthStore from '../../store/authStore';
 import LeaderboardCard from '../../components/leaderboard/LeaderboardCard';
 import { FiAlertCircle, FiSearch, FiChevronDown, FiGlobe, FiBook, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
 export default function LeaderboardPage() {
+  const { user } = useAuthStore();
   const { 
     globalLeaderboard, 
     collegeLeaderboard, 
@@ -34,15 +36,16 @@ export default function LeaderboardPage() {
     if (activeTab === 'GLOBAL') {
       fetchGlobalLeaderboard(params).catch(() => {});
     } else {
+      params.college = user?.college || '';
       fetchCollegeLeaderboard(params).catch(() => {});
     }
-  }, [activeTab, size, fetchGlobalLeaderboard, fetchCollegeLeaderboard]);
+  }, [activeTab, size, fetchGlobalLeaderboard, fetchCollegeLeaderboard, user?.college]);
 
   // Initial load and dependency changes
   useEffect(() => {
     fetchActiveLeaderboard(page, debouncedSearch, sortBy);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeTab, page, sortBy, debouncedSearch]);
+  }, [activeTab, page, sortBy, debouncedSearch, user?.college]);
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
