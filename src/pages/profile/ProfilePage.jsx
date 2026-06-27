@@ -84,7 +84,7 @@ export default function ProfilePage() {
            <ProfileInfoCard profile={profile} />
            
            {/* 5. Portfolio Links */}
-           <PortfolioCard portfolio={profile?.portfolio} />
+           <PortfolioCard portfolio={profile?.portfolioLinks || profile?.portfolio} />
         </div>
         
         {/* Right Column: Skills & Experience */}
