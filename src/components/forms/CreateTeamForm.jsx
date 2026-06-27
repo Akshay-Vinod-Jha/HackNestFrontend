@@ -1,12 +1,17 @@
+import { useEffect, useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import useTeams from '../../hooks/useTeams';
+import useHackathons from '../../hooks/useHackathons';
 import { FiSave, FiAlertCircle, FiLoader, FiPlus, FiTrash2 } from 'react-icons/fi';
 import RequiredRolesBuilder from './RequiredRolesBuilder';
 import RequiredSkillsBuilder from './RequiredSkillsBuilder';
 
 export default function CreateTeamForm() {
+  const [hackathonList, setHackathonList] = useState([]);
+  const [isFetchingHackathons, setIsFetchingHackathons] = useState(true);
+
   const { register, control, handleSubmit, formState: { errors, isSubmitting } } = useForm({
     defaultValues: {
       visibility: 'PUBLIC',
@@ -29,6 +34,27 @@ export default function CreateTeamForm() {
   
   const navigate = useNavigate();
   const { createTeam } = useTeams();
+  const { fetchHackathons, hackathons } = useHackathons();
+
+  useEffect(() => {
+    const loadHackathons = async () => {
+      try {
+        setIsFetchingHackathons(true);
+        await fetchHackathons({ size: 100 }); // fetch up to 100 recent/upcoming hackathons
+        setIsFetchingHackathons(false);
+      } catch (error) {
+        setIsFetchingHackathons(false);
+        console.error("Failed to load hackathons", error);
+      }
+    };
+    loadHackathons();
+  }, [fetchHackathons]);
+
+  useEffect(() => {
+    if (hackathons && hackathons.length > 0) {
+      setHackathonList(hackathons);
+    }
+  }, [hackathons]);
 
   const onSubmit = async (data) => {
     try {
@@ -91,14 +117,18 @@ export default function CreateTeamForm() {
           </div>
 
           <div className="md:col-span-2">
-            <label className="block text-sm font-bold text-gray-700 mb-2">Associated Hackathon ID</label>
-            <input 
-              type="number" 
-              {...register('hackathonId')}
-              className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:border-blue-500 transition-all outline-none font-medium text-gray-900"
-              placeholder="e.g. 1"
-            />
-            <p className="text-xs text-gray-500 font-medium mt-1">Leave blank if not currently joining a hackathon.</p>
+            <label className="block text-sm font-bold text-gray-700 mb-2">Associated Hackathon *</label>
+            <select 
+              {...register('hackathonId', { required: 'You must select a hackathon' })}
+              className={`w-full px-4 py-3 bg-gray-50 border ${errors.hackathonId ? 'border-red-300' : 'border-gray-200'} rounded-xl focus:ring-2 focus:border-blue-500 transition-all outline-none font-medium text-gray-900 appearance-none`}
+            >
+              <option value="">-- Select a Hackathon --</option>
+              {hackathonList.map(h => (
+                <option key={h.id} value={h.id}>{h.title}</option>
+              ))}
+            </select>
+            <InputError message={errors.hackathonId?.message} />
+            <p className="text-xs text-gray-500 font-medium mt-1">Teams must be associated with a specific hackathon.</p>
           </div>
         </div>
       </div>
