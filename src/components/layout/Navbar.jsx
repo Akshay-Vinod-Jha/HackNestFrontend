@@ -1,5 +1,6 @@
 import { FiMenu, FiBell } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
+import Logo from '../ui/Logo';
 
 export default function Navbar({ toggleMobileSidebar }) {
   // Using placeholder user since backend integration is skipped for this task
@@ -10,13 +11,13 @@ export default function Navbar({ toggleMobileSidebar }) {
       <div className="flex items-center gap-4">
         <button 
           onClick={toggleMobileSidebar}
-          className="p-2 -ml-2 text-gray-500 hover:text-blue-600 bg-gray-50 hover:bg-blue-50 rounded-lg md:hidden transition-all active:scale-95"
+          className="p-2 -ml-2 text-gray-500 hover:text-indigo-600 bg-gray-50 hover:bg-indigo-50 rounded-lg md:hidden transition-all active:scale-95"
         >
           <FiMenu className="w-6 h-6" />
         </button>
-        <Link to="/dashboard" className="flex items-center gap-2.5 group">
-           <div className="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center text-white font-black text-xl shadow-inner group-hover:bg-blue-700 transition-colors">
-             H
+        <Link to="/dashboard" className="flex items-center gap-2.5 group hover:opacity-80 transition-opacity">
+           <div className="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black text-xl shadow-inner group-hover:bg-indigo-700 transition-colors">
+             <Logo className="w-6 h-6 text-white" />
            </div>
            <span className="text-xl font-extrabold text-gray-900 hidden sm:block tracking-tight">HackNest</span>
         </Link>

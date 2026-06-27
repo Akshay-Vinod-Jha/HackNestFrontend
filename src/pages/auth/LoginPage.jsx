@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import toast from 'react-hot-toast';
+import Logo from '../../components/ui/Logo';
 
 export default function LoginPage() {
   const {
@@ -27,7 +28,10 @@ export default function LoginPage() {
 
   return (
     <div className="w-full">
-      <div className="text-center mb-8">
+      <div className="text-center mb-8 flex flex-col items-center">
+        <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg mb-6 hover:scale-105 transition-transform cursor-pointer">
+          <Logo className="w-8 h-8 text-white" />
+        </div>
         <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Welcome Back</h1>
         <p className="text-sm text-gray-500 mt-2">Log in to HackNest to continue</p>
       </div>

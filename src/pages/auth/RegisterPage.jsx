@@ -2,11 +2,13 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import toast from 'react-hot-toast';
+import Logo from '../../components/ui/Logo';
 
 export default function RegisterPage() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm({
     mode: 'onTouched',
@@ -15,21 +17,26 @@ export default function RegisterPage() {
   const navigate = useNavigate();
   const registerAction = useAuthStore((state) => state.register);
 
+  const password = watch('password');
+
   const onSubmit = async (data) => {
     try {
       await registerAction(data);
-      toast.success('Registration successful! Please log in.');
-      navigate('/login');
+      toast.success('Registration successful! Welcome to HackNest.');
+      navigate('/dashboard');
     } catch (error) {
-      // Error handled globally via App.jsx listener on store error state
+      // Error handled globally via App.jsx listener
     }
   };
 
   return (
     <div className="w-full">
-      <div className="text-center mb-8">
+      <div className="text-center mb-8 flex flex-col items-center">
+        <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg mb-6 hover:scale-105 transition-transform cursor-pointer">
+          <Logo className="w-8 h-8 text-white" />
+        </div>
         <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Create an Account</h1>
-        <p className="text-sm text-gray-500 mt-2">Join HackNest and build the future</p>
+        <p className="text-sm text-gray-500 mt-2">Join HackNest to build your dream team</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
