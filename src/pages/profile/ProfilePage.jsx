@@ -61,16 +61,19 @@ export default function ProfilePage() {
 
   return (
     <div className="max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-6">
-      {/* 1. Profile Header */}
-      <div className="relative group">
-        <ProfileHeaderCard profile={profile} />
+      <div className="flex justify-end mb-4">
         <button 
           onClick={() => setIsEditing(true)}
-          className="absolute top-6 right-6 p-2.5 bg-white/80 hover:bg-white rounded-full shadow-sm border border-gray-100 text-blue-600 hover:text-blue-800 transition-all z-10 md:opacity-0 group-hover:opacity-100"
-          title="Edit Profile"
+          className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-sm hover:shadow-md transition-all active:scale-95"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+          Edit Profile
         </button>
+      </div>
+
+      {/* 1. Profile Header */}
+      <div className="relative">
+        <ProfileHeaderCard profile={profile} />
       </div>
 
       {/* Grid Layout for Middle Section */}

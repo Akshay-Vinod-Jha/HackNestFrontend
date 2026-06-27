@@ -83,6 +83,8 @@ export default function ProfileForm({ onCancel }) {
         })).filter(s => s.name.trim() !== ''),
         experience: data.experience.map(e => ({
             ...e,
+            startDate: e.startDate === '' ? null : e.startDate,
+            endDate: e.endDate === '' ? null : e.endDate,
             currentlyWorking: e.currentlyWorking || false
         })).filter(e => e.title && e.organization),
         portfolioLinks: data.portfolioLinks.filter(p => p.url)
@@ -180,36 +182,54 @@ export default function ProfileForm({ onCancel }) {
             )}
 
             <div className="space-y-3">
+                {skillFields.length > 0 && (
+                    <div className="hidden sm:flex gap-3 px-1 mb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        <div className="flex-1">Skill Name</div>
+                        <div className="w-40">Proficiency</div>
+                        <div className="w-28">Years Exp.</div>
+                        <div className="w-[42px]"></div> {/* spacer for trash icon */}
+                    </div>
+                )}
                 {skillFields.map((field, index) => (
-                    <div key={field.id} className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
-                        <input
-                            type="text"
-                            placeholder="Skill (e.g. React)"
-                            className="flex-1 px-4 py-2.5 rounded-xl border border-gray-200 focus:ring-blue-500 focus:outline-none focus:ring-2 bg-gray-50"
-                            {...register(`skills.${index}.name`, { required: true })}
-                        />
-                        <select
-                            className="w-full sm:w-40 px-4 py-2.5 rounded-xl border border-gray-200 focus:ring-blue-500 focus:outline-none focus:ring-2 bg-gray-50"
-                            {...register(`skills.${index}.level`)}
-                        >
-                            <option value="BEGINNER">Beginner</option>
-                            <option value="INTERMEDIATE">Intermediate</option>
-                            <option value="ADVANCED">Advanced</option>
-                            <option value="EXPERT">Expert</option>
-                        </select>
-                        <input
-                            type="number"
-                            min="0"
-                            placeholder="Years"
-                            className="w-full sm:w-28 px-4 py-2.5 rounded-xl border border-gray-200 focus:ring-blue-500 focus:outline-none focus:ring-2 bg-gray-50"
-                            {...register(`skills.${index}.yearsOfExperience`)}
-                        />
+                    <div key={field.id} className="flex flex-col sm:flex-row gap-3 items-start sm:items-center bg-white sm:bg-transparent p-4 sm:p-0 rounded-xl sm:rounded-none border sm:border-0 border-gray-100 shadow-sm sm:shadow-none">
+                        <div className="w-full sm:flex-1">
+                            <label className="block sm:hidden text-xs font-semibold text-gray-500 mb-1">Skill Name</label>
+                            <input
+                                type="text"
+                                placeholder="e.g. React, Spring Boot"
+                                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:ring-blue-500 focus:outline-none focus:ring-2 bg-gray-50"
+                                {...register(`skills.${index}.name`, { required: true })}
+                            />
+                        </div>
+                        <div className="w-full sm:w-40">
+                            <label className="block sm:hidden text-xs font-semibold text-gray-500 mb-1">Proficiency</label>
+                            <select
+                                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:ring-blue-500 focus:outline-none focus:ring-2 bg-gray-50"
+                                {...register(`skills.${index}.level`)}
+                            >
+                                <option value="BEGINNER">Beginner</option>
+                                <option value="INTERMEDIATE">Intermediate</option>
+                                <option value="ADVANCED">Advanced</option>
+                                <option value="EXPERT">Expert</option>
+                            </select>
+                        </div>
+                        <div className="w-full sm:w-28">
+                            <label className="block sm:hidden text-xs font-semibold text-gray-500 mb-1">Years of Exp.</label>
+                            <input
+                                type="number"
+                                min="0"
+                                placeholder="e.g. 2"
+                                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:ring-blue-500 focus:outline-none focus:ring-2 bg-gray-50"
+                                {...register(`skills.${index}.yearsOfExperience`)}
+                            />
+                        </div>
                         <button
                             type="button"
                             onClick={() => removeSkill(index)}
-                            className="p-2.5 text-red-500 hover:bg-red-50 rounded-xl transition-colors self-end sm:self-auto"
+                            title="Remove Skill"
+                            className="w-full sm:w-auto p-2.5 text-red-500 hover:bg-red-50 rounded-xl border border-red-100 sm:border-transparent transition-colors mt-2 sm:mt-0 flex justify-center items-center gap-2"
                         >
-                            <FiTrash2 />
+                            <FiTrash2 /> <span className="sm:hidden text-sm font-semibold">Remove Skill</span>
                         </button>
                     </div>
                 ))}
@@ -310,8 +330,9 @@ export default function ProfileForm({ onCancel }) {
                         >
                             <option value="GITHUB">GitHub</option>
                             <option value="LINKEDIN">LinkedIn</option>
-                            <option value="WEBSITE">Personal Website</option>
-                            <option value="TWITTER">Twitter/X</option>
+                            <option value="PORTFOLIO">Portfolio</option>
+                            <option value="RESUME">Resume</option>
+                            <option value="PROJECT_DEMO">Project Demo</option>
                             <option value="OTHER">Other</option>
                         </select>
                         <input

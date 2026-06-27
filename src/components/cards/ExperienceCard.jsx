@@ -1,6 +1,18 @@
+import React from 'react';
+
 export default function ExperienceCard({ experience }) {
   const displayExp = Array.isArray(experience) && experience.length > 0 ? experience : [];
   
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }).toUpperCase();
+    } catch {
+      return dateString;
+    }
+  };
+
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 transition-all hover:shadow-md">
       <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2 border-b border-gray-100 pb-3">
@@ -19,13 +31,13 @@ export default function ExperienceCard({ experience }) {
               </div>
               <div className="pb-4 w-full">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-1">
-                  <h3 className="font-bold text-gray-900 text-lg">{exp.company || 'Unknown Company'}</h3>
-                  <span className="text-xs font-semibold tracking-wide text-blue-700 bg-blue-50 px-2.5 py-1 rounded-full w-max mt-1 sm:mt-0">
-                    {exp.startDate || 'Past'} - {exp.endDate || 'Present'}
+                  <h3 className="font-bold text-gray-900 text-lg">{exp.title || 'Role'}</h3>
+                  <span className="text-xs font-bold tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded-full w-max mt-1 sm:mt-0 shadow-sm border border-blue-100">
+                    {formatDate(exp.startDate) || 'Past'} - {exp.currentlyWorking ? 'PRESENT' : (formatDate(exp.endDate) || 'PRESENT')}
                   </span>
                 </div>
-                <p className="text-sm font-semibold text-gray-600 mb-2">{exp.role || 'Role'}</p>
-                <p className="text-sm text-gray-500 leading-relaxed">{exp.description || 'No description provided.'}</p>
+                <p className="text-sm font-semibold text-blue-600 mb-2">{exp.organization || 'Unknown Organization'}</p>
+                <p className="text-sm text-gray-600 leading-relaxed">{exp.description || ''}</p>
               </div>
             </div>
           ))}

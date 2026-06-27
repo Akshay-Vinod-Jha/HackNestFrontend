@@ -1,6 +1,18 @@
+import React from 'react';
+
 export default function SkillsCard({ skills }) {
   const displaySkills = Array.isArray(skills) && skills.length > 0 ? skills : [];
   
+  const getLevelColor = (level) => {
+    switch (level) {
+      case 'EXPERT': return 'bg-purple-100 text-purple-700 border-purple-200';
+      case 'ADVANCED': return 'bg-blue-100 text-blue-700 border-blue-200';
+      case 'INTERMEDIATE': return 'bg-emerald-100 text-emerald-700 border-emerald-200';
+      case 'BEGINNER': return 'bg-amber-100 text-amber-700 border-amber-200';
+      default: return 'bg-gray-100 text-gray-700 border-gray-200';
+    }
+  };
+
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 h-full transition-all hover:shadow-md">
       <h2 className="text-lg font-bold text-gray-900 mb-5 flex items-center gap-2 border-b border-gray-100 pb-3">
@@ -9,17 +21,27 @@ export default function SkillsCard({ skills }) {
         </svg>
         Skills & Technologies
       </h2>
+      
       {displaySkills.length > 0 ? (
-        <div className="flex flex-wrap gap-2.5">
+        <div className="flex flex-wrap gap-3">
           {displaySkills.map((skill, index) => {
-            const skillName = typeof skill === 'string' ? skill : (skill.name || skill);
+            const skillName = typeof skill === 'string' ? skill : (skill.name || 'Unknown Skill');
+            const level = typeof skill === 'object' ? (skill.level || 'INTERMEDIATE') : 'INTERMEDIATE';
+            const years = typeof skill === 'object' ? (skill.yearsOfExperience || 1) : 1;
+            
             return (
-              <span 
+              <div 
                 key={index} 
-                className="px-3.5 py-1.5 bg-blue-50/50 hover:bg-blue-100 text-blue-700 text-sm font-semibold rounded-lg border border-blue-100/80 transition-colors cursor-default shadow-sm"
+                className={`flex flex-col gap-1 px-4 py-2.5 rounded-xl border ${getLevelColor(level)} shadow-sm transition-all hover:-translate-y-0.5`}
               >
-                {skillName}
-              </span>
+                <div className="flex items-center gap-2">
+                    <span className="font-bold text-sm">{skillName}</span>
+                    <span className="text-[10px] font-black uppercase tracking-wider opacity-80">{level}</span>
+                </div>
+                <div className="text-xs font-medium opacity-90">
+                    {years} {years === 1 ? 'year' : 'years'} exp.
+                </div>
+              </div>
             );
           })}
         </div>
