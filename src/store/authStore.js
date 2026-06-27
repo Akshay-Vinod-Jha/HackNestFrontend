@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { register as registerApi, login as loginApi, getCurrentUser } from '../api/authApi';
+import { register as registerApi, login as loginApi, getCurrentUser, forgotPassword as forgotPasswordApi, resetPassword as resetPasswordApi } from '../api/authApi';
 
 const useAuthStore = create((set) => ({
   // --- State ---
@@ -94,6 +94,30 @@ const useAuthStore = create((set) => ({
     });
     // Redirect to login to force UI reset and clear session completely
     window.location.href = '/login';
+  },
+
+  forgotPassword: async (email) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await forgotPasswordApi(email);
+      set({ isLoading: false });
+      return response;
+    } catch (error) {
+      set({ isLoading: false, error: error?.message || error });
+      throw error;
+    }
+  },
+
+  resetPassword: async (token, newPassword) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await resetPasswordApi(token, newPassword);
+      set({ isLoading: false });
+      return response;
+    } catch (error) {
+      set({ isLoading: false, error: error?.message || error });
+      throw error;
+    }
   },
 
   clearError: () => {

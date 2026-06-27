@@ -27,3 +27,21 @@ export const getCurrentUser = async () => {
     throw error.response?.data || error.message || 'An error occurred while fetching the user';
   }
 };
+
+export const forgotPassword = async (email) => {
+  try {
+    const response = await api.post('/auth/forgot-password', { email });
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message || 'Failed to send reset link';
+  }
+};
+
+export const resetPassword = async (token, newPassword) => {
+  try {
+    const response = await api.post('/auth/reset-password', { token, newPassword });
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message || 'Failed to reset password';
+  }
+};

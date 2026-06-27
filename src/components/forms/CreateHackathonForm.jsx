@@ -1,11 +1,13 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import useHackathons from '../../hooks/useHackathons';
-import { FiSave, FiAlertCircle, FiLoader } from 'react-icons/fi';
+import { FiSave, FiAlertCircle, FiLoader, FiCheckCircle, FiArrowRight } from 'react-icons/fi';
 
 export default function CreateHackathonForm() {
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
+  const [isSuccess, setIsSuccess] = useState(false);
+  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm({
     defaultValues: {
       mode: 'ONLINE',
       status: 'UPCOMING',
@@ -39,7 +41,8 @@ export default function CreateHackathonForm() {
 
       await createHackathon(payload);
       toast.success('Hackathon created successfully!');
-      navigate('/hackathons');
+      reset(); // Clear the form
+      setIsSuccess(true);
     } catch (error) {
       toast.error(typeof error === 'string' ? error : error.message || 'Failed to create hackathon');
     }
@@ -53,6 +56,34 @@ export default function CreateHackathonForm() {
       </span>
     );
   };
+
+  if (isSuccess) {
+    return (
+      <div className="bg-white p-12 rounded-3xl border border-gray-100 shadow-sm text-center max-w-2xl mx-auto mt-8">
+        <div className="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+          <FiCheckCircle className="w-10 h-10" />
+        </div>
+        <h2 className="text-3xl font-extrabold text-gray-900 mb-4">Created Successfully!</h2>
+        <p className="text-gray-500 text-lg mb-8">
+          Your hackathon has been published to the platform.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Link 
+            to="/hackathons" 
+            className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-blue-600 text-white font-bold rounded-xl shadow-sm hover:bg-blue-700 transition-all active:scale-95"
+          >
+            View Hackathons List <FiArrowRight className="w-5 h-5" />
+          </Link>
+          <button 
+            onClick={() => setIsSuccess(false)}
+            className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-white text-gray-700 border border-gray-200 font-bold rounded-xl hover:bg-gray-50 transition-all active:scale-95"
+          >
+            Create Another
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">

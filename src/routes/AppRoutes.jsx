@@ -5,6 +5,8 @@ import { AnimatePresence } from 'framer-motion';
 import Home from '../pages/Home';
 import LoginPage from '../pages/auth/LoginPage';
 import RegisterPage from '../pages/auth/RegisterPage';
+import ForgotPasswordPage from '../pages/auth/ForgotPasswordPage';
+import ResetPasswordPage from '../pages/auth/ResetPasswordPage';
 import DashboardPage from '../pages/dashboard/DashboardPage';
 import ProfilePage from '../pages/profile/ProfilePage';
 import HackathonsPage from '../pages/hackathons/HackathonsPage';
@@ -53,6 +55,8 @@ export default function AppRoutes() {
           <Route element={<PublicLayout />}>
             <Route path="/login" element={<PageTransition><LoginPage /></PageTransition>} />
             <Route path="/register" element={<PageTransition><RegisterPage /></PageTransition>} />
+            <Route path="/forgot-password" element={<PageTransition><ForgotPasswordPage /></PageTransition>} />
+            <Route path="/reset-password" element={<PageTransition><ResetPasswordPage /></PageTransition>} />
           </Route>
           
           {/* Protected Routes */}
