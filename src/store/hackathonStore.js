@@ -29,19 +29,19 @@ const useHackathonStore = create((set, get) => ({
       const combinedParams = { ...currentFilters, ...params };
       
       const data = await getHackathons(combinedParams);
-      if (data && data.content) {
+      if (data && data.items) {
         set({ 
-          hackathons: data.content, 
+          hackathons: data.items, 
           pagination: { 
-            page: data.number, 
+            page: data.currentPage, 
             totalPages: data.totalPages,
             totalElements: data.totalElements,
-            size: data.size
+            size: data.size || 10
           },
           isLoading: false 
         });
       } else {
-        set({ hackathons: data, isLoading: false });
+        set({ hackathons: Array.isArray(data) ? data : [], isLoading: false });
       }
     } catch (error) {
       set({ error, isLoading: false });
@@ -56,8 +56,8 @@ const useHackathonStore = create((set, get) => ({
         getHackathons({ size: 3, sortBy: 'createdAt', sortDirection: 'desc' })
       ]);
       set({ 
-        upcomingHackathons: upcoming.content || upcoming,
-        recentHackathons: recent.content || recent 
+        upcomingHackathons: upcoming.items || (Array.isArray(upcoming) ? upcoming : []),
+        recentHackathons: recent.items || (Array.isArray(recent) ? recent : []) 
       });
     } catch (error) {
       console.error("Failed to fetch dashboard hackathons:", error);
@@ -80,19 +80,19 @@ const useHackathonStore = create((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       const data = await searchHackathons(query);
-      if (data && data.content) {
+      if (data && data.items) {
         set({ 
-          searchResults: data.content,
+          searchResults: data.items,
           pagination: { 
-            page: data.number, 
+            page: data.currentPage, 
             totalPages: data.totalPages,
             totalElements: data.totalElements,
-            size: data.size
+            size: data.size || 10
           },
           isLoading: false 
         });
       } else {
-        set({ searchResults: data, pagination: null, isLoading: false });
+        set({ searchResults: Array.isArray(data) ? data : [], pagination: null, isLoading: false });
       }
       return data;
     } catch (error) {
