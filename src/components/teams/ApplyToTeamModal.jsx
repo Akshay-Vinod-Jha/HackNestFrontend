@@ -42,6 +42,21 @@ export default function ApplyToTeamModal({ isOpen, onClose, team }) {
           
           <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-6">
             <div>
+              <label className="block text-sm font-bold text-gray-700 mb-2">Role Applying For *</label>
+              <select 
+                {...register('roleApplied', { required: 'Please select a role' })}
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:border-blue-500 transition-all outline-none font-medium text-gray-900 appearance-none"
+              >
+                <option value="">-- Select a Role --</option>
+                {team?.requiredRoles?.map((role, i) => {
+                  const roleName = role.roleName || role.name;
+                  return <option key={i} value={roleName}>{roleName}</option>;
+                })}
+              </select>
+              {errors.roleApplied && <p className="text-red-500 text-xs font-bold mt-1">{errors.roleApplied.message}</p>}
+            </div>
+
+            <div>
               <label className="block text-sm font-bold text-gray-700 mb-2">Message to Team Leader *</label>
               <textarea 
                 {...register('message', { required: 'Please provide a message' })}

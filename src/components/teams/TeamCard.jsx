@@ -4,9 +4,9 @@ import { FiUsers, FiCpu, FiBriefcase, FiAward, FiArrowRight, FiCheckCircle } fro
 export default function TeamCard({ team }) {
   if (!team) return null;
 
-  const isFull = team.currentMembers >= team.maxMembers;
-  const isOpen = team.openForApplications && !isFull;
-  const completionPercentage = Math.round((team.currentMembers / team.maxMembers) * 100) || 0;
+  const isFull = team.currentMemberCount >= team.maxMembers;
+  const isOpen = team.isOpen && !isFull;
+  const completionPercentage = Math.round((team.currentMemberCount / team.maxMembers) * 100) || 0;
 
   return (
     <div className="bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-md hover:border-gray-200 transition-all duration-300 overflow-hidden flex flex-col h-full group relative">
@@ -36,7 +36,7 @@ export default function TeamCard({ team }) {
         <div className="mb-6 bg-gray-50 p-4 rounded-2xl border border-gray-100">
           <div className="flex justify-between text-sm font-bold text-gray-700 mb-2">
             <span className="flex items-center gap-1.5"><FiUsers className="w-4 h-4" /> Team Size</span>
-            <span>{team.currentMembers} / {team.maxMembers}</span>
+            <span>{team.currentMemberCount} / {team.maxMembers}</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
             <div 

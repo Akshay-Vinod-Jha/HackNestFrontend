@@ -5,7 +5,7 @@ import RecommendationReasonChip from '../ui/RecommendationReasonChip';
 import SkillBadge from '../ui/SkillBadge';
 
 export default function RecommendedTeamCard({ recommendation }) {
-  const team = recommendation.item || recommendation;
+  const team = recommendation.team || recommendation.item || recommendation;
   const matchScore = recommendation.matchScore || 0;
   const reasons = recommendation.reasons || [];
 

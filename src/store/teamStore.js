@@ -53,19 +53,19 @@ const useTeamStore = create((set, get) => ({
       const combinedParams = { ...currentFilters, ...params };
       const data = await searchTeams(combinedParams);
       
-      if (data && data.content) {
+      if (data && data.items) {
         set({ 
-          teams: data.content,
+          teams: data.items,
           pagination: { 
-            page: data.number, 
+            page: data.currentPage, 
             totalPages: data.totalPages,
             totalElements: data.totalElements,
-            size: data.size
+            size: data.size || 10
           },
           isLoading: false 
         });
       } else {
-        set({ teams: data, pagination: null, isLoading: false });
+        set({ teams: Array.isArray(data) ? data : [], pagination: null, isLoading: false });
       }
       return data;
     } catch (error) {

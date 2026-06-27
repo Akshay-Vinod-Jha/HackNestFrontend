@@ -25,7 +25,7 @@ export default function RecommendedTeammateCard({ data }) {
               {data.reasons.slice(0, 2).map((reason, idx) => (
                 <li key={idx} className="flex items-start gap-2 text-sm text-gray-600 font-medium">
                   <svg className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
-                  <span>{reason}</span>
+                  <span>{typeof reason === 'string' ? reason : reason?.reason || 'Recommended'}</span>
                 </li>
               ))}
             </ul>

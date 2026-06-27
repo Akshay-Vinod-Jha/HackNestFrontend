@@ -7,9 +7,9 @@ import InviteToTeamModal from './InviteToTeamModal';
 export default function TeamHeaderCard({ team }) {
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
-  const isFull = team.currentMembers >= team.maxMembers;
-  const isOpen = team.openForApplications && !isFull;
-  const completionPercentage = Math.round((team.currentMembers / team.maxMembers) * 100) || 0;
+  const isFull = team.currentMemberCount >= team.maxMembers;
+  const isOpen = team.isOpen && !isFull;
+  const completionPercentage = Math.round((team.currentMemberCount / team.maxMembers) * 100) || 0;
 
   return (
     <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm overflow-hidden relative">
@@ -49,7 +49,7 @@ export default function TeamHeaderCard({ team }) {
           <div className="mb-6">
             <div className="flex justify-between text-sm font-bold text-gray-700 mb-2">
               <span className="flex items-center gap-1.5"><FiUsers className="w-4 h-4" /> Capacity</span>
-              <span>{team.currentMembers} / {team.maxMembers}</span>
+              <span>{team.currentMemberCount} / {team.maxMembers}</span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
               <div 
