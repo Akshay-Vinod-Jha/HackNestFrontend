@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import useInvitations from '../../hooks/useInvitations';
 import useDashboard from '../../hooks/useDashboard';
 import { toast } from 'react-hot-toast';
 import { FiLoader } from 'react-icons/fi';
+import { staggerContainer, staggerItem } from '../../utils/animations';
 
 export default function PendingInvitationsCard({ invitations, isLoading }) {
   const { acceptInvitation, rejectInvitation } = useInvitations();
@@ -12,11 +14,11 @@ export default function PendingInvitationsCard({ invitations, isLoading }) {
 
   if (isLoading && !invitations) {
     return (
-      <div className="bg-white rounded-3xl border border-gray-100 p-6 md:p-8 shadow-sm h-full flex flex-col animate-pulse">
-        <div className="h-6 bg-gray-200 rounded w-1/3 mb-6"></div>
+      <div className="clay-card p-6 md:p-8 h-full flex flex-col animate-pulse">
+        <div className="clay-skeleton h-6 rounded w-1/3 mb-6" style={{ background: 'var(--clay-surface-2)' }}></div>
         <div className="space-y-4 flex-1">
-          <div className="h-16 bg-gray-100 rounded-2xl w-full"></div>
-          <div className="h-16 bg-gray-100 rounded-2xl w-full"></div>
+          <div className="clay-skeleton h-16 rounded-2xl w-full" style={{ background: 'var(--clay-surface-2)' }}></div>
+          <div className="clay-skeleton h-16 rounded-2xl w-full" style={{ background: 'var(--clay-surface-2)' }}></div>
         </div>
       </div>
     );
@@ -54,14 +56,14 @@ export default function PendingInvitationsCard({ invitations, isLoading }) {
   };
 
   return (
-    <div className="bg-white rounded-3xl border border-gray-100 p-6 md:p-8 shadow-sm h-full flex flex-col">
+    <div className="clay-card p-6 md:p-8 h-full flex flex-col">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-extrabold text-gray-900 flex items-center gap-2">
-          <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+        <h2 className="text-xl font-extrabold flex items-center gap-2" style={{ color: 'var(--clay-text-primary)' }}>
+          <svg className="w-5 h-5" style={{ color: 'var(--clay-warning)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
           Pending Invitations
         </h2>
         {count > 0 && (
-          <span className="bg-orange-100 text-orange-700 text-sm font-bold px-3 py-1 rounded-full border border-orange-200 shadow-sm">
+          <span className="clay-badge clay-badge-warning">
             {count} New
           </span>
         )}
@@ -69,7 +71,12 @@ export default function PendingInvitationsCard({ invitations, isLoading }) {
 
       <div className="flex-1 flex flex-col">
         {count > 0 ? (
-          <div className="space-y-3 flex-1">
+          <motion.div
+            className="space-y-3 flex-1"
+            variants={staggerContainer}
+            initial="initial"
+            animate="animate"
+          >
             {items.slice(0, 3).map((invite) => {
                // Normalizing because mock data might use invite.teamName while backend might use invite.team.name depending on payload structure
                const teamName = invite.teamName || invite.team?.name || 'Unknown Team';
@@ -78,40 +85,48 @@ export default function PendingInvitationsCard({ invitations, isLoading }) {
                const isItemLoading = loadingId === id;
 
                return (
-                <div key={id} className="flex flex-col xl:flex-row xl:justify-between xl:items-center p-4 border border-gray-100 rounded-2xl bg-gray-50 hover:bg-white hover:border-orange-100 hover:shadow-sm transition-all gap-3">
+                <motion.div
+                  key={id}
+                  variants={staggerItem}
+                  className="flex flex-col xl:flex-row xl:justify-between xl:items-center p-4 rounded-2xl transition-all gap-3"
+                  style={{
+                    background: 'var(--clay-surface-2)',
+                    border: '1px solid var(--clay-border-light)',
+                  }}
+                >
                   <div>
-                    <h3 className="font-bold text-gray-900 text-sm">{teamName}</h3>
-                    <p className="text-xs text-gray-500 font-semibold mt-1">Role: <span className="text-gray-700">{role}</span></p>
+                    <h3 className="font-bold text-sm" style={{ color: 'var(--clay-text-primary)' }}>{teamName}</h3>
+                    <p className="text-xs font-semibold mt-1" style={{ color: 'var(--clay-text-muted)' }}>Role: <span style={{ color: 'var(--clay-text-secondary)' }}>{role}</span></p>
                   </div>
                   <div className="flex gap-2">
                     <button 
                       onClick={() => handleAccept(id)}
                       disabled={isItemLoading}
-                      className="flex-1 xl:flex-none flex justify-center items-center px-4 py-1.5 text-xs font-bold text-white bg-orange-500 hover:bg-orange-600 rounded-xl transition-colors shadow-sm active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
+                      className="clay-button clay-button-primary flex-1 xl:flex-none flex justify-center items-center px-4 py-1.5 text-xs disabled:opacity-70 disabled:cursor-not-allowed"
                     >
                       {isItemLoading ? <FiLoader className="w-3.5 h-3.5 animate-spin" /> : 'Accept'}
                     </button>
                     <button 
                       onClick={() => handleReject(id)}
                       disabled={isItemLoading}
-                      className="flex-1 xl:flex-none flex justify-center items-center px-4 py-1.5 text-xs font-bold text-gray-600 bg-white border border-gray-200 hover:bg-gray-100 hover:text-gray-900 rounded-xl transition-colors active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
+                      className="clay-button clay-button-secondary flex-1 xl:flex-none flex justify-center items-center px-4 py-1.5 text-xs disabled:opacity-70 disabled:cursor-not-allowed"
                     >
                       {isItemLoading ? <FiLoader className="w-3.5 h-3.5 animate-spin" /> : 'Decline'}
                     </button>
                   </div>
-                </div>
+                </motion.div>
                );
             })}
-          </div>
+          </motion.div>
         ) : (
-          <div className="flex-1 flex flex-col items-center justify-center text-center py-8 bg-gray-50 border border-dashed border-gray-200 rounded-2xl">
-             <p className="text-gray-500 font-bold text-sm">No pending invitations.</p>
+          <div className="flex-1 flex flex-col items-center justify-center text-center py-8 rounded-2xl border border-dashed" style={{ background: 'var(--clay-surface-2)', borderColor: 'var(--clay-border)' }}>
+             <p className="font-bold text-sm" style={{ color: 'var(--clay-text-muted)' }}>No pending invitations.</p>
           </div>
         )}
       </div>
       
       {count > 0 && (
-        <Link to="/invitations" className="mt-6 text-center text-sm font-bold text-orange-600 hover:text-orange-800 transition-colors bg-orange-50 hover:bg-orange-100 py-2 rounded-xl">
+        <Link to="/invitations" className="mt-6 text-center text-sm font-bold transition-colors py-2 rounded-xl" style={{ color: 'var(--clay-warning)', background: 'color-mix(in srgb, var(--clay-warning) 10%, transparent)' }}>
           View all {count} invitations
         </Link>
       )}

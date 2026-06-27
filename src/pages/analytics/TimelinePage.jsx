@@ -1,8 +1,10 @@
 import { useEffect, useState, useMemo } from 'react';
+import { motion } from 'framer-motion';
 import useAnalytics from '../../hooks/useAnalytics';
 import TimelineCard from '../../components/analytics/TimelineCard';
 import TimelineFilters from '../../components/analytics/TimelineFilters';
 import { FiAlertCircle } from 'react-icons/fi';
+import { fadeUp } from '../../utils/animations';
 
 export default function TimelinePage() {
   const { timeline, isLoading, error, fetchProfileTimeline } = useAnalytics();
@@ -41,16 +43,14 @@ export default function TimelinePage() {
   if (isLoading) {
     return (
       <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8 min-h-screen animate-pulse">
-        <div className="h-10 bg-gray-200 rounded w-64 mb-10"></div>
-        <div className="h-16 bg-gray-200 rounded-2xl w-full mb-8 flex justify-end">
-          <div className="w-48 bg-gray-300 rounded-xl h-10 mt-3 mr-3"></div>
-        </div>
+        <div className="clay-skeleton h-10 rounded w-64 mb-10" style={{ background: 'var(--clay-surface-2)' }}></div>
+        <div className="clay-skeleton h-16 rounded-2xl w-full mb-8"></div>
         <div className="space-y-6 md:pl-16 relative">
-           <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gray-200 hidden md:block"></div>
+           <div className="absolute left-6 top-0 bottom-0 w-0.5 hidden md:block" style={{ background: 'var(--clay-border)' }}></div>
            {[1, 2, 3].map(i => (
              <div key={i} className="flex gap-6">
-                <div className="w-12 h-12 bg-gray-200 rounded-2xl shrink-0 hidden md:block z-10"></div>
-                <div className="h-32 bg-gray-100 rounded-3xl w-full"></div>
+                <div className="clay-skeleton w-12 h-12 rounded-2xl shrink-0 hidden md:block z-10" style={{ background: 'var(--clay-surface-2)' }}></div>
+                <div className="clay-skeleton h-32 rounded-3xl w-full" style={{ background: 'var(--clay-surface-2)' }}></div>
              </div>
            ))}
         </div>
@@ -61,7 +61,7 @@ export default function TimelinePage() {
   if (error && !timeline) {
     return (
       <div className="max-w-4xl mx-auto py-12 px-4 min-h-screen">
-        <div className="bg-rose-50 border border-rose-200 text-rose-700 px-6 py-4 rounded-2xl flex items-center gap-3 shadow-sm max-w-lg">
+        <div className="px-6 py-4 rounded-2xl flex items-center gap-3 shadow-sm max-w-lg" style={{ background: 'color-mix(in srgb, var(--clay-danger) 8%, transparent)', border: '1px solid color-mix(in srgb, var(--clay-danger) 20%, transparent)', color: 'var(--clay-danger)' }}>
            <FiAlertCircle className="w-5 h-5 shrink-0" />
            <span className="font-bold">{typeof error === 'string' ? error : 'Failed to load timeline.'}</span>
         </div>
@@ -71,12 +71,12 @@ export default function TimelinePage() {
 
   return (
     <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8 min-h-screen">
-      <div className="mb-8">
-        <h1 className="text-4xl font-black text-gray-900 tracking-tight mb-2">Your Activity Feed</h1>
-        <p className="text-lg text-gray-500 font-medium">
+      <motion.div {...fadeUp} className="mb-8">
+        <h1 className="clay-page-title mb-2">Your Activity Feed</h1>
+        <p className="clay-page-subtitle">
           A LinkedIn-style timeline of your engagements, achievements, and milestones.
         </p>
-      </div>
+      </motion.div>
 
       <TimelineFilters filterType={filterType} setFilterType={setFilterType} />
       

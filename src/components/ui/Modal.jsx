@@ -2,8 +2,9 @@ import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiX } from 'react-icons/fi';
+import { modalVariants, backdropVariants } from '../../utils/animations';
 
-export default function Modal({ isOpen, onClose, title, children, maxWidth = 'max-w-md' }) {
+export default function Modal({ isOpen, onClose, title, children, maxWidth = 'max-w-lg' }) {
   // Prevent body scroll when open
   useEffect(() => {
     if (isOpen) {
@@ -27,32 +28,53 @@ export default function Modal({ isOpen, onClose, title, children, maxWidth = 'ma
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            onClick={onClose}
-            className="absolute inset-0 bg-gray-900/40 backdrop-blur-sm"
-          />
+          {/* Backdrop */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 10 }}
-            transition={{ type: "spring", duration: 0.4, bounce: 0 }}
-            className={`relative w-full ${maxWidth} bg-white rounded-3xl shadow-2xl border border-gray-100 flex flex-col max-h-full overflow-hidden`}
+            variants={backdropVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            onClick={onClose}
+            className="absolute inset-0"
+            style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(8px)' }}
+          />
+
+          {/* Modal Panel */}
+          <motion.div
+            variants={modalVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className={`relative w-full ${maxWidth} flex flex-col max-h-[90vh] overflow-hidden`}
+            style={{
+              background: 'var(--clay-surface)',
+              borderRadius: '24px',
+              border: '1px solid var(--clay-border-light)',
+              boxShadow: 'var(--clay-shadow-lg)',
+            }}
           >
-            <div className="flex items-center justify-between p-6 border-b border-gray-50">
-              <h2 className="text-xl font-extrabold text-gray-900">{title}</h2>
-              <button 
+            {/* Header */}
+            <div 
+              className="flex items-center justify-between p-6 border-b flex-shrink-0"
+              style={{ borderColor: 'var(--clay-border-light)' }}
+            >
+              <h2 className="text-lg font-extrabold" style={{ color: 'var(--clay-text-primary)' }}>
+                {title}
+              </h2>
+              <motion.button 
                 onClick={onClose}
-                className="p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-xl transition-colors"
+                className="clay-icon-button"
                 aria-label="Close"
+                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileTap={{ scale: 0.88 }}
+                transition={{ duration: 0.18 }}
               >
-                <FiX className="w-5 h-5" />
-              </button>
+                <FiX className="w-4 h-4" />
+              </motion.button>
             </div>
-            <div className="p-6 overflow-y-auto">
+
+            {/* Content */}
+            <div className="p-6 overflow-y-auto flex-1 scrollbar-hide">
               {children}
             </div>
           </motion.div>

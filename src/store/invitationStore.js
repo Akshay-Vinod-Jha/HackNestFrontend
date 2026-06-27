@@ -18,7 +18,9 @@ const useInvitationStore = create((set) => ({
   getMyInvitations: async () => {
     set({ isLoading: true, error: null });
     try {
-      const data = await getMyInvitations();
+      const response = await getMyInvitations();
+      // Handle ApiResponse wrapping
+      const data = response?.items || response?.data?.items || (Array.isArray(response) ? response : []);
       set({ invitations: data, isLoading: false });
       return data;
     } catch (error) {

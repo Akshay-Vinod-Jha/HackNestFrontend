@@ -1,12 +1,14 @@
 import { motion } from 'framer-motion';
+import { pageVariants, pageTransition } from '../../utils/animations';
 
 export default function PageTransition({ children, className = '' }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      transition={{ duration: 0.3, ease: 'easeOut' }}
+      variants={pageVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={pageTransition}
       className={className}
     >
       {children}
