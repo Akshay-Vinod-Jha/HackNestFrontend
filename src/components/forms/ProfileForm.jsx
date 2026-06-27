@@ -42,9 +42,11 @@ export default function ProfileForm({ onCancel }) {
   const onSubmit = async (data) => {
     try {
       const formattedData = {
-        ...data,
+        headline: data.title,
+        college: data.location,
+        bio: data.bio,
         skills: data.skills 
-          ? data.skills.split(',').map(s => s.trim()).filter(Boolean) 
+          ? data.skills.split(',').map(s => ({ name: s.trim(), level: "INTERMEDIATE" })).filter(s => s.name) 
           : []
       };
       

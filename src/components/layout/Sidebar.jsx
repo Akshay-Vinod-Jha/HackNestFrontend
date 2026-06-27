@@ -18,6 +18,7 @@ export default function Sidebar({ isMobileOpen, closeMobileSidebar }) {
     { name: 'Invitations', path: '/invitations', icon: FiMail },
     { name: 'Recommendations', path: '/recommendations', icon: FiStar },
     { name: 'Leaderboard', path: '/leaderboard', icon: FiAward },
+    { name: 'Trophy Room', path: '/achievements', icon: FiAward },
   ];
 
   return (

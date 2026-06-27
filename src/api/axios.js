@@ -24,6 +24,10 @@ api.interceptors.request.use(
 // Response interceptor
 api.interceptors.response.use(
   (response) => {
+    // If backend returned our ApiResponse wrapper, automatically extract the 'data' payload
+    if (response.data && typeof response.data.success === 'boolean' && 'data' in response.data) {
+      return { ...response, data: response.data.data };
+    }
     return response;
   },
   (error) => {

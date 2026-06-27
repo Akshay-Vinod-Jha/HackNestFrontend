@@ -35,11 +35,13 @@ export default function CreateTeamForm() {
       const payload = {
         ...data,
         maxMembers: parseInt(data.maxMembers, 10),
-        hackathonId: data.hackathonId ? parseInt(data.hackathonId, 10) : null,
+        hackathonId: data.hackathonId ? String(data.hackathonId) : null,
         requiredRoles: data.requiredRoles.map(r => ({
-          ...r,
-          slots: parseInt(r.slots, 10)
-        }))
+          roleName: r.name,
+          slots: parseInt(r.slots, 10),
+          requiredSkills: []
+        })),
+        requiredSkills: data.requiredSkills.map(s => s.name).filter(Boolean)
       };
 
       await createTeam(payload);

@@ -47,7 +47,14 @@ export const getTeamApplications = async (teamId) => {
 
 export const updateApplicationStatus = async (teamId, applicationId, status) => {
   try {
-    const response = await api.put(`/teams/${teamId}/applications/${applicationId}/status`, { status });
+    let response;
+    if (status === 'ACCEPTED') {
+      response = await api.patch(`/applications/${applicationId}/accept`);
+    } else if (status === 'REJECTED') {
+      response = await api.patch(`/applications/${applicationId}/reject`);
+    } else {
+      throw new Error(`Unsupported status: ${status}`);
+    }
     return response.data;
   } catch (error) {
     throw error.response?.data || error.message || 'Failed to update application status';

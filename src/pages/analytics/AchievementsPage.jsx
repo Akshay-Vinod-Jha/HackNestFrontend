@@ -1,16 +1,16 @@
 import { useEffect } from 'react';
-import useAnalytics from '../../hooks/useAnalytics';
+import useAchievements from '../../hooks/useAchievements';
 import AchievementGrid from '../../components/analytics/AchievementGrid';
 import BadgeCard from '../../components/analytics/BadgeCard';
 import CertificateCard from '../../components/analytics/CertificateCard';
 import { FiAlertCircle, FiAward, FiStar, FiShield } from 'react-icons/fi';
 
 export default function AchievementsPage() {
-  const { analytics, isLoading, error, fetchProfileAnalytics } = useAnalytics();
+  const { trophyRoom, isLoading, error, fetchTrophyRoom } = useAchievements();
 
   useEffect(() => {
-    fetchProfileAnalytics().catch(() => {});
-  }, [fetchProfileAnalytics]);
+    fetchTrophyRoom().catch(() => {});
+  }, [fetchTrophyRoom]);
 
   if (isLoading) {
     return (
@@ -24,7 +24,7 @@ export default function AchievementsPage() {
     );
   }
 
-  if (error && !analytics) {
+  if (error && !trophyRoom) {
     return (
       <div className="max-w-7xl mx-auto py-12 px-4 min-h-screen">
         <div className="bg-rose-50 border border-rose-200 text-rose-700 px-6 py-4 rounded-2xl flex items-center gap-3 shadow-sm max-w-lg">
@@ -35,12 +35,10 @@ export default function AchievementsPage() {
     );
   }
 
-  // Gracefully fallback empty state
-  const hasData = analytics && Object.keys(analytics).length > 0;
-  const certificates = analytics?.certificates || [
-    { title: 'Global Hackathon 2025 Finalist', issuer: 'HackNest Official', date: 'DEC 2025' },
-    { title: 'Best AI Integration Award', issuer: 'TechCorp Hackathon', date: 'OCT 2025' }
-  ]; // Example fallback if backend doesn't supply array yet to demonstrate component
+  const hasData = trophyRoom !== null;
+  const milestones = trophyRoom?.milestones || {};
+  const badges = trophyRoom?.badges || [];
+  const certificates = trophyRoom?.certificates || [];
 
   return (
     <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 min-h-screen space-y-16">
@@ -69,7 +67,7 @@ export default function AchievementsPage() {
             <h2 className="text-2xl font-extrabold text-gray-900 mb-6 flex items-center gap-2">
                <FiAward className="text-amber-500" /> Milestones
             </h2>
-            <AchievementGrid analytics={analytics} />
+            <AchievementGrid analytics={milestones} />
           </section>
 
           {/* Gamified Badges */}
@@ -79,32 +77,20 @@ export default function AchievementsPage() {
             </h2>
             <div className="bg-white rounded-3xl border border-gray-100 p-8 shadow-sm">
               <div className="flex flex-wrap gap-8 justify-center md:justify-start">
-                <BadgeCard 
-                  title="Frontend Master" 
-                  icon={<FiStar className="w-10 h-10" />} 
-                  isEarned={true} 
-                  level={3}
-                  colorClass="from-blue-500 to-indigo-600" 
-                />
-                <BadgeCard 
-                  title="Backend Guru" 
-                  icon={<FiStar className="w-10 h-10" />} 
-                  isEarned={true} 
-                  level={2}
-                  colorClass="from-emerald-500 to-teal-600" 
-                />
-                <BadgeCard 
-                  title="Design Wizard" 
-                  icon={<FiStar className="w-10 h-10" />} 
-                  isEarned={false} 
-                  colorClass="from-purple-500 to-pink-600" 
-                />
-                <BadgeCard 
-                  title="Top Presenter" 
-                  icon={<FiStar className="w-10 h-10" />} 
-                  isEarned={false} 
-                  colorClass="from-amber-500 to-orange-600" 
-                />
+                {badges.length > 0 ? (
+                  badges.map((badge, idx) => (
+                    <BadgeCard 
+                      key={idx}
+                      title={badge.title} 
+                      icon={<FiStar className="w-10 h-10" />} 
+                      isEarned={badge.isEarned} 
+                      level={badge.level}
+                      colorClass={badge.colorClass} 
+                    />
+                  ))
+                ) : (
+                  <p className="text-gray-500 italic">No badges earned yet.</p>
+                )}
               </div>
             </div>
           </section>
@@ -114,17 +100,23 @@ export default function AchievementsPage() {
             <h2 className="text-2xl font-extrabold text-gray-900 mb-6 flex items-center gap-2">
                <FiAward className="text-emerald-500" /> Verified Certificates
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {certificates.map((cert, idx) => (
-                <CertificateCard 
-                  key={idx}
-                  title={cert.title}
-                  issuer={cert.issuer}
-                  date={cert.date}
-                  verifyUrl={cert.verifyUrl || '#'}
-                />
-              ))}
-            </div>
+            {certificates.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {certificates.map((cert, idx) => (
+                  <CertificateCard 
+                    key={idx}
+                    title={cert.title}
+                    issuer={cert.issuer}
+                    date={cert.date}
+                    verifyUrl={cert.verifyUrl || '#'}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="bg-white rounded-3xl border border-gray-100 p-8 shadow-sm text-gray-500 italic">
+                No verified certificates yet.
+              </div>
+            )}
           </section>
         </>
       )}
