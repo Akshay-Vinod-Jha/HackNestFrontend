@@ -1,16 +1,42 @@
-# React + Vite
+# HackNest - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+HackNest is a modern, responsive web application designed for students to find hackathons, form teams, and manage their profiles. This repository contains the frontend client, built with React and Vite.
 
-Currently, two official plugins are available:
+## Tech Stack
+- **Framework:** React.js (via Vite)
+- **Styling:** Tailwind CSS (Custom sleek SaaS-like UI)
+- **Routing:** React Router DOM
+- **Animations:** Framer Motion
+- **Icons:** React Icons (Feather Icons)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Prerequisites
+- Node.js (v18 or higher recommended)
+- npm or yarn
 
-## React Compiler
+## Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-## Expanding the Oxlint configuration
+2. **Environment Variables:**
+   Create a `.env` file in the root of the frontend directory and add the backend API URL:
+   ```env
+   VITE_API_URL=http://localhost:8080/api
+   ```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+3. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
+
+4. **Build for production:**
+   ```bash
+   npm run build
+   ```
+
+## Deployment
+This project is configured to be easily deployed on Vercel.
+- The build command is `npm run build`
+- The output directory is `dist`.

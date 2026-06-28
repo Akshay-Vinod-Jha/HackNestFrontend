@@ -92,7 +92,7 @@ export default function MyTeamsPage() {
       {isLoading ? (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 animate-pulse">
           {[1, 2, 3].map(i => (
-            <div key={i} className="clay-skeleton h-48 rounded-[2rem]" style={{ background: 'var(--clay-surface-2)' }}></div>
+            <div key={i} className="bg-white border border-gray-100 shadow-sm h-48 rounded-[2rem]"></div>
           ))}
         </div>
       ) : (

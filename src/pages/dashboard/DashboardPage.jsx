@@ -146,17 +146,17 @@ export default function DashboardPage() {
 function DashboardSkeleton() {
   return (
     <div className="max-w-7xl mx-auto space-y-6 md:space-y-8 animate-pulse">
-      <div className="clay-skeleton rounded-[2rem] h-64 w-full" style={{ background: 'var(--clay-surface)' }}></div>
+      <div className="bg-white border border-gray-100 shadow-sm rounded-3xl h-64 w-full"></div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
-        <div className="md:col-span-2 lg:col-span-6 clay-skeleton rounded-3xl h-80" style={{ background: 'var(--clay-surface)' }}></div>
-        <div className="md:col-span-1 lg:col-span-3 clay-skeleton rounded-3xl h-80" style={{ background: 'var(--clay-surface)' }}></div>
-        <div className="md:col-span-1 lg:col-span-3 clay-skeleton rounded-3xl h-80" style={{ background: 'var(--clay-surface)' }}></div>
+        <div className="md:col-span-2 lg:col-span-6 bg-white border border-gray-100 shadow-sm rounded-3xl h-80"></div>
+        <div className="md:col-span-1 lg:col-span-3 bg-white border border-gray-100 shadow-sm rounded-3xl h-80"></div>
+        <div className="md:col-span-1 lg:col-span-3 bg-white border border-gray-100 shadow-sm rounded-3xl h-80"></div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="clay-skeleton rounded-3xl h-80 w-full" style={{ background: 'var(--clay-surface)' }}></div>
-        <div className="clay-skeleton rounded-3xl h-80 w-full" style={{ background: 'var(--clay-surface)' }}></div>
+        <div className="bg-white border border-gray-100 shadow-sm rounded-3xl h-80 w-full"></div>
+        <div className="bg-white border border-gray-100 shadow-sm rounded-3xl h-80 w-full"></div>
       </div>
     </div>
   );
@@ -166,12 +166,12 @@ function RecommendationsSkeleton() {
   return (
     <div className="space-y-6 md:space-y-8 animate-pulse">
       {[1, 2, 3].map(section => (
-        <div key={section} className="clay-card p-6 md:p-8">
-          <div className="clay-skeleton h-6 rounded w-1/4 mb-6" style={{ background: 'var(--clay-surface-2)' }}></div>
+        <div key={section} className="bg-white border border-gray-100 shadow-sm rounded-3xl p-6 md:p-8">
+          <div className="bg-gray-200 h-6 rounded-lg w-1/4 mb-6"></div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="clay-skeleton h-64 rounded-2xl w-full" style={{ background: 'var(--clay-surface-2)' }}></div>
-            <div className="clay-skeleton h-64 rounded-2xl w-full" style={{ background: 'var(--clay-surface-2)' }}></div>
-            <div className="clay-skeleton h-64 rounded-2xl w-full" style={{ background: 'var(--clay-surface-2)' }}></div>
+            <div className="bg-gray-100 h-64 rounded-2xl w-full"></div>
+            <div className="bg-gray-100 h-64 rounded-2xl w-full"></div>
+            <div className="bg-gray-100 h-64 rounded-2xl w-full"></div>
           </div>
         </div>
       ))}

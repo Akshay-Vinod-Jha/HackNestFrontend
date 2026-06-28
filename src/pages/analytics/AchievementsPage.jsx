@@ -17,10 +17,10 @@ export default function AchievementsPage() {
   if (isLoading) {
     return (
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 min-h-screen animate-pulse">
-        <div className="clay-skeleton h-10 rounded w-64 mb-10" style={{ background: 'var(--clay-surface-2)' }}></div>
-        <div className="clay-skeleton h-12 rounded-xl w-48 mb-6" style={{ background: 'var(--clay-surface-2)' }}></div>
+        <div className="bg-gray-200 h-10 rounded-xl w-64 mb-10"></div>
+        <div className="bg-gray-200 h-12 rounded-xl w-48 mb-6"></div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {[1, 2, 3, 4, 5, 6].map(i => <div key={i} className="clay-skeleton h-40 rounded-3xl" style={{ background: 'var(--clay-surface-2)' }}></div>)}
+          {[1, 2, 3, 4, 5, 6].map(i => <div key={i} className="bg-white border border-gray-100 shadow-sm h-40 rounded-3xl"></div>)}
         </div>
       </div>
     );

@@ -11,13 +11,13 @@ export default function RecentActivityCard({ timeline, isLoading }) {
 
   if (isLoading && !timeline) {
     return (
-      <div className="clay-card p-6 md:p-8 h-full flex flex-col animate-pulse">
-        <div className="clay-skeleton h-6 rounded w-1/3 mb-8" style={{ background: 'var(--clay-surface-2)' }}></div>
+      <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 md:p-8 h-full flex flex-col animate-pulse">
+        <div className="bg-gray-200 h-6 rounded-lg w-1/3 mb-8"></div>
         <div className="space-y-8 flex-1">
           {[1,2,3].map(i => (
             <div key={i} className="flex gap-4">
-               <div className="clay-skeleton w-4 h-4 rounded-full shrink-0" style={{ background: 'var(--clay-surface-2)' }}></div>
-               <div className="clay-skeleton h-12 rounded-xl w-full" style={{ background: 'var(--clay-surface-2)' }}></div>
+               <div className="bg-gray-200 w-4 h-4 rounded-full shrink-0"></div>
+               <div className="bg-gray-100 h-12 rounded-xl w-full"></div>
             </div>
           ))}
         </div>

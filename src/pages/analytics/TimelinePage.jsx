@@ -43,14 +43,14 @@ export default function TimelinePage() {
   if (isLoading) {
     return (
       <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8 min-h-screen animate-pulse">
-        <div className="clay-skeleton h-10 rounded w-64 mb-10" style={{ background: 'var(--clay-surface-2)' }}></div>
-        <div className="clay-skeleton h-16 rounded-2xl w-full mb-8"></div>
+        <div className="bg-gray-200 h-10 rounded-xl w-64 mb-10"></div>
+        <div className="bg-gray-200 h-16 rounded-2xl w-full mb-8"></div>
         <div className="space-y-6 md:pl-16 relative">
-           <div className="absolute left-6 top-0 bottom-0 w-0.5 hidden md:block" style={{ background: 'var(--clay-border)' }}></div>
+           <div className="absolute left-6 top-0 bottom-0 w-0.5 hidden md:block bg-gray-100"></div>
            {[1, 2, 3].map(i => (
              <div key={i} className="flex gap-6">
-                <div className="clay-skeleton w-12 h-12 rounded-2xl shrink-0 hidden md:block z-10" style={{ background: 'var(--clay-surface-2)' }}></div>
-                <div className="clay-skeleton h-32 rounded-3xl w-full" style={{ background: 'var(--clay-surface-2)' }}></div>
+                <div className="bg-gray-200 w-12 h-12 rounded-2xl shrink-0 hidden md:block z-10"></div>
+                <div className="bg-white border border-gray-100 shadow-sm h-32 rounded-3xl w-full"></div>
              </div>
            ))}
         </div>
