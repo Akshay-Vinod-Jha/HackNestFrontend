@@ -117,11 +117,7 @@ export default function ResetPasswordPage() {
             disabled={isLoading}
             className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-xl transition-all mt-6 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
           >
-            {isLoading ? (
-              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-            ) : (
-              "Reset password"
-            )}
+            {isLoading ? <span className="animate-pulse opacity-70">Resetting...</span> : "Reset Password"}
           </button>
         </form>
 

@@ -113,7 +113,7 @@ export default function HackathonFilters() {
       <div className="pt-4 border-t border-gray-100">
         <button 
           onClick={handleClear}
-          className="w-full py-2.5 text-sm font-bold text-gray-500 bg-gray-100 hover:bg-gray-200 hover:text-gray-700 rounded-xl transition-colors active:scale-95"
+          className="w-full py-2.5 text-sm font-bold text-gray-500 bg-gray-100 hover:bg-gray-200 hover:text-gray-700 rounded-xl transition-colors active:scale-[0.98]"
         >
           Clear All Filters
         </button>

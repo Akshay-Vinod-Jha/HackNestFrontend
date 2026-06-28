@@ -29,12 +29,12 @@ export default function ApplyToTeamModal({ isOpen, onClose, team }) {
   return (
     <>
       <div className="fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden animate-fade-in-up">
+        <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden">
           <div className="flex items-center justify-between p-6 border-b border-gray-100">
             <h2 className="text-xl font-extrabold text-gray-900">Apply to {team.name}</h2>
             <button 
               onClick={onClose}
-              className="p-2 -mr-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors active:scale-95"
+              className="p-2 -mr-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors active:scale-[0.98]"
             >
               <FiX className="w-5 h-5" />
             </button>

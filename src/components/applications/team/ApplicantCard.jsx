@@ -62,7 +62,7 @@ export default function ApplicantCard({ application }) {
       <div className="mt-4 pt-4 border-t border-gray-50 space-y-3">
         <Link 
           to={`/profile/${application.applicantId}`}
-          className="w-full inline-flex items-center justify-center px-4 py-2.5 bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold rounded-xl transition-colors active:scale-95 gap-2 text-sm"
+          className="w-full inline-flex items-center justify-center px-4 py-2.5 bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold rounded-xl transition-colors active:scale-[0.98] gap-2 text-sm"
         >
           <FiUser className="w-4 h-4" /> View Profile
         </Link>
@@ -71,13 +71,13 @@ export default function ApplicantCard({ application }) {
           <div className="flex gap-3">
             <button 
               onClick={handleAccept}
-              className="flex-1 inline-flex items-center justify-center px-4 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl transition-colors active:scale-95 gap-2 text-sm"
+              className="flex-1 inline-flex items-center justify-center px-4 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl transition-colors active:scale-[0.98] gap-2 text-sm"
             >
               <FiCheck className="w-4 h-4" /> Accept
             </button>
             <button 
               onClick={handleReject}
-              className="flex-1 inline-flex items-center justify-center px-4 py-2.5 bg-white border border-rose-200 text-rose-600 hover:bg-rose-50 font-bold rounded-xl transition-colors active:scale-95 gap-2 text-sm"
+              className="flex-1 inline-flex items-center justify-center px-4 py-2.5 bg-white border border-rose-200 text-rose-600 hover:bg-rose-50 font-bold rounded-xl transition-colors active:scale-[0.98] gap-2 text-sm"
             >
               <FiX className="w-4 h-4" /> Reject
             </button>

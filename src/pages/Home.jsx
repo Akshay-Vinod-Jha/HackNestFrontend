@@ -11,7 +11,7 @@ export default function Home() {
     initial: { opacity: 0, y: 20, scale: 0.95 },
     whileInView: { opacity: 1, y: 0, scale: 1 },
     viewport: { once: true },
-    transition: { duration: 0.6, type: "spring", bounce: 0.4 }
+    transition: { duration: 0.6, ease: "easeOut" }
   };
 
   const staggerContainer = {
@@ -41,7 +41,7 @@ export default function Home() {
             </Link>
             <div>
               {isAuthenticated ? (
-                <Link to="/dashboard" className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-all shadow-sm hover:scale-105 active:scale-95 inline-block">
+                <Link to="/dashboard" className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-all shadow-sm active:scale-[0.98] inline-block">
                   Go to Dashboard
                 </Link>
               ) : (
@@ -49,7 +49,7 @@ export default function Home() {
                   <Link to="/login" className="text-gray-600 font-bold hover:text-gray-900 transition-colors hidden sm:block">
                     Log in
                   </Link>
-                  <Link to="/register" className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-all shadow-sm hover:scale-105 active:scale-95 inline-block">
+                  <Link to="/register" className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-all shadow-sm active:scale-[0.98] inline-block">
                     Sign up
                   </Link>
                 </div>
@@ -63,9 +63,9 @@ export default function Home() {
       <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
         {/* Background Gradients */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-full pointer-events-none">
-           <div className="absolute top-1/4 left-0 w-96 h-96 bg-indigo-400/20 rounded-full blur-3xl mix-blend-multiply opacity-70 animate-blob"></div>
-           <div className="absolute top-1/4 right-0 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl mix-blend-multiply opacity-70 animate-blob animation-delay-2000"></div>
-           <div className="absolute -bottom-32 left-1/4 w-96 h-96 bg-pink-400/20 rounded-full blur-3xl mix-blend-multiply opacity-70 animate-blob animation-delay-4000"></div>
+           <div className="absolute top-1/4 left-0 w-96 h-96 bg-indigo-400/20 rounded-full blur-3xl mix-blend-multiply opacity-70"></div>
+           <div className="absolute top-1/4 right-0 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl mix-blend-multiply opacity-70"></div>
+           <div className="absolute -bottom-32 left-1/4 w-96 h-96 bg-pink-400/20 rounded-full blur-3xl mix-blend-multiply opacity-70"></div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
@@ -73,7 +73,7 @@ export default function Home() {
             <motion.div 
               initial={{ scale: 0.5, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: "spring", bounce: 0.5, duration: 0.8 }}
+              transition={{ ease: "easeOut", duration: 0.8 }}
               className="w-20 h-20 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-xl mx-auto mb-8"
             >
               <Logo className="w-12 h-12 text-white" />
@@ -87,11 +87,11 @@ export default function Home() {
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link to={isAuthenticated ? "/dashboard" : "/register"} className="w-full sm:w-auto px-8 py-4 bg-gray-900 hover:bg-gray-800 text-white rounded-2xl font-bold text-lg transition-all shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 flex items-center justify-center gap-2 group">
+              <Link to={isAuthenticated ? "/dashboard" : "/register"} className="w-full sm:w-auto px-8 py-4 bg-gray-900 hover:bg-gray-800 text-white rounded-2xl font-bold text-lg transition-all shadow-xl hover:shadow-2xl active:scale-[0.98] flex items-center justify-center gap-2 group">
                 Get Started Free 
                 <FiArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link to="/discover" className="w-full sm:w-auto px-8 py-4 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-2xl font-bold text-lg transition-all shadow-sm hover:scale-105 active:scale-95 text-center">
+              <Link to="/discover" className="w-full sm:w-auto px-8 py-4 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-2xl font-bold text-lg transition-all shadow-sm active:scale-[0.98] text-center">
                 Explore Teams
               </Link>
             </div>
@@ -155,7 +155,7 @@ export default function Home() {
                <p className="text-indigo-200 text-lg sm:text-xl font-medium mb-10 max-w-2xl mx-auto">
                  Join thousands of developers already building amazing projects and forging lifelong connections.
                </p>
-               <Link to={isAuthenticated ? "/dashboard" : "/register"} className="inline-block px-10 py-5 bg-white text-indigo-900 hover:bg-gray-50 rounded-2xl font-black text-lg transition-all shadow-xl hover:scale-105 active:scale-95">
+               <Link to={isAuthenticated ? "/dashboard" : "/register"} className="inline-block px-10 py-5 bg-white text-indigo-900 hover:bg-gray-50 rounded-2xl font-black text-lg transition-all shadow-xl active:scale-[0.98]">
                  {isAuthenticated ? "Enter Dashboard" : "Create Free Account"}
                </Link>
              </div>
@@ -176,9 +176,9 @@ export default function Home() {
             &copy; {new Date().getFullYear()} HackNest Platform. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <a href="#" className="text-gray-400 hover:text-gray-600 font-bold transition-colors hover:scale-105">Privacy</a>
-            <a href="#" className="text-gray-400 hover:text-gray-600 font-bold transition-colors hover:scale-105">Terms</a>
-            <a href="#" className="text-gray-400 hover:text-gray-600 font-bold transition-colors hover:scale-105">Contact</a>
+            <a href="#" className="text-gray-400 hover:text-gray-600 font-bold transition-colors">Privacy</a>
+            <a href="#" className="text-gray-400 hover:text-gray-600 font-bold transition-colors">Terms</a>
+            <a href="#" className="text-gray-400 hover:text-gray-600 font-bold transition-colors">Contact</a>
           </div>
         </div>
       </footer>

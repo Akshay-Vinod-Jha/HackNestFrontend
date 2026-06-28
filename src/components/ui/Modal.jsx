@@ -1,11 +1,10 @@
+import { motion, AnimatePresence } from 'framer-motion';
+import { backdropVariants, modalVariants } from '../../utils/animations';
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { motion, AnimatePresence } from 'framer-motion';
 import { FiX } from 'react-icons/fi';
-import { modalVariants, backdropVariants } from '../../utils/animations';
 
-export default function Modal({ isOpen, onClose, title, children, maxWidth = 'max-w-lg' }) {
-  // Prevent body scroll when open
+export default function Modal({ isOpen, onClose, title, children, maxWidth = 'max-w-md' }) {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -15,7 +14,6 @@ export default function Modal({ isOpen, onClose, title, children, maxWidth = 'ma
     return () => { document.body.style.overflow = 'unset'; };
   }, [isOpen]);
 
-  // Handle escape key
   useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === 'Escape') onClose();
@@ -28,53 +26,32 @@ export default function Modal({ isOpen, onClose, title, children, maxWidth = 'ma
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
-          {/* Backdrop */}
           <motion.div
             variants={backdropVariants}
             initial="initial"
             animate="animate"
             exit="exit"
             onClick={onClose}
-            className="absolute inset-0"
-            style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(8px)' }}
+            className="absolute inset-0 bg-gray-900/40 backdrop-blur-sm"
           />
-
-          {/* Modal Panel */}
           <motion.div
             variants={modalVariants}
             initial="initial"
             animate="animate"
             exit="exit"
-            className={`relative w-full ${maxWidth} flex flex-col max-h-[90vh] overflow-hidden`}
-            style={{
-              background: 'var(--clay-surface)',
-              borderRadius: '24px',
-              border: '1px solid var(--clay-border-light)',
-              boxShadow: 'var(--clay-shadow-lg)',
-            }}
+            className={`relative w-full ${maxWidth} bg-white rounded-2xl shadow-xl border border-gray-200/70 flex flex-col max-h-full overflow-hidden`}
           >
-            {/* Header */}
-            <div 
-              className="flex items-center justify-between p-6 border-b flex-shrink-0"
-              style={{ borderColor: 'var(--clay-border-light)' }}
-            >
-              <h2 className="text-lg font-extrabold" style={{ color: 'var(--clay-text-primary)' }}>
-                {title}
-              </h2>
-              <motion.button 
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+              <h2 className="text-base font-semibold text-gray-900">{title}</h2>
+              <button
                 onClick={onClose}
-                className="clay-icon-button"
+                className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors duration-150"
                 aria-label="Close"
-                whileHover={{ scale: 1.1, rotate: 90 }}
-                whileTap={{ scale: 0.88 }}
-                transition={{ duration: 0.18 }}
               >
                 <FiX className="w-4 h-4" />
-              </motion.button>
+              </button>
             </div>
-
-            {/* Content */}
-            <div className="p-6 overflow-y-auto flex-1 scrollbar-hide">
+            <div className="p-6 overflow-y-auto">
               {children}
             </div>
           </motion.div>
@@ -83,7 +60,7 @@ export default function Modal({ isOpen, onClose, title, children, maxWidth = 'ma
     </AnimatePresence>
   );
 
-  return typeof document !== 'undefined' 
+  return typeof document !== 'undefined'
     ? createPortal(modalContent, document.body)
     : null;
 }

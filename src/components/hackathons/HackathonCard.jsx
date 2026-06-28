@@ -1,94 +1,59 @@
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { FiCalendar, FiMapPin, FiUsers, FiMonitor, FiArrowRight } from 'react-icons/fi';
-
-const statusConfig = {
-  UPCOMING: { label: 'Upcoming', bg: 'var(--clay-success-light)', color: 'var(--clay-success)' },
-  ONGOING:  { label: 'Live Now', bg: 'var(--clay-primary-light)', color: 'var(--clay-primary)' },
-  ENDED:    { label: 'Ended', bg: 'var(--clay-surface-3)', color: 'var(--clay-text-muted)' },
-};
+import { FiCalendar, FiMapPin, FiUsers, FiMonitor } from 'react-icons/fi';
 
 export default function HackathonCard({ hackathon }) {
   const isOnline = hackathon?.mode === 'ONLINE';
-  const status = statusConfig[hackathon?.status] || statusConfig.ENDED;
-
+  
   return (
-    <motion.div
-      className="clay-card clay-card-hover flex flex-col h-full overflow-hidden"
-      style={{ padding: 0 }}
-      whileHover={{ y: -4, scale: 1.01 }}
-      transition={{ duration: 0.2 }}
-    >
-      {/* Top accent */}
-      <div 
-        className="h-1 rounded-t-[20px] flex-shrink-0"
-        style={{ background: `linear-gradient(90deg, var(--clay-primary), var(--clay-secondary))` }}
-      />
-
+    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full overflow-hidden hover:-translate-y-[1px]">
       <div className="p-6 flex-1 flex flex-col">
-        {/* Title + Status */}
-        <div className="flex justify-between items-start gap-3 mb-5">
-          <div className="min-w-0">
-            <h3 
-              className="text-lg font-extrabold leading-tight mb-1 line-clamp-2"
-              style={{ color: 'var(--clay-text-primary)' }}
-            >
-              {hackathon?.title || 'Unnamed Hackathon'}
-            </h3>
-            <p className="text-xs font-semibold" style={{ color: 'var(--clay-text-muted)' }}>
-              {hackathon?.organizer || 'Unknown Organizer'}
-            </p>
+        <div className="flex justify-between items-start mb-5 gap-3">
+          <div>
+            <h3 className="text-xl font-extrabold text-gray-900 leading-tight mb-1.5 line-clamp-2">{hackathon?.title || 'Unnamed Hackathon'}</h3>
+            <p className="text-sm font-bold text-gray-500">{hackathon?.organizer || 'Unknown Organizer'}</p>
           </div>
-          <span 
-            className="clay-badge shrink-0"
-            style={{ background: status.bg, color: status.color }}
-          >
+          <span className={`px-3 py-1.5 text-[10px] font-black uppercase tracking-wider rounded-lg shrink-0 ${
+            hackathon?.status === 'UPCOMING' ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' :
+            hackathon?.status === 'ONGOING' ? 'bg-blue-50 text-blue-700 border border-blue-100' :
+            'bg-gray-100 text-gray-600 border border-gray-200'
+          }`}>
             {hackathon?.status || 'UNKNOWN'}
           </span>
         </div>
         
-        {/* Meta info */}
-        <div className="space-y-2.5 mt-auto pt-2">
-          <div className="flex items-center text-sm font-medium gap-2" style={{ color: 'var(--clay-text-secondary)' }}>
-            <FiMonitor className="w-3.5 h-3.5 shrink-0" style={{ color: 'var(--clay-primary)' }} />
+        <div className="space-y-3 mt-auto pt-2">
+          <div className="flex items-center text-sm text-gray-600 font-medium">
+            <FiMonitor className="w-4 h-4 mr-2.5 text-blue-500 shrink-0" />
             <span>{hackathon?.mode || 'TBD'}</span>
             {!isOnline && hackathon?.country && (
               <>
-                <span style={{ color: 'var(--clay-border)' }}>•</span>
-                <FiMapPin className="w-3.5 h-3.5 shrink-0" style={{ color: 'var(--clay-danger)' }} />
-                <span className="truncate">{hackathon.country}</span>
+                <span className="mx-2 text-gray-300">•</span>
+                <FiMapPin className="w-4 h-4 mr-2 text-rose-500 shrink-0" />
+                <span className="truncate">{hackathon?.country}</span>
               </>
             )}
           </div>
           
-          <div className="flex items-center text-sm font-medium gap-2" style={{ color: 'var(--clay-text-secondary)' }}>
-            <FiCalendar className="w-3.5 h-3.5 shrink-0" style={{ color: 'var(--clay-warning)' }} />
-            <span>
-              Deadline: {hackathon?.registrationDeadline 
-                ? new Date(hackathon.registrationDeadline).toLocaleDateString() 
-                : 'N/A'}
-            </span>
+          <div className="flex items-center text-sm text-gray-600 font-medium">
+            <FiCalendar className="w-4 h-4 mr-2.5 text-indigo-500 shrink-0" />
+            <span>Reg. Deadline: {hackathon?.registrationDeadline ? new Date(hackathon.registrationDeadline).toLocaleDateString() : 'N/A'}</span>
           </div>
           
-          <div className="flex items-center text-sm font-medium gap-2" style={{ color: 'var(--clay-text-secondary)' }}>
-            <FiUsers className="w-3.5 h-3.5 shrink-0" style={{ color: 'var(--clay-success)' }} />
-            <span>Team: {hackathon?.minTeamSize || 1}–{hackathon?.maxTeamSize || 4} members</span>
+          <div className="flex items-center text-sm text-gray-600 font-medium">
+            <FiUsers className="w-4 h-4 mr-2.5 text-emerald-500 shrink-0" />
+            <span>Team Size: {hackathon?.minTeamSize || 1} - {hackathon?.maxTeamSize || 4} members</span>
           </div>
         </div>
       </div>
       
-      {/* CTA */}
-      <div className="p-4 pt-0">
-        <Link to={`/hackathons/${hackathon?.id}`}>
-          <motion.div
-            className="clay-button clay-button-primary w-full justify-center text-sm"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            View Details <FiArrowRight className="w-3.5 h-3.5" />
-          </motion.div>
+      <div className="p-4 border-t border-gray-50 bg-gray-50/50">
+        <Link 
+          to={`/hackathons/${hackathon?.id}`}
+          className="flex items-center justify-center w-full py-2.5 px-4 text-sm font-bold text-blue-600 bg-white border border-gray-200 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 rounded-xl transition-all active:scale-[0.98]"
+        >
+          View Details
         </Link>
       </div>
-    </motion.div>
+    </div>
   );
 }

@@ -39,7 +39,7 @@ export default function RateTeammateModal({ isOpen, onClose, targetUser, teamId 
 
   return (
     <div className="fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col animate-fade-in-up">
+      <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col">
         
         <div className="flex items-center justify-between p-6 border-b border-gray-100 shrink-0">
           <div>
@@ -48,7 +48,7 @@ export default function RateTeammateModal({ isOpen, onClose, targetUser, teamId 
           </div>
           <button 
             onClick={onClose}
-            className="p-2 -mr-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors active:scale-95"
+            className="p-2 -mr-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors active:scale-[0.98]"
           >
             <FiX className="w-5 h-5" />
           </button>

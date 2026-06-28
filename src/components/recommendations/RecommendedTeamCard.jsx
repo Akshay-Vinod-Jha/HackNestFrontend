@@ -10,70 +10,63 @@ export default function RecommendedTeamCard({ recommendation }) {
   const reasons = recommendation.reasons || [];
 
   return (
-    <div className="bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all h-full flex flex-col p-6 relative overflow-hidden group">
-      <div className={`absolute top-0 left-0 w-full h-1.5 ${matchScore >= 90 ? 'bg-emerald-400' : matchScore >= 70 ? 'bg-amber-400' : 'bg-gray-300'}`}></div>
-      
-      <div className="flex justify-between items-start mb-4 mt-2">
-        <div className="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center shrink-0">
-          <FiBriefcase className="w-8 h-8 text-blue-500" />
+    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full overflow-hidden hover:-translate-y-[1px]">
+      <div className="p-6 flex-1 flex flex-col">
+        <div className="flex justify-between items-start mb-5 gap-3">
+          <div>
+            <h3 className="text-xl font-extrabold text-gray-900 leading-tight mb-1.5 line-clamp-2" title={team.name}>
+              {team.name || 'Unknown Team'}
+            </h3>
+            <p className="text-sm font-bold text-gray-500 truncate">
+              {team.hackathonName || 'Independent Project'}
+            </p>
+          </div>
+          <div className="shrink-0">
+             <MatchScoreCircle score={matchScore} size={42} strokeWidth={4} />
+          </div>
         </div>
-        <div className="shrink-0 -mt-2 -mr-2">
-           <MatchScoreCircle score={matchScore} size={64} strokeWidth={6} />
+
+        <div className="space-y-3 mt-auto pt-2">
+          <div className="flex items-center gap-4 text-sm font-medium">
+             <div className="flex items-center gap-1.5">
+               <FiBriefcase className="w-4 h-4 text-blue-500" />
+               <span className="text-gray-600">Avg Trust:</span>
+               <span className="font-bold text-gray-900">{team.averageTrustScore || 85}</span>
+             </div>
+             <div className="flex items-center gap-1.5">
+               <FiZap className="w-4 h-4 text-amber-500" />
+               <span className="text-gray-600">Contrib:</span>
+               <span className="font-bold text-gray-900">{team.averageContributionScore ? team.averageContributionScore.toFixed(1) : '4.5'}</span>
+             </div>
+          </div>
+
+          {team.requiredSkills && team.requiredSkills.length > 0 && (
+            <div className="flex flex-wrap gap-2 pt-1">
+              {team.requiredSkills.slice(0, 3).map((skill, i) => (
+                <SkillBadge key={i} skill={skill} />
+              ))}
+            </div>
+          )}
+
+          {reasons.length > 0 && (
+            <div className="pt-3 border-t border-gray-50 mt-3">
+              <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <FiZap className="w-3.5 h-3.5 text-amber-500" /> Key Insights
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {reasons.slice(0, 2).map((reason, i) => (
+                  <RecommendationReasonChip key={i} reason={reason} />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
-      
-      <div className="mb-4 flex-1">
-        <h3 className="text-xl font-extrabold text-gray-900 truncate mb-1 group-hover:text-blue-600 transition-colors" title={team.name}>
-          {team.name || 'Unknown Team'}
-        </h3>
-        <p className="text-sm text-gray-500 font-medium line-clamp-2 mb-3">
-          {team.hackathonName || 'Independent Project'}
-        </p>
-        
-        {team.requiredSkills && team.requiredSkills.length > 0 && (
-          <div className="flex flex-wrap gap-2 mt-2 mb-3">
-            {team.requiredSkills.slice(0, 3).map((skill, i) => (
-              <SkillBadge key={i} skill={skill} />
-            ))}
-          </div>
-        )}
 
-        {/* Team Trust Metrics */}
-        <div className="grid grid-cols-2 gap-2 p-3 bg-blue-50/50 rounded-xl border border-blue-100">
-          <div>
-            <p className="text-[10px] font-bold text-blue-500 uppercase tracking-wider mb-0.5">Avg Trust</p>
-            <div className="flex items-end gap-1">
-               <span className="text-sm font-black text-blue-900">{team.averageTrustScore || 85}</span>
-               <span className="text-[10px] text-blue-400 font-bold mb-[2px]">/ 100</span>
-            </div>
-          </div>
-          <div>
-            <p className="text-[10px] font-bold text-blue-500 uppercase tracking-wider mb-0.5">Avg Contrib</p>
-            <div className="flex items-end gap-1">
-               <span className="text-sm font-black text-blue-900">{team.averageContributionScore ? team.averageContributionScore.toFixed(1) : '4.5'}</span>
-               <span className="text-[10px] text-blue-400 font-bold mb-[2px]">/ 5.0</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {reasons.length > 0 && (
-        <div className="mb-6 border-t border-gray-50 pt-4">
-          <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
-            <FiZap className="w-3.5 h-3.5 text-amber-500" /> Key Insights
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {reasons.slice(0, 3).map((reason, i) => (
-              <RecommendationReasonChip key={i} reason={reason} />
-            ))}
-          </div>
-        </div>
-      )}
-
-      <div className="mt-auto pt-4 border-t border-gray-50 flex gap-2">
+      <div className="p-4 border-t border-gray-50 bg-gray-50/50 flex gap-2">
         <Link 
           to={`/teams/${team.id}`}
-          className="flex-1 py-3 bg-gray-50 hover:bg-blue-50 text-blue-600 hover:text-blue-700 text-center font-bold text-sm rounded-xl transition-colors active:scale-95"
+          className="flex-1 flex items-center justify-center py-2.5 px-4 text-sm font-bold text-gray-700 bg-white border border-gray-200 hover:border-gray-300 hover:bg-gray-50 rounded-xl transition-all active:scale-[0.98]"
         >
           View Team
         </Link>

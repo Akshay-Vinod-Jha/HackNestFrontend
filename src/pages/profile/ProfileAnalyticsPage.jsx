@@ -38,7 +38,7 @@ export default function ProfileAnalyticsPage() {
       <h1 className="text-3xl font-extrabold text-gray-900 mb-8">Performance Analytics</h1>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
         {metrics.map((metric, index) => (
-          <div key={index} className={`bg-white p-6 rounded-3xl shadow-sm border ${metric.border} flex flex-col items-center justify-center text-center hover:shadow-md hover:-translate-y-1 transition-all group`}>
+          <div key={index} className={`bg-white p-6 rounded-3xl shadow-sm border ${metric.border} flex flex-col items-center justify-center text-center hover:shadow-md hover:-translate-y-[1px] transition-all group`}>
             <div className={`w-16 h-16 rounded-2xl flex items-center justify-center ${metric.bg} mb-4 group-hover:scale-110 transition-transform`}>
                <span className={`text-3xl font-black tracking-tight ${metric.color}`}>{metric.value}</span>
             </div>

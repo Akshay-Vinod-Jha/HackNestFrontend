@@ -27,7 +27,7 @@ export default function LeaderboardRankCard({ analytics }) {
         </p>
       </div>
 
-      <Link to="/leaderboard" className="relative z-10 inline-flex items-center gap-2 text-sm font-bold bg-indigo-500/20 text-white border border-indigo-400/30 px-4 py-2.5 rounded-xl hover:bg-indigo-500/40 transition-colors self-start shadow-sm active:scale-95">
+      <Link to="/leaderboard" className="relative z-10 inline-flex items-center gap-2 text-sm font-bold bg-indigo-500/20 text-white border border-indigo-400/30 px-4 py-2.5 rounded-xl hover:bg-indigo-500/40 transition-colors self-start shadow-sm active:scale-[0.98]">
         View Standings <FiChevronRight />
       </Link>
     </div>

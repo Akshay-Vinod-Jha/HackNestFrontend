@@ -22,7 +22,7 @@ export default function HackathonPagination({ pagination, isLoading }) {
       <button
         disabled={currentPage === 0 || isLoading}
         onClick={() => handlePageChange(currentPage - 1)}
-        className="p-2 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm active:scale-95"
+        className="p-2 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm active:scale-[0.98]"
         aria-label="Previous page"
       >
         <FiChevronLeft className="w-5 h-5 text-gray-600" />
@@ -35,7 +35,7 @@ export default function HackathonPagination({ pagination, isLoading }) {
       <button
         disabled={currentPage >= totalPages - 1 || isLoading}
         onClick={() => handlePageChange(currentPage + 1)}
-        className="p-2 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm active:scale-95"
+        className="p-2 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm active:scale-[0.98]"
         aria-label="Next page"
       >
         <FiChevronRight className="w-5 h-5 text-gray-600" />

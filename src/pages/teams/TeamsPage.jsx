@@ -42,7 +42,7 @@ export default function TeamsPage() {
         </motion.div>
       </motion.div>
 
-      {/* Main Layout */}
+      {/* Main  */}
       <div className="flex flex-col lg:flex-row gap-8 items-start">
         
         {/* Desktop Sidebar Filters */}

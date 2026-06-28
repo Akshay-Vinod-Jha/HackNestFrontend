@@ -107,15 +107,15 @@ export default function MyTeamsPage() {
               className="space-y-6"
             >
               {createdTeams.length === 0 ? (
-                <div className="clay-card text-center py-20">
-                  <div className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6" style={{ background: 'var(--clay-primary-light)' }}>
-                    <FiBriefcase className="w-10 h-10" style={{ color: 'var(--clay-primary)' }} />
+                <div className="bg-white rounded-3xl shadow-sm border border-gray-100 text-center py-20">
+                  <div className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6 bg-blue-50">
+                    <FiBriefcase className="w-10 h-10 text-blue-600" />
                   </div>
-                  <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--clay-text-primary)' }}>No Teams Created</h3>
-                  <p className="max-w-md mx-auto mb-6" style={{ color: 'var(--clay-text-muted)' }}>You haven't created any teams yet. Create a team to start building your project!</p>
+                  <h3 className="text-xl font-bold mb-2 text-gray-900">No Teams Created</h3>
+                  <p className="max-w-md mx-auto mb-6 text-gray-500">You haven't created any teams yet. Create a team to start building your project!</p>
                   <Link 
                     to="/teams/create"
-                    className="clay-button clay-button-secondary inline-flex items-center justify-center px-6 py-3"
+                    className="bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-xl inline-flex items-center justify-center px-6 py-3"
                   >
                     Create Team
                   </Link>
@@ -128,11 +128,11 @@ export default function MyTeamsPage() {
                   className="space-y-6"
                 >
                   {createdTeams.map(team => (
-                    <motion.div key={team.id} variants={staggerItem} className="clay-card overflow-hidden group">
+                    <motion.div key={team.id} variants={staggerItem} className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden group">
                       <div className="p-6 md:p-8 flex flex-col md:flex-row gap-6 md:items-center justify-between cursor-pointer hover:opacity-90 transition-opacity" onClick={() => handleExpand(team.id)}>
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-2">
-                            <h3 className="text-2xl font-extrabold transition-colors" style={{ color: 'var(--clay-text-primary)' }}>{team.name}</h3>
+                            <h3 className="text-2xl font-extrabold transition-colors text-gray-900">{team.name}</h3>
                             <span
                               className="px-2.5 py-1 text-[10px] font-black uppercase tracking-wider rounded-lg border"
                               style={
@@ -146,20 +146,20 @@ export default function MyTeamsPage() {
                               {team.status}
                             </span>
                           </div>
-                          <div className="flex flex-wrap gap-4 text-sm font-medium mt-3" style={{ color: 'var(--clay-text-muted)' }}>
-                            <span className="flex items-center gap-1.5"><FiUsers className="w-4 h-4" style={{ color: 'var(--clay-text-muted)' }} /> Members: {team.currentMemberCount} / {team.maxMembers}</span>
-                            <span className="flex items-center gap-1.5"><FiCheckCircle className="w-4 h-4" style={{ color: 'var(--clay-success)' }} /> Completion: {team.teamCompletionPercentage || 0}%</span>
+                          <div className="flex flex-wrap gap-4 text-sm font-medium mt-3 text-gray-500">
+                            <span className="flex items-center gap-1.5"><FiUsers className="w-4 h-4 text-gray-500" /> Members: {team.currentMemberCount} / {team.maxMembers}</span>
+                            <span className="flex items-center gap-1.5"><FiCheckCircle className="w-4 h-4 text-green-500" /> Completion: {team.teamCompletionPercentage || 0}%</span>
                           </div>
                         </div>
                         <div className="flex items-center gap-4 shrink-0 mt-4 md:mt-0">
                           <Link
                             to={`/teams/${team.id}`}
-                            className="clay-button clay-button-secondary px-4 py-2 text-sm"
+                            className="bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-xl px-4 py-2 text-sm"
                             onClick={e => e.stopPropagation()}
                           >
                             View Team
                           </Link>
-                          <button className="clay-icon-button">
+                          <button className="p-2 bg-gray-50 text-gray-500 hover:bg-gray-100 rounded-xl">
                             <FiChevronRight className={`w-5 h-5 transition-transform duration-300 ${expandedTeamId === team.id ? 'rotate-90' : ''}`} />
                           </button>
                         </div>
@@ -189,15 +189,15 @@ export default function MyTeamsPage() {
               className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
             >
               {joinedTeams.length === 0 ? (
-                <div className="col-span-full clay-card text-center py-20">
-                  <div className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6" style={{ background: 'var(--clay-primary-light)' }}>
-                    <FiUsers className="w-10 h-10" style={{ color: 'var(--clay-primary)' }} />
+                <div className="col-span-full bg-white rounded-3xl shadow-sm border border-gray-100 text-center py-20">
+                  <div className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6 bg-blue-50">
+                    <FiUsers className="w-10 h-10 text-blue-600" />
                   </div>
-                  <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--clay-text-primary)' }}>No Teams Joined</h3>
-                  <p className="max-w-md mx-auto mb-6" style={{ color: 'var(--clay-text-muted)' }}>You haven't joined any teams yet. Explore hackathons and apply to join a team!</p>
+                  <h3 className="text-xl font-bold mb-2 text-gray-900">No Teams Joined</h3>
+                  <p className="max-w-md mx-auto mb-6 text-gray-500">You haven't joined any teams yet. Explore hackathons and apply to join a team!</p>
                   <Link 
                     to="/teams"
-                    className="clay-button clay-button-secondary inline-flex items-center justify-center px-6 py-3"
+                    className="bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-xl inline-flex items-center justify-center px-6 py-3"
                   >
                     Find Teams
                   </Link>
@@ -211,17 +211,17 @@ export default function MyTeamsPage() {
                     transition={{ duration: 0.35, delay: idx * 0.07 }}
                   >
                     <Link to={`/teams/${team.id}`} className="block h-full">
-                      <div className="clay-card p-6 hover:shadow-md transition-shadow group flex flex-col h-full">
+                      <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow group flex flex-col h-full">
                         <div className="flex items-center justify-between mb-4">
-                          <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: 'var(--clay-primary-light)' }}>
-                             <FiUsers className="w-6 h-6" style={{ color: 'var(--clay-primary)' }} />
+                          <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-blue-50">
+                             <FiUsers className="w-6 h-6 text-blue-600" />
                           </div>
-                          <span className="clay-badge">Member</span>
+                          <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-lg text-xs font-bold">Member</span>
                         </div>
-                        <h3 className="text-xl font-extrabold mb-2 line-clamp-1" style={{ color: 'var(--clay-text-primary)' }}>{team.name}</h3>
+                        <h3 className="text-xl font-extrabold mb-2 line-clamp-1 text-gray-900">{team.name}</h3>
                         <div className="mt-auto pt-4 flex items-center justify-between text-sm" style={{ borderTop: '1px solid var(--clay-border-light)' }}>
-                          <span className="font-medium flex items-center gap-1.5" style={{ color: 'var(--clay-text-muted)' }}><FiUsers className="w-4 h-4"/> {team.currentMemberCount}/{team.maxMembers}</span>
-                          <span className="font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform" style={{ color: 'var(--clay-primary)' }}>
+                          <span className="font-medium flex items-center gap-1.5 text-gray-500"><FiUsers className="w-4 h-4"/> {team.currentMemberCount}/{team.maxMembers}</span>
+                          <span className="font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform text-blue-600">
                             View <FiChevronRight />
                           </span>
                         </div>

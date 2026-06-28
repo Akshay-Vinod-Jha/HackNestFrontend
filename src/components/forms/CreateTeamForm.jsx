@@ -193,7 +193,7 @@ export default function CreateTeamForm() {
         <button 
           type="submit" 
           disabled={isSubmitting}
-          className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-blue-600 text-white font-bold rounded-xl shadow-sm hover:bg-blue-700 hover:shadow transition-all active:scale-95 disabled:opacity-70 disabled:pointer-events-none"
+          className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-blue-600 text-white font-bold rounded-xl shadow-sm hover:bg-blue-700 hover:shadow transition-all active:scale-[0.98] disabled:opacity-70 disabled:pointer-events-none"
         >
           {isSubmitting ? <FiLoader className="w-5 h-5 animate-spin" /> : <FiSave className="w-5 h-5" />}
           {isSubmitting ? 'Creating Team...' : 'Create Team'}

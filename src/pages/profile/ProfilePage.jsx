@@ -42,7 +42,7 @@ export default function ProfilePage() {
               clearError();
               fetchProfile();
             }}
-            className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all shadow-md hover:shadow-lg active:scale-95"
+            className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all shadow-md hover:shadow-lg active:scale-[0.98]"
           >
             Retry Fetching Profile
           </button>
@@ -64,7 +64,7 @@ export default function ProfilePage() {
       <div className="flex justify-end mb-4">
         <button 
           onClick={() => setIsEditing(true)}
-          className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-sm hover:shadow-md transition-all active:scale-95"
+          className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
           Edit Profile
@@ -76,7 +76,7 @@ export default function ProfilePage() {
         <ProfileHeaderCard profile={profile} />
       </div>
 
-      {/* Grid Layout for Middle Section */}
+      {/* Grid  for Middle Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         {/* Left Column: Info & Portfolio */}
         <div className="lg:col-span-1 flex flex-col gap-6">

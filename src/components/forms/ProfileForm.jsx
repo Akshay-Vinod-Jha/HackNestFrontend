@@ -368,7 +368,7 @@ export default function ProfileForm({ onCancel }) {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="px-8 py-3 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 transition-all shadow-sm active:scale-95 flex items-center gap-2 disabled:opacity-70 disabled:hover:scale-100"
+            className="px-8 py-3 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 transition-all shadow-sm active:scale-[0.98] flex items-center gap-2 disabled:opacity-70 disabled:hover:scale-100"
           >
             {isSubmitting && (
               <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

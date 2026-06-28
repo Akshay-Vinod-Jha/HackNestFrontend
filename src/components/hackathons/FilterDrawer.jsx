@@ -21,7 +21,7 @@ export default function FilterDrawer({ isOpen, onClose }) {
           <h2 className="text-xl font-extrabold text-gray-900">Filters</h2>
           <button 
             onClick={onClose}
-            className="p-2 -mr-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors active:scale-95"
+            className="p-2 -mr-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors active:scale-[0.98]"
           >
             <FiX className="w-5 h-5" />
           </button>

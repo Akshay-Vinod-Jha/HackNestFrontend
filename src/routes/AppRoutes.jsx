@@ -123,7 +123,7 @@ export default function AppRoutes() {
                 </Suspense>
               } />
               
-              {/* Error Pages mapped under Dashboard Layout so navbar persists if logged in */}
+              {/* Error Pages mapped under Dashboard  so navbar persists if logged in */}
               <Route path="/403" element={<PageTransition><ForbiddenPage /></PageTransition>} />
               <Route path="*" element={<PageTransition><NotFoundPage /></PageTransition>} />
             </Route>

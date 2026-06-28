@@ -13,7 +13,7 @@ export default function EmptyApplicationsState() {
       </p>
       <Link 
         to="/teams"
-        className="inline-flex items-center justify-center px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-sm transition-all active:scale-95 gap-2"
+        className="inline-flex items-center justify-center px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-sm transition-all active:scale-[0.98] gap-2"
       >
         Explore Teams
       </Link>

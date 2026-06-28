@@ -1,12 +1,8 @@
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FiUser, FiMail, FiLock, FiEye, FiEyeOff, FiArrowRight } from 'react-icons/fi';
 import useAuthStore from '../../store/authStore';
 import toast from 'react-hot-toast';
 import Logo from '../../components/ui/Logo';
-import { staggerContainer, staggerItem } from '../../utils/animations';
 
 export default function RegisterPage() {
   const {
@@ -14,147 +10,145 @@ export default function RegisterPage() {
     handleSubmit,
     watch,
     formState: { errors, isSubmitting },
-  } = useForm({ mode: 'onTouched' });
+  } = useForm({
+    mode: 'onTouched',
+  });
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [hasError, setHasError] = useState(false);
   const navigate = useNavigate();
   const registerAction = useAuthStore((state) => state.register);
+
   const password = watch('password');
 
   const onSubmit = async (data) => {
-    setHasError(false);
     try {
       await registerAction(data);
-      toast.success('Welcome to HackNest! 🎉');
+      toast.success('Registration successful! Welcome to HackNest.');
       navigate('/dashboard');
     } catch (error) {
-      setHasError(true);
-      setTimeout(() => setHasError(false), 500);
+      // Error handled globally via App.jsx listener
     }
   };
 
-  const fields = [
-    { 
-      id: 'fullName', icon: FiUser, label: 'Full Name', type: 'text',
-      placeholder: 'Jane Doe',
-      validation: { 
-        required: 'Full name is required',
-        minLength: { value: 3, message: 'At least 3 characters' }
-      }
-    },
-    { 
-      id: 'email', icon: FiMail, label: 'Email Address', type: 'email',
-      placeholder: 'you@example.com',
-      validation: { 
-        required: 'Email is required',
-        pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: 'Invalid email' }
-      }
-    },
-    { 
-      id: 'password', icon: FiLock, label: 'Password', type: 'password',
-      placeholder: '••••••••',
-      validation: { 
-        required: 'Password is required',
-        minLength: { value: 8, message: 'At least 8 characters' }
-      },
-      hasToggle: true
-    },
-  ];
-
   return (
-    <motion.div className="w-full" variants={staggerContainer} initial="initial" animate="animate">
-      {/* Header */}
-      <motion.div variants={staggerItem} className="text-center mb-8 flex flex-col items-center">
-        <motion.div
-          className="w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg mb-6"
-          style={{ background: 'linear-gradient(135deg, var(--clay-primary), var(--clay-secondary))' }}
-          whileHover={{ scale: 1.08, rotate: 5 }}
-          whileTap={{ scale: 0.92 }}
-          transition={{ type: 'spring', stiffness: 300 }}
-        >
+    <div className="w-full">
+      <div className="text-center mb-8 flex flex-col items-center">
+        <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg mb-6 transition-transform cursor-pointer">
           <Logo className="w-8 h-8 text-white" />
-        </motion.div>
-        <h1 className="text-3xl font-extrabold tracking-tight" style={{ color: 'var(--clay-text-primary)' }}>
-          Create Account
-        </h1>
-        <p className="text-sm mt-2" style={{ color: 'var(--clay-text-secondary)' }}>
-          Join HackNest and build your dream team
-        </p>
-      </motion.div>
+        </div>
+        <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Create an Account</h1>
+        <p className="text-sm text-gray-500 mt-2">Join HackNest to build your dream team</p>
+      </div>
 
-      <motion.form
-        onSubmit={handleSubmit(onSubmit)}
-        className={`space-y-5 ${hasError ? 'clay-shake' : ''}`}
-        variants={staggerContainer}
-        initial="initial"
-        animate="animate"
-      >
-        {fields.map((field) => (
-          <motion.div key={field.id} variants={staggerItem}>
-            <label className="clay-label" htmlFor={field.id}>{field.label}</label>
-            <div className="relative">
-              <field.icon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--clay-text-muted)' }} />
-              <input
-                id={field.id}
-                type={field.hasToggle ? (showPassword ? 'text' : 'password') : field.type}
-                className={`clay-input pl-10 ${field.hasToggle ? 'pr-10' : ''} ${errors[field.id] ? 'clay-input-error' : ''}`}
-                placeholder={field.placeholder}
-                {...register(field.id, field.validation)}
-              />
-              {field.hasToggle && (
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(p => !p)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2"
-                  style={{ color: 'var(--clay-text-muted)' }}
-                >
-                  {showPassword ? <FiEyeOff className="w-4 h-4" /> : <FiEye className="w-4 h-4" />}
-                </button>
-              )}
-            </div>
-            <AnimatePresence>
-              {errors[field.id] && (
-                <motion.p
-                  initial={{ opacity: 0, y: -4, height: 0 }}
-                  animate={{ opacity: 1, y: 0, height: 'auto' }}
-                  exit={{ opacity: 0, y: -4, height: 0 }}
-                  className="mt-1.5 text-xs font-semibold"
-                  style={{ color: 'var(--clay-danger)' }}
-                >
-                  {errors[field.id].message}
-                </motion.p>
-              )}
-            </AnimatePresence>
-          </motion.div>
-        ))}
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1.5" htmlFor="fullName">
+            Full Name
+          </label>
+          <input
+            id="fullName"
+            type="text"
+            className={`w-full px-4 py-3 rounded-xl border ${
+              errors.fullName 
+                ? 'border-red-500 focus:ring-red-500' 
+                : 'border-gray-200 focus:ring-blue-500'
+            } focus:outline-none focus:ring-2 transition-all duration-200 bg-gray-50 focus:bg-white`}
+            placeholder="Jane Doe"
+            {...register('fullName', {
+              required: 'Full name is required',
+              minLength: {
+                value: 3,
+                message: 'Full name must be at least 3 characters',
+              },
+            })}
+          />
+          {errors.fullName && (
+            <p className="mt-1.5 text-sm text-red-500 font-medium animate-pulse">
+              {errors.fullName.message}
+            </p>
+          )}
+        </div>
 
-        <motion.div variants={staggerItem} className="pt-1">
-          <motion.button
-            type="submit"
-            disabled={isSubmitting}
-            className="clay-button clay-button-primary w-full py-3 text-base"
-            whileHover={!isSubmitting ? { scale: 1.02, y: -1 } : {}}
-            whileTap={!isSubmitting ? { scale: 0.97 } : {}}
-          >
-            {isSubmitting ? (
-              <svg className="animate-spin w-5 h-5 text-white" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1.5" htmlFor="email">
+            Email Address
+          </label>
+          <input
+            id="email"
+            type="email"
+            className={`w-full px-4 py-3 rounded-xl border ${
+              errors.email 
+                ? 'border-red-500 focus:ring-red-500' 
+                : 'border-gray-200 focus:ring-blue-500'
+            } focus:outline-none focus:ring-2 transition-all duration-200 bg-gray-50 focus:bg-white`}
+            placeholder="you@example.com"
+            {...register('email', {
+              required: 'Email is required',
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: 'Please enter a valid email address',
+              },
+            })}
+          />
+          {errors.email && (
+            <p className="mt-1.5 text-sm text-red-500 font-medium animate-pulse">
+              {errors.email.message}
+            </p>
+          )}
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1.5" htmlFor="password">
+            Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            className={`w-full px-4 py-3 rounded-xl border ${
+              errors.password 
+                ? 'border-red-500 focus:ring-red-500' 
+                : 'border-gray-200 focus:ring-blue-500'
+            } focus:outline-none focus:ring-2 transition-all duration-200 bg-gray-50 focus:bg-white`}
+            placeholder="••••••••"
+            {...register('password', {
+              required: 'Password is required',
+              minLength: {
+                value: 8,
+                message: 'Password must be at least 8 characters',
+              },
+            })}
+          />
+          {errors.password && (
+            <p className="mt-1.5 text-sm text-red-500 font-medium animate-pulse">
+              {errors.password.message}
+            </p>
+          )}
+        </div>
+
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full mt-4 py-3 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-xl shadow-md transform transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-70 disabled:hover:scale-100 disabled:cursor-not-allowed flex items-center justify-center"
+        >
+          {isSubmitting ? (
+            <>
+              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-            ) : (
-              <>Create Account <FiArrowRight className="w-4 h-4" /></>
-            )}
-          </motion.button>
-        </motion.div>
-      </motion.form>
+              Registering...
+            </>
+          ) : (
+            'Create Account'
+          )}
+        </button>
+      </form>
 
-      <motion.div variants={staggerItem} className="mt-7 text-center text-sm" style={{ color: 'var(--clay-text-secondary)' }}>
+      <div className="mt-8 text-center text-sm text-gray-600">
         Already have an account?{' '}
-        <Link to="/login" className="font-bold transition-opacity hover:opacity-70" style={{ color: 'var(--clay-primary)' }}>
+        <Link to="/login" className="font-semibold text-blue-600 hover:text-indigo-600 transition-colors">
           Log in here
         </Link>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }

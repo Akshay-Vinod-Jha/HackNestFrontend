@@ -29,7 +29,7 @@ export default function ConfirmDialog({
         <LoadingButton
           onClick={onConfirm}
           isLoading={isLoading}
-          className={`px-6 py-2.5 rounded-xl text-sm font-bold text-white transition-all active:scale-95 shadow-sm ${
+          className={`px-6 py-2.5 rounded-xl text-sm font-bold text-white transition-all active:scale-[0.98] shadow-sm ${
             isDestructive 
               ? 'bg-rose-600 hover:bg-rose-700' 
               : 'bg-indigo-600 hover:bg-indigo-700'

@@ -73,7 +73,7 @@ export default function RecommendedTeammateCard({ recommendation }) {
       <div className="mt-auto pt-4 border-t border-gray-50">
         <Link 
           to={`/profile/${user.id}`}
-          className="block w-full py-3 bg-gray-50 hover:bg-indigo-50 text-indigo-600 hover:text-indigo-700 text-center font-bold text-sm rounded-xl transition-colors active:scale-95"
+          className="block w-full py-3 bg-gray-50 hover:bg-indigo-50 text-indigo-600 hover:text-indigo-700 text-center font-bold text-sm rounded-xl transition-colors active:scale-[0.98]"
         >
           View Profile
         </Link>

@@ -1,12 +1,9 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { 
   FiHome, FiUser, FiCode, FiUsers, FiFileText, 
-  FiMail, FiStar, FiAward, FiLogOut, FiX, FiBriefcase,
-  FiBell, FiCompass, FiTrendingUp, FiClock
+  FiMail, FiStar, FiAward, FiLogOut, FiX, FiBriefcase
 } from 'react-icons/fi';
-import { motion, AnimatePresence } from 'framer-motion';
 import useAuthStore from '../../store/authStore';
-import { sidebarVariants } from '../../utils/animations';
 
 export default function Sidebar({ isMobileOpen, closeMobileSidebar }) {
   const logout = useAuthStore(state => state.logout);
@@ -22,114 +19,74 @@ export default function Sidebar({ isMobileOpen, closeMobileSidebar }) {
     { name: 'Invitations', path: '/invitations', icon: FiMail },
     { name: 'Recommendations', path: '/recommendations', icon: FiStar },
     { name: 'Leaderboard', path: '/leaderboard', icon: FiAward },
-    { name: 'Trophy Room', path: '/achievements', icon: FiTrendingUp },
-    { name: 'Notifications', path: '/notifications', icon: FiBell },
+    { name: 'Trophy Room', path: '/achievements', icon: FiAward },
   ];
-
-  const SidebarContent = () => (
-    <>
-      {/* Mobile Header */}
-      <div className="h-16 flex items-center justify-between px-5 border-b md:hidden" style={{ borderColor: 'var(--clay-border-light)' }}>
-        <span className="text-lg font-extrabold clay-gradient-text">HackNest</span>
-        <motion.button 
-          onClick={closeMobileSidebar}
-          className="clay-icon-button"
-          whileTap={{ scale: 0.88 }}
-        >
-          <FiX className="w-5 h-5" />
-        </motion.button>
-      </div>
-
-      {/* Navigation Items */}
-      <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-0.5 scrollbar-hide">
-        {navItems.map((item, i) => {
-          const isActive = location.pathname === item.path || location.pathname.startsWith(item.path + '/');
-          return (
-            <motion.div
-              key={item.name}
-              initial={{ opacity: 0, x: -12 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.03, duration: 0.25 }}
-            >
-              <NavLink
-                to={item.path}
-                onClick={() => { if (window.innerWidth < 768) closeMobileSidebar(); }}
-                className={`clay-sidebar-item ${isActive ? 'clay-sidebar-item-active' : ''}`}
-              >
-                {isActive && (
-                  <motion.div
-                    layoutId="activeIndicator"
-                    className="absolute left-0 top-1 bottom-1 w-0.5 rounded-full"
-                    style={{ background: 'var(--clay-primary)' }}
-                    transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-                  />
-                )}
-                <motion.div
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 0.15 }}
-                >
-                  <item.icon className="w-[18px] h-[18px] shrink-0" />
-                </motion.div>
-                <span className="md:hidden lg:block truncate">{item.name}</span>
-              </NavLink>
-            </motion.div>
-          );
-        })}
-      </nav>
-
-      {/* Logout */}
-      <div className="p-3 border-t" style={{ borderColor: 'var(--clay-border-light)' }}>
-        <motion.button 
-          onClick={logout}
-          className="clay-sidebar-item w-full"
-          whileHover={{ x: 2 }}
-          whileTap={{ scale: 0.96 }}
-          style={{ color: 'var(--clay-danger)' }}
-        >
-          <FiLogOut className="w-[18px] h-[18px] shrink-0" />
-          <span className="md:hidden lg:block">Logout</span>
-        </motion.button>
-      </div>
-    </>
-  );
 
   return (
     <>
       {/* Mobile Backdrop */}
-      <AnimatePresence>
-        {isMobileOpen && (
-          <motion.div 
-            key="backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 md:hidden"
-            style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }}
-            onClick={closeMobileSidebar}
-          />
-        )}
-      </AnimatePresence>
+      {isMobileOpen && (
+        <div 
+          className="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-40 md:hidden transition-opacity"
+          onClick={closeMobileSidebar}
+        ></div>
+      )}
 
-      {/* Mobile Sidebar — animated */}
-      <AnimatePresence>
-        {isMobileOpen && (
-          <motion.aside
-            key="mobile-sidebar"
-            variants={sidebarVariants}
-            initial="closed"
-            animate="open"
-            exit="closed"
-            className="clay-sidebar fixed inset-y-0 left-0 z-50 w-64 flex flex-col md:hidden shadow-2xl"
+      {/* Sidebar Content */}
+      <aside className={`
+        fixed md:static inset-y-0 left-0 z-50
+        w-64 md:w-20 lg:w-64 bg-white border-r border-gray-100
+        flex flex-col transition-all duration-[180ms] ease-out
+        ${isMobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+      `}>
+        <div className="h-16 flex items-center justify-between px-6 border-b border-gray-100 md:hidden">
+          <span className="text-xl font-black text-gray-900 tracking-tight flex items-center gap-2">
+            <div className="w-7 h-7 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-black text-sm">H</div>
+            Menu
+          </span>
+          <button 
+            onClick={closeMobileSidebar} 
+            className="p-2 -mr-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors duration-[150ms]"
           >
-            <SidebarContent />
-          </motion.aside>
-        )}
-      </AnimatePresence>
+             <FiX className="w-5 h-5" />
+          </button>
+        </div>
 
-      {/* Desktop Sidebar — always visible */}
-      <aside className="clay-sidebar hidden md:flex w-20 lg:w-64 flex-col flex-shrink-0">
-        <SidebarContent />
+        <nav className="flex-1 overflow-y-auto py-6 px-3 space-y-1 scrollbar-hide">
+          {navItems.map((item) => (
+            <NavLink
+              key={item.name}
+              to={item.path}
+              onClick={() => { if(window.innerWidth < 768) closeMobileSidebar(); }}
+              className={({ isActive }) => `
+                relative flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors duration-[150ms] group font-medium text-sm
+                ${isActive 
+                  ? 'bg-gray-100 text-gray-900' 
+                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}
+              `}
+            >
+              {({ isActive }) => (
+                <>
+                  {isActive && (
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-indigo-600 rounded-r-full" />
+                  )}
+                  <item.icon className={`w-4 h-4 shrink-0 transition-colors duration-[150ms] ${isActive ? 'text-indigo-600' : 'text-gray-400 group-hover:text-gray-600'}`} />
+                  <span className="md:hidden lg:block truncate">{item.name}</span>
+                </>
+              )}
+            </NavLink>
+          ))}
+        </nav>
+
+        <div className="p-4 border-t border-gray-100">
+          <button 
+            onClick={logout}
+            className="flex w-full items-center gap-3.5 px-3 py-3 rounded-xl text-gray-600 hover:bg-red-50 hover:text-red-700 transition-all font-bold text-sm border border-transparent hover:border-red-100/50 group"
+          >
+            <FiLogOut className="w-5 h-5 shrink-0 text-gray-400 group-hover:text-red-500 transition-colors" />
+            <span className="md:hidden lg:block">Logout</span>
+          </button>
+        </div>
       </aside>
     </>
   );

@@ -13,7 +13,7 @@ export default function EmptyTeamState() {
       </p>
       <Link 
         to="/teams/create"
-        className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-sm transition-all active:scale-95"
+        className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-sm transition-all active:scale-[0.98]"
       >
         Create a Team
       </Link>

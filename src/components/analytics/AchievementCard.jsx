@@ -4,7 +4,7 @@ export default function AchievementCard({ title, count, icon, colorClass, border
   const isLocked = count === 0;
 
   return (
-    <div className={`relative rounded-3xl border-2 p-6 transition-all ${isLocked ? 'bg-gray-50 border-gray-100 opacity-70' : `bg-white ${borderClass} hover:shadow-lg hover:-translate-y-1`}`}>
+    <div className={`relative rounded-3xl border-2 p-6 transition-all ${isLocked ? 'bg-gray-50 border-gray-100 opacity-70' : `bg-white ${borderClass} hover:shadow-lg hover:-translate-y-[1px]`}`}>
       {/* Decorative count badge */}
       {!isLocked && (
         <div className={`absolute -top-3 -right-3 w-8 h-8 rounded-full flex items-center justify-center text-xs font-black text-white shadow-sm z-10 ${colorClass}`}>

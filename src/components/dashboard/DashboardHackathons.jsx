@@ -58,7 +58,7 @@ export default function DashboardHackathons() {
         </div>
         <Link 
           to="/hackathons/create"
-          className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 text-white font-bold rounded-xl shadow-sm hover:bg-blue-700 hover:shadow transition-all active:scale-95 whitespace-nowrap shrink-0"
+          className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 text-white font-bold rounded-xl shadow-sm hover:bg-blue-700 hover:shadow transition-all active:scale-[0.98] whitespace-nowrap shrink-0"
         >
           <FiPlus className="w-5 h-5" />
           Create Hackathon

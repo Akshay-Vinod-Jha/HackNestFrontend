@@ -1,13 +1,14 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FiX, FiSend, FiLoader, FiMail } from 'react-icons/fi';
-import { modalVariants, backdropVariants } from '../../utils/animations';
+import { FiX, FiSend, FiLoader, FiSearch, FiUser } from 'react-icons/fi';
 import useInvitations from '../../hooks/useInvitations';
 
 export default function InviteToTeamModal({ isOpen, onClose, team }) {
-  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
+  const { register, handleSubmit, reset, setValue, watch, formState: { errors, isSubmitting } } = useForm();
   const { sendInvitation } = useInvitations();
+  
+  if (!isOpen) return null;
 
   const onSubmit = async (data) => {
     try {
@@ -21,166 +22,90 @@ export default function InviteToTeamModal({ isOpen, onClose, team }) {
   };
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          {/* Backdrop */}
-          <motion.div
-            variants={backdropVariants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
+    <div className="fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden">
+        <div className="flex items-center justify-between p-6 border-b border-gray-100">
+          <h2 className="text-xl font-extrabold text-gray-900">Invite to {team.name}</h2>
+          <button 
             onClick={() => { reset(); onClose(); }}
-            className="absolute inset-0"
-            style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(8px)' }}
-          />
-
-          {/* Modal */}
-          <motion.div
-            variants={modalVariants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            className="clay-modal relative w-full max-w-lg"
+            className="p-2 -mr-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors active:scale-[0.98]"
           >
-            {/* Header */}
-            <div 
-              className="flex items-center justify-between p-6 border-b"
-              style={{ borderColor: 'var(--clay-border-light)' }}
-            >
-              <div>
-                <h2 className="text-lg font-extrabold" style={{ color: 'var(--clay-text-primary)' }}>
-                  Invite to Team
-                </h2>
-                <p className="text-xs mt-0.5" style={{ color: 'var(--clay-text-muted)' }}>
-                  {team?.name}
-                </p>
-              </div>
-              <motion.button
-                onClick={() => { reset(); onClose(); }}
-                className="clay-icon-button"
-                whileHover={{ scale: 1.1, rotate: 90 }}
-                whileTap={{ scale: 0.88 }}
-                transition={{ duration: 0.18 }}
-              >
-                <FiX className="w-4 h-4" />
-              </motion.button>
-            </div>
-
-            {/* Form */}
-            <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-5">
-              
-              {/* Email Field */}
-              <div>
-                <label className="clay-label" htmlFor="receiverEmail">
-                  Student Email Address *
-                </label>
-                <div className="relative">
-                  <FiMail 
-                    className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4" 
-                    style={{ color: 'var(--clay-text-muted)' }} 
-                  />
-                  <input
-                    id="receiverEmail"
-                    type="email"
-                    className={`clay-input pl-10 ${errors.receiverEmail ? 'clay-input-error' : ''}`}
-                    placeholder="student@example.com"
-                    {...register('receiverEmail', {
-                      required: 'Please enter an email address',
-                      pattern: {
-                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: 'Invalid email address',
-                      }
-                    })}
-                  />
-                </div>
-                <AnimatePresence>
-                  {errors.receiverEmail && (
-                    <motion.p
-                      initial={{ opacity: 0, y: -4, height: 0 }}
-                      animate={{ opacity: 1, y: 0, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="text-xs font-semibold mt-1.5"
-                      style={{ color: 'var(--clay-danger)' }}
-                    >
-                      {errors.receiverEmail.message}
-                    </motion.p>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              {/* Role Offered */}
-              <div>
-                <label className="clay-label" htmlFor="roleOffered">Role Offered *</label>
-                <select
-                  id="roleOffered"
-                  className={`clay-select ${errors.roleOffered ? 'clay-input-error' : ''}`}
-                  {...register('roleOffered', { required: 'Please select a role' })}
-                >
-                  <option value="">Select a role...</option>
-                  {team?.requiredRoles?.map((role, idx) => {
-                    const roleName = role.roleName || role.name;
-                    return <option key={idx} value={roleName}>{roleName}</option>;
-                  })}
-                  <option value="General Member">General Member</option>
-                </select>
-                <AnimatePresence>
-                  {errors.roleOffered && (
-                    <motion.p
-                      initial={{ opacity: 0, y: -4, height: 0 }}
-                      animate={{ opacity: 1, y: 0, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="text-xs font-semibold mt-1.5"
-                      style={{ color: 'var(--clay-danger)' }}
-                    >
-                      {errors.roleOffered.message}
-                    </motion.p>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              {/* Message */}
-              <div>
-                <label className="clay-label" htmlFor="message">Personal Message</label>
-                <textarea
-                  id="message"
-                  {...register('message')}
-                  rows={3}
-                  className="clay-textarea"
-                  placeholder="Hey! We saw your profile and think you'd be a great fit..."
-                />
-              </div>
-
-              {/* Actions */}
-              <div 
-                className="flex justify-end gap-3 pt-4 border-t"
-                style={{ borderColor: 'var(--clay-border-light)' }}
-              >
-                <motion.button
-                  type="button"
-                  onClick={() => { reset(); onClose(); }}
-                  className="clay-button clay-button-secondary"
-                  whileTap={{ scale: 0.96 }}
-                >
-                  Cancel
-                </motion.button>
-                <motion.button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="clay-button clay-button-primary"
-                  whileHover={!isSubmitting ? { scale: 1.03 } : {}}
-                  whileTap={!isSubmitting ? { scale: 0.97 } : {}}
-                >
-                  {isSubmitting 
-                    ? <><FiLoader className="w-4 h-4 animate-spin" /> Sending...</>
-                    : <><FiSend className="w-4 h-4" /> Send Invite</>
-                  }
-                </motion.button>
-              </div>
-            </form>
-          </motion.div>
+            <FiX className="w-5 h-5" />
+          </button>
         </div>
-      )}
-    </AnimatePresence>
+        
+        <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-6">
+          
+          {/* Email Search */}
+          <div>
+            <label className="block text-sm font-bold text-gray-700 mb-2">Student Email *</label>
+            <div className="relative">
+              <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <input 
+                type="email"
+                {...register('receiverEmail', { 
+                  required: 'Please enter a valid email address',
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "Invalid email address"
+                  }
+                })}
+                className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:border-blue-500 transition-all outline-none font-medium text-gray-900"
+                placeholder="Enter Student's Email address..."
+              />
+            </div>
+            {errors.receiverEmail && <p className="text-red-500 text-xs font-bold mt-1">{errors.receiverEmail.message}</p>}
+          </div>
+
+          {/* Role Offered */}
+          <div>
+            <label className="block text-sm font-bold text-gray-700 mb-2">Role Offered</label>
+            <select
+              {...register('roleOffered', { required: 'Please select a role' })}
+              className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:border-blue-500 transition-all outline-none font-medium text-gray-900"
+            >
+              <option value="">Select a role...</option>
+              {team?.requiredRoles?.map((role, idx) => {
+                const roleName = role.roleName || role.name;
+                return (
+                  <option key={idx} value={roleName}>{roleName}</option>
+                );
+              })}
+              <option value="General Member">General Member</option>
+            </select>
+            {errors.roleOffered && <p className="text-red-500 text-xs font-bold mt-1">{errors.roleOffered.message}</p>}
+          </div>
+
+          {/* Invitation Message */}
+          <div>
+            <label className="block text-sm font-bold text-gray-700 mb-2">Message</label>
+            <textarea 
+              {...register('message')}
+              rows={4}
+              className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:border-blue-500 transition-all outline-none font-medium text-gray-900"
+              placeholder="Hey! We saw your profile and think you'd be a great fit for..."
+            />
+          </div>
+
+          <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
+            <button 
+              type="button" 
+              onClick={() => { reset(); onClose(); }}
+              className="px-6 py-2.5 bg-gray-100 text-gray-700 font-bold rounded-xl hover:bg-gray-200 transition-colors"
+            >
+              Cancel
+            </button>
+            <button 
+              type="submit"
+              disabled={isSubmitting}
+              className="px-6 py-2.5 bg-blue-600 text-white font-bold rounded-xl shadow-sm hover:bg-blue-700 transition-colors flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? <FiLoader className="w-4 h-4 animate-spin" /> : <FiSend className="w-4 h-4" />}
+              Send Invite
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }

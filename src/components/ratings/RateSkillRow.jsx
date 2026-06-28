@@ -12,7 +12,7 @@ export default function RateSkillRow({ label, fieldName, register, watch, setVal
             key={star}
             type="button"
             onClick={() => setValue(fieldName, star, { shouldValidate: true })}
-            className={`p-1 focus:outline-none transition-transform hover:scale-110 ${
+            className={`p-1 focus:outline-none transition-transform ${
               star <= currentValue ? 'text-amber-400' : 'text-gray-200 hover:text-amber-200'
             }`}
           >

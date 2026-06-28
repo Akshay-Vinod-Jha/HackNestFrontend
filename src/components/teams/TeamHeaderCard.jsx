@@ -68,7 +68,7 @@ export default function TeamHeaderCard({ team }) {
               isOpen ? (
                 <button 
                   onClick={() => setIsApplyModalOpen(true)}
-                  className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-sm transition-all active:scale-95 flex items-center justify-center gap-2"
+                  className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-sm transition-all active:scale-[0.98] flex items-center justify-center gap-2"
                 >
                   Apply to Team <FiArrowRight className="w-5 h-5" />
                 </button>

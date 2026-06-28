@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { FiAward, FiStar, FiChevronRight } from 'react-icons/fi';
 
 export default function AchievementsSummaryCard({ analytics }) {
-  const count = analytics?.achievementsCount || 0;
+  const count = analytics?.totalAchievements || 0;
   
   return (
     <div className="bg-gradient-to-br from-amber-500 to-orange-600 rounded-3xl p-6 md:p-8 text-white shadow-sm relative overflow-hidden h-full flex flex-col justify-between group">
@@ -21,7 +21,7 @@ export default function AchievementsSummaryCard({ analytics }) {
         <p className="text-amber-100 font-medium mb-6">Trophies & Badges Earned</p>
       </div>
 
-      <Link to="/achievements" className="relative z-10 inline-flex items-center gap-2 text-sm font-bold bg-white text-orange-600 px-4 py-2.5 rounded-xl hover:bg-orange-50 transition-colors self-start shadow-sm active:scale-95">
+      <Link to="/achievements" className="relative z-10 inline-flex items-center gap-2 text-sm font-bold bg-white text-orange-600 px-4 py-2.5 rounded-xl hover:bg-orange-50 transition-colors self-start shadow-sm active:scale-[0.98]">
         View Trophy Room <FiChevronRight />
       </Link>
     </div>

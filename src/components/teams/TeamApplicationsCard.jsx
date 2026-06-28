@@ -91,13 +91,13 @@ export default function TeamApplicationsCard({ team }) {
               <div className="flex md:flex-col gap-3 shrink-0 pt-2 md:pt-0">
                 <button 
                   onClick={() => handleStatusUpdate(app.id, 'ACCEPTED')}
-                  className="flex-1 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl transition-colors active:scale-95 text-sm"
+                  className="flex-1 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl transition-colors active:scale-[0.98] text-sm"
                 >
                   Accept
                 </button>
                 <button 
                   onClick={() => handleStatusUpdate(app.id, 'REJECTED')}
-                  className="flex-1 px-4 py-2 bg-white border border-rose-200 text-rose-600 hover:bg-rose-50 font-bold rounded-xl transition-colors active:scale-95 text-sm"
+                  className="flex-1 px-4 py-2 bg-white border border-rose-200 text-rose-600 hover:bg-rose-50 font-bold rounded-xl transition-colors active:scale-[0.98] text-sm"
                 >
                   Reject
                 </button>

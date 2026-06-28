@@ -51,7 +51,7 @@ export default function TeamDetailsPage() {
           <p className="text-gray-500 mb-8">{typeof error === 'string' ? error : 'Something went wrong.'}</p>
           <button 
             onClick={() => { clearError(); setHasFetched(false); }}
-            className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-all shadow-sm active:scale-95"
+            className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-all shadow-sm active:scale-[0.98]"
           >
             Retry Loading
           </button>

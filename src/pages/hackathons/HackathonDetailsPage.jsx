@@ -49,7 +49,7 @@ export default function HackathonDetailsPage() {
           <p className="text-gray-500 font-medium mb-8 max-w-md mx-auto">{typeof error === 'string' ? error : 'Could not fetch hackathon data.'}</p>
           <button 
             onClick={() => { clearError(); fetchHackathonById(id); fetchHackathonTeams(id); }}
-            className="px-8 py-3 bg-blue-600 text-white rounded-xl font-bold transition-all shadow-sm hover:bg-blue-700 active:scale-95"
+            className="px-8 py-3 bg-blue-600 text-white rounded-xl font-bold transition-all shadow-sm hover:bg-blue-700 active:scale-[0.98]"
           >
             Retry Loading
           </button>

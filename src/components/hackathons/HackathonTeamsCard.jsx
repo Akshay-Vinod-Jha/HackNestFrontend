@@ -46,7 +46,7 @@ export default function HackathonTeamsCard({ teams, isLoading }) {
                 </div>
                 <Link 
                   to={`/teams/${team.id}`}
-                  className="px-4 py-2 bg-white border border-gray-200 text-blue-600 font-bold rounded-xl hover:bg-blue-50 hover:border-blue-200 transition-colors text-sm whitespace-nowrap active:scale-95 shrink-0"
+                  className="px-4 py-2 bg-white border border-gray-200 text-blue-600 font-bold rounded-xl hover:bg-blue-50 hover:border-blue-200 transition-colors text-sm whitespace-nowrap active:scale-[0.98] shrink-0"
                 >
                   View Team
                 </Link>

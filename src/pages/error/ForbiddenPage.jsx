@@ -22,7 +22,7 @@ export default function ForbiddenPage() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link 
             to="/dashboard" 
-            className="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-all shadow-sm active:scale-95 text-lg"
+            className="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-all shadow-sm active:scale-[0.98] text-lg"
           >
             Go to Dashboard
           </Link>
